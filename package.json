@@ -5,9 +5,7 @@
     "scripts": {
         "dev": "next dev",
         "build": "next build",
-        "start": "next start",
-        "lint": "next lint",
-        "format": "prettier --write ."
+        "start": "next start"
     },
     "dependencies": {
         "@nextui-org/react": "^2.4.6",
