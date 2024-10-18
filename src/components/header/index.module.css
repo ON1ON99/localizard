@@ -1,4 +1,4 @@
-.wrapper{
+.wrapper {
     display: flex;
     position: relative;
     top: 0;
@@ -9,15 +9,15 @@
     border-bottom: 1px solid #eaeaea;
     padding: 16px 32px;
 }
-.left_container{
+.left_container {
     display: flex;
     align-items: center;
 }
-.logo{
+.logo {
     margin-right: 40px;
     cursor: pointer;
 }
-.nav ul{
+.nav ul {
     display: flex;
     justify-content: center;
     align-items: center;

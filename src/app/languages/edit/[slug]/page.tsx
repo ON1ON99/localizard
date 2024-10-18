@@ -7,149 +7,155 @@ import backend from "@/shared/backend";
 import { useRouter } from "next/navigation";
 
 const AddLanguage = () => {
-  const [checked, setChecked] = useState<string[]>([]);
-  const path = location.pathname.split("/")[3];
-  const router = useRouter();
-  const [getData, setGetData] = useState<{
-    id: number;
-    name: string;
-    languageCode: string;
-    pluralForms: string[];
-  }>({
-    id: 0,
-    name: "",
-    languageCode: "",
-    pluralForms: [],
-  });
-
-  useEffect(() => {
-    backend.language(path).then((data) => {
-      setGetData(data);
+    const [checked, setChecked] = useState<string[]>([]);
+    const path = location.pathname.split("/")[3];
+    const router = useRouter();
+    const [getData, setGetData] = useState<{
+        id: number;
+        name: string;
+        languageCode: string;
+        pluralForms: string[];
+    }>({
+        id: 0,
+        name: "",
+        languageCode: "",
+        pluralForms: [],
     });
-  }, [path]);
 
-  const [datas, setDatas] = useState<{
-    id: number;
-    name: string;
-    languageCode: string;
-    pluralForms: string[];
-  }>({
-    id: 0,
-    name: "",
-    languageCode: "",
-    pluralForms: [],
-  });
+    useEffect(() => {
+        backend.language(path).then((data) => {
+            setGetData(data);
+        });
+    }, [path]);
 
-  const languages = [
-    { key: "russian", label: "Russian" },
-    { key: "english", label: "English" },
-    { key: "uzbek", label: "Uzbek" },
-    { key: "deutsch", label: "German" },
-    { key: "kazak", label: "Kazak" },
-    { key: "french", label: "French" },
-    { key: "spanish", label: "Spanish" },
-    { key: "japanese", label: "Japanese" },
-    { key: "ukrainian", label: "Ukrainian" },
-    { key: "arabic", label: "Arabic" },
-  ];
-
-  const checkbox_data = [
-    { key: "zero", label: "Zero" },
-    { key: "one", label: "One" },
-    { key: "two", label: "Two" },
-    { key: "few", label: "Few" },
-    { key: "many", label: "Many" },
-    { key: "other", label: "Other" },
-  ];
-  useEffect(() => {
-    setDatas({ ...datas, pluralForms: checked, id: getData.id });
-  }, [checked, datas]);
-
-  useEffect(() => {
-    if (datas.pluralForms.length === 0) {
-      setChecked(getData.pluralForms);
-    }
-
-    if (datas.name === "") {
-      setDatas({ ...datas, name: getData.name });
-    }
-
-    if (datas.languageCode === "") {
-      setDatas({ ...datas, languageCode: getData.languageCode });
-    }
-  }, [getData, datas]);
-
-  const HandleSubmit = (e: any) => {
-    e.preventDefault();
-
-    backend.updateLanguage(path, datas).then((data) => {
-      if (data) {
-        console.log("Success");
-        setTimeout(() => {
-          router.push("/languages");
-        }),
-          1000;
-      }
+    const [datas, setDatas] = useState<{
+        id: number;
+        name: string;
+        languageCode: string;
+        pluralForms: string[];
+    }>({
+        id: 0,
+        name: "",
+        languageCode: "",
+        pluralForms: [],
     });
-  };
 
-  return (
-    <div className={style.wrapper}>
-      <div className={style.container}>
-        <div className={style.path}>
-          <div>Языки</div> / <div>Изменить язык</div>
-        </div>
-        <h1 className={style.title}>Изменить язык</h1>
-        <form className={style.form}>
-          <Select
-            label="Язык"
-            labelPlacement="outside"
-            placeholder="Выберите язык"
-            className="w-full"
-            variant="bordered"
-            onChange={(e) => setDatas({ ...datas, name: e.target.value })}
-            isRequired
-          >
-            {languages.map((language) => (
-              <SelectItem key={language.key} value={language.key}>
-                {language.label}
-              </SelectItem>
-            ))}
-          </Select>
+    const languages = [
+        { key: "russian", label: "Russian" },
+        { key: "english", label: "English" },
+        { key: "uzbek", label: "Uzbek" },
+        { key: "deutsch", label: "German" },
+        { key: "kazak", label: "Kazak" },
+        { key: "french", label: "French" },
+        { key: "spanish", label: "Spanish" },
+        { key: "japanese", label: "Japanese" },
+        { key: "ukrainian", label: "Ukrainian" },
+        { key: "arabic", label: "Arabic" },
+    ];
 
-          <label htmlFor="name">Код языка</label>
-          <input
-            className={style.input}
-            defaultValue={getData.languageCode}
-            onChange={(e) =>
-              setDatas({ ...datas, languageCode: e.target.value })
+    const checkbox_data = [
+        { key: "zero", label: "Zero" },
+        { key: "one", label: "One" },
+        { key: "two", label: "Two" },
+        { key: "few", label: "Few" },
+        { key: "many", label: "Many" },
+        { key: "other", label: "Other" },
+    ];
+    useEffect(() => {
+        setDatas({ ...datas, pluralForms: checked, id: getData.id });
+    }, [checked, datas]);
+
+    useEffect(() => {
+        if (datas.pluralForms.length === 0) {
+            setChecked(getData.pluralForms);
+        }
+
+        if (datas.name === "") {
+            setDatas({ ...datas, name: getData.name });
+        }
+
+        if (datas.languageCode === "") {
+            setDatas({ ...datas, languageCode: getData.languageCode });
+        }
+    }, [getData, datas]);
+
+    const HandleSubmit = (e: any) => {
+        e.preventDefault();
+
+        backend.updateLanguage(path, datas).then((data) => {
+            if (data) {
+                console.log("Success");
+                setTimeout(() => {
+                    router.push("/languages");
+                }),
+                    1000;
             }
-            type="text"
-            id="name"
-            name="name"
-          />
+        });
+    };
 
-          <CheckboxGroups
-            setCheckbox={setChecked}
-            value={getData.pluralForms}
-            label={"Множественное число"}
-            labelPlacement="outside"
-            isRequired
-            data={checkbox_data}
-          />
+    return (
+        <div className={style.wrapper}>
+            <div className={style.container}>
+                <div className={style.path}>
+                    <div>Языки</div> / <div>Изменить язык</div>
+                </div>
+                <h1 className={style.title}>Изменить язык</h1>
+                <form className={style.form}>
+                    <Select
+                        label="Язык"
+                        labelPlacement="outside"
+                        placeholder="Выберите язык"
+                        className="w-full"
+                        variant="bordered"
+                        onChange={(e) =>
+                            setDatas({ ...datas, name: e.target.value })
+                        }
+                        isRequired
+                    >
+                        {languages.map((language) => (
+                            <SelectItem key={language.key} value={language.key}>
+                                {language.label}
+                            </SelectItem>
+                        ))}
+                    </Select>
 
-          <div className="flex gap-2">
-            <Button onClick={HandleSubmit} color="primary" type="submit">
-              Изменить
-            </Button>
-            <Button type="reset" variant="ghost">
-              Отменить
-            </Button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
+                    <label htmlFor="name">Код языка</label>
+                    <input
+                        className={style.input}
+                        defaultValue={getData.languageCode}
+                        onChange={(e) =>
+                            setDatas({ ...datas, languageCode: e.target.value })
+                        }
+                        type="text"
+                        id="name"
+                        name="name"
+                    />
+
+                    <CheckboxGroups
+                        setCheckbox={setChecked}
+                        value={getData.pluralForms}
+                        label={"Множественное число"}
+                        labelPlacement="outside"
+                        isRequired
+                        data={checkbox_data}
+                    />
+
+                    <div className="flex gap-2">
+                        <Button
+                            onClick={HandleSubmit}
+                            color="primary"
+                            type="submit"
+                        >
+                            Изменить
+                        </Button>
+                        <Button type="reset" variant="ghost">
+                            Отменить
+                        </Button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    );
 };
 
 export default AddLanguage;

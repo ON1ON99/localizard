@@ -1,9 +1,9 @@
-.wrapper{
+.wrapper {
     display: flex;
     width: 100%;
     justify-content: space-between;
 }
-.wrapper h1{
+.wrapper h1 {
     font-size: 1.5rem;
     font-weight: 600;
 }
