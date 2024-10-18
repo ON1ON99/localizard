@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import logo from "../../assests/logo.svg";
 import style from "./index.module.css";
