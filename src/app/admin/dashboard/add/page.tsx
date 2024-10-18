@@ -18,7 +18,7 @@ const AddUser = () => {
   ];
   const HandleSubmit = (e: any) => {
     e.preventDefault();
-    backend.addUser(datas).then((data) => {
+    backend.register(datas.username, datas.password, datas.role).then((data) => {
       if (data) {
         router.push("/admin/dashboard");
       }
