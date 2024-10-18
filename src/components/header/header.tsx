@@ -3,13 +3,14 @@ import Image from "next/image";
 import logo from "../../assests/logo.svg";
 import style from "./index.module.css";
 import avatar from "../../assests/profile_avatar.png";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { Button } from "@nextui-org/react";
 
 const Header = () => {
     const router = useRouter();
-    const path = location.pathname.split("/")[1];
+    const pathname = usePathname();
+    const path = pathname.split("/")[1];
     const role = localStorage.getItem("role");
 
     useEffect(() => {
