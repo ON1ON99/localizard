@@ -36,7 +36,8 @@ export default function UsersList() {
 
   useEffect(() => {
     setIsLoading(true);
-    backend.users(page)
+    backend
+      .users(page)
       .then((responseData) => {
         setData(responseData);
       })
@@ -46,7 +47,7 @@ export default function UsersList() {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [page]); 
+  }, [page]);
 
   const rowsPerPage = 10;
 
@@ -54,7 +55,8 @@ export default function UsersList() {
     return data?.totalRecords ? Math.ceil(data.totalRecords / rowsPerPage) : 0;
   }, [data?.totalRecords, rowsPerPage]);
 
-  const loadingState = isLoading || data?.data?.length === 0 ? "loading" : "idle";
+  const loadingState =
+    isLoading || data?.data?.length === 0 ? "loading" : "idle";
 
   const renderCell = useCallback(
     (user: any, columnKey: any) => {
@@ -85,7 +87,11 @@ export default function UsersList() {
                 <DropdownItem
                   color="danger"
                   key="delete"
-                  onClick={() => backend.deleteUser(user.id).then(() => router.push("/admin/dashboard"))}
+                  onClick={() =>
+                    backend
+                      .deleteUser(user.id)
+                      .then(() => router.push("/admin/dashboard"))
+                  }
                 >
                   Удалить
                 </DropdownItem>
@@ -131,7 +137,9 @@ export default function UsersList() {
       >
         {(item: any) => (
           <TableRow key={item?.name}>
-            {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
+            {(columnKey) => (
+              <TableCell>{renderCell(item, columnKey)}</TableCell>
+            )}
           </TableRow>
         )}
       </TableBody>

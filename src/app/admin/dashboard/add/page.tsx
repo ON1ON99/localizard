@@ -14,15 +14,17 @@ const AddUser = () => {
   });
   const roles = [
     { key: "admin", label: "Администратор" },
-    { key: "user", label: "Пользователь" }
+    { key: "user", label: "Пользователь" },
   ];
   const HandleSubmit = (e: any) => {
     e.preventDefault();
-    backend.register(datas.username, datas.password, datas.role).then((data) => {
-      if (data) {
-        router.push("/admin/dashboard");
-      }
-    });
+    backend
+      .register(datas.username, datas.password, datas.role)
+      .then((data) => {
+        if (data) {
+          router.push("/admin/dashboard");
+        }
+      });
   };
   return (
     <div className={style.wrapper}>
@@ -53,9 +55,7 @@ const AddUser = () => {
           <Select
             label="Роль"
             labelPlacement="outside"
-            onChange={(e) =>
-              setDatas({ ...datas, role: e.target.value })
-            }
+            onChange={(e) => setDatas({ ...datas, role: e.target.value })}
             placeholder="Выберите роль"
             className="w-full"
             isRequired
@@ -68,9 +68,7 @@ const AddUser = () => {
             <Button
               color="primary"
               isDisabled={
-                !datas?.role ||
-                !datas?.password ||
-                !datas?.username
+                !datas?.role || !datas?.password || !datas?.username
                   ? true
                   : false
               }

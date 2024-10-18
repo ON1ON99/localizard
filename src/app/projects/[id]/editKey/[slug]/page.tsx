@@ -98,12 +98,26 @@ const AddKey = () => {
   ];
   useEffect(() => {
     // Update the id and parentId fields
-    setDatas((prevDatas) => ({ ...prevDatas, id: getData.id, parentId: getData.parentId }));
-  
+    setDatas((prevDatas) => ({
+      ...prevDatas,
+      id: getData.id,
+      parentId: getData.parentId,
+    }));
+
     // Check if the required fields in the datas object are empty and update them from getData if they are
-    const fieldsToCheck = ["description", "nameKeys", "fileNameAndroid", "fileNameIOS", "fileNameWeb", "english", "russian"];
-    const areFieldsEmpty = fieldsToCheck.every((field) => !datas[field as keyof typeof datas]);
-  
+    const fieldsToCheck = [
+      "description",
+      "nameKeys",
+      "fileNameAndroid",
+      "fileNameIOS",
+      "fileNameWeb",
+      "english",
+      "russian",
+    ];
+    const areFieldsEmpty = fieldsToCheck.every(
+      (field) => !datas[field as keyof typeof datas]
+    );
+
     if (areFieldsEmpty) {
       setDatas((prevDatas) => ({
         ...prevDatas,
@@ -117,7 +131,6 @@ const AddKey = () => {
       }));
     }
   }, [checked, path, getData]);
-  
 
   const HandleSubmit = (e: any) => {
     e.preventDefault();

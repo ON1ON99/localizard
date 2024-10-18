@@ -20,7 +20,7 @@ const AddKey = () => {
     fileNameAndroid: string;
     fileNameWeb: string;
     russian: string;
-        english: string;
+    english: string;
     // details: [
     //   {
     //     russian: string;
@@ -74,7 +74,6 @@ const AddKey = () => {
       parentId: parseInt(path),
     }));
   }, [checked, path]);
-  
 
   const HandleSubmit = (e: any) => {
     e.preventDefault();
@@ -84,12 +83,9 @@ const AddKey = () => {
       }
     });
     setTimeout(() => {
-    router.push(`/projects/${path}`);
-    }
-    , 1000);
+      router.push(`/projects/${path}`);
+    }, 1000);
   };
-
-  
 
   return (
     <div className={style.wrapper}>
@@ -126,7 +122,10 @@ const AddKey = () => {
             selectionMode="multiple"
             onSelectionChange={(e) => {
               if (e.anchorKey) {
-                const tagIds = e.anchorKey.split(',').map(Number).filter(Boolean);
+                const tagIds = e.anchorKey
+                  .split(",")
+                  .map(Number)
+                  .filter(Boolean);
                 setDatas({ ...datas, tags: tagIds });
               }
             }}
@@ -151,7 +150,9 @@ const AddKey = () => {
               <input
                 type="text"
                 id="ios_name"
-                onChange={(e) => setDatas({ ...datas, fileNameIOS: e.target.value })}
+                onChange={(e) =>
+                  setDatas({ ...datas, fileNameIOS: e.target.value })
+                }
                 name="file"
                 disabled={checked.includes("ios") ? false : true}
               />
@@ -176,7 +177,9 @@ const AddKey = () => {
                 type="text"
                 id="web_name"
                 name="file"
-                onChange={(e) => setDatas({ ...datas, fileNameWeb: e.target.value })}
+                onChange={(e) =>
+                  setDatas({ ...datas, fileNameWeb: e.target.value })
+                }
                 disabled={checked.includes("web") ? false : true}
               />
             </div>

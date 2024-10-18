@@ -7,7 +7,8 @@ import React, { useEffect, useState } from "react";
 
 const EditUser = () => {
   const router = useRouter();
-  const path = typeof window !== "undefined" ? location.pathname.split("/")[3] : "";
+  const path =
+    typeof window !== "undefined" ? location.pathname.split("/")[3] : "";
 
   const [data, setData] = useState({
     // username: "",
@@ -60,8 +61,12 @@ const EditUser = () => {
           variant="bordered"
           onChange={(e) => handleRoleChange(e.target.value)}
         >
-          <SelectItem key="admin" value="admin">Admin</SelectItem>
-          <SelectItem key="user" value="user">User</SelectItem>
+          <SelectItem key="admin" value="admin">
+            Admin
+          </SelectItem>
+          <SelectItem key="user" value="user">
+            User
+          </SelectItem>
         </Select>
 
         <div className="flex gap-2 mt-4">

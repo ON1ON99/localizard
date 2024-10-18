@@ -1,6 +1,6 @@
-import {CheckboxGroup, Checkbox} from "@nextui-org/react";
+import { CheckboxGroup, Checkbox } from "@nextui-org/react";
 
-export default function CheckboxGroups({data, label, setCheckbox}: any) {
+export default function CheckboxGroups({ data, label, setCheckbox }: any) {
   return (
     <CheckboxGroup
       label={label}
@@ -9,12 +9,9 @@ export default function CheckboxGroups({data, label, setCheckbox}: any) {
       color="primary"
       onChange={(e) => setCheckbox(e)}
     >
-        {
-            data.map((item: any) => {
-                return <Checkbox 
-                value={item.key}>{item.label}</Checkbox>
-            })
-        }
+      {data.map((item: any) => {
+        return <Checkbox value={item.key}>{item.label}</Checkbox>;
+      })}
     </CheckboxGroup>
   );
 }

@@ -20,9 +20,8 @@ const Login = () => {
     backend.login(username, password).then((data) => {
       if (data) {
         setTimeout(() => {
-        router.push("/projects");
-        }
-        , 1000);
+          router.push("/projects");
+        }, 1000);
       }
     });
     e.preventDefault();

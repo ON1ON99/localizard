@@ -25,45 +25,46 @@ export default function LangTable() {
   const router = useRouter();
   const colors = [
     {
-      key: 'zero',
-      background: '#0086C914;',
-      border: '1px solid #0086C93D',
-      text: '#0086C9;'
+      key: "zero",
+      background: "#0086C914;",
+      border: "1px solid #0086C93D",
+      text: "#0086C9;",
     },
     {
-      key: 'one',
-      background: '#6938EF14;',
-      border: '1px solid #6938EF3D',
-      text: '#6938EF;'
+      key: "one",
+      background: "#6938EF14;",
+      border: "1px solid #6938EF3D",
+      text: "#6938EF;",
     },
     {
-      key: 'two',
-      background: '#E31B5414;',
-      border: '1px solid #E31B543D',
-      text: '#E31B54;'
+      key: "two",
+      background: "#E31B5414;",
+      border: "1px solid #E31B543D",
+      text: "#E31B54;",
     },
     {
-      key: 'few',
-      background: '#0E938414;',
-      border: '1px solid #0E93843D',
-      text: '#0E9384;'
+      key: "few",
+      background: "#0E938414;",
+      border: "1px solid #0E93843D",
+      text: "#0E9384;",
     },
     {
-      key: 'many',
-      background: '#FF440514;',
-      border: '1px solid #FF44053D',
-      text: '#FF4405;'
+      key: "many",
+      background: "#FF440514;",
+      border: "1px solid #FF44053D",
+      text: "#FF4405;",
     },
     {
-      key: 'other',
-      background: '#0010240A;',
-      border: '1px solid var(--separator-normal, #75808A29)',
-      text: '#001024;'
-    }
-  ]
+      key: "other",
+      background: "#0010240A;",
+      border: "1px solid var(--separator-normal, #75808A29)",
+      text: "#001024;",
+    },
+  ];
   useEffect(() => {
     setIsLoading(true); // Start loading
-    backend.languages()
+    backend
+      .languages()
       .then((responseData) => {
         setData(responseData);
       })
@@ -82,65 +83,71 @@ export default function LangTable() {
   //   }
   // );
 
-  const loadingState =
-    isLoading || data?.length === 0 ? "loading" : "idle";
-    const renderCell = React.useCallback((user: any, columnKey: any) => {
+  const loadingState = isLoading || data?.length === 0 ? "loading" : "idle";
+  const renderCell = React.useCallback(
+    (user: any, columnKey: any) => {
       const cellValue = user[columnKey];
-    
+
       switch (columnKey) {
         case "name":
           return cellValue;
         case "pluralForms":
-          return(
+          return (
             <div className="flex gap-2">
-              {
-                user.pluralForms.map((item: any) => (
-                  <div style={{
+              {user.pluralForms.map((item: any) => (
+                <div
+                  style={{
                     border: colors.find((color) => color.key === item)?.border,
-                    background: colors.find((color) => color.key === item)?.background,
+                    background: colors.find((color) => color.key === item)
+                      ?.background,
                     color: colors.find((color) => color.key === item)?.text,
-                    textTransform: 'capitalize',
-                    padding: '0 8px',
-                    borderRadius: '16px',
-                  }} key={item}>{item}</div>
-                ))
-              }
+                    textTransform: "capitalize",
+                    padding: "0 8px",
+                    borderRadius: "16px",
+                  }}
+                  key={item}
+                >
+                  {item}
+                </div>
+              ))}
             </div>
-          )
+          );
         case "actions":
           return (
             <div className="flex justify-end items-center">
-
-            <Dropdown>
-              <DropdownTrigger>
-                <Image src={edit} alt="edit" width={20} height={20} />
-              </DropdownTrigger>
-              <DropdownMenu variant="flat">
-                <DropdownItem
-                  key="edit"
-                  onClick={() => router.push(`languages/edit/${user.id}`)} // Directly use user.id here
+              <Dropdown>
+                <DropdownTrigger>
+                  <Image src={edit} alt="edit" width={20} height={20} />
+                </DropdownTrigger>
+                <DropdownMenu variant="flat">
+                  <DropdownItem
+                    key="edit"
+                    onClick={() => router.push(`languages/edit/${user.id}`)} // Directly use user.id here
                   >
-                  Изменить
-                </DropdownItem>
-                <DropdownItem
-                  color="danger"
-                  key="delete"
-                  onClick={() => (backend.deleteLanguage(user.id), router.refresh())} // Directly use user.id here
+                    Изменить
+                  </DropdownItem>
+                  <DropdownItem
+                    color="danger"
+                    key="delete"
+                    onClick={() => (
+                      backend.deleteLanguage(user.id), router.refresh()
+                    )} // Directly use user.id here
                   >
-                  Удалить
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-                  </div>
+                    Удалить
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </div>
           );
         default:
           return cellValue;
       }
-    }, [router]); // Added router to dependencies
+    },
+    [router]
+  ); // Added router to dependencies
 
   return (
-    <Table
-      aria-label="Example table with client async pagination">
+    <Table aria-label="Example table with client async pagination">
       <TableHeader>
         <TableColumn key="name">Язык</TableColumn>
         <TableColumn key="pluralForms">Множественное число</TableColumn>

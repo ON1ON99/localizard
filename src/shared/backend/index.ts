@@ -32,7 +32,6 @@ class Backend {
         window.localStorage.setItem("token", data.token);
         window.localStorage.setItem("role", data.role);
       }
-
     } catch {
       return {};
     }
@@ -50,7 +49,7 @@ class Backend {
         body: JSON.stringify({
           username: username,
           password: password,
-          role: role
+          role: role,
         }),
       });
       if (response.status > 299) throw new Error(response.statusText);
@@ -68,11 +67,14 @@ class Backend {
     headers.append("Authorization", `Bearer ${this.token}`);
 
     try {
-      const response = await fetch(`${this.baseURL}/Auth?pageNumber=${pageNumber}`, {
-        method: "GET",
-        headers,
-        redirect: "follow",
-      });
+      const response = await fetch(
+        `${this.baseURL}/Auth?pageNumber=${pageNumber}`,
+        {
+          method: "GET",
+          headers,
+          redirect: "follow",
+        }
+      );
       if (response.status > 299) throw new Error(response.statusText);
       const data = await response.json();
 
@@ -163,11 +165,14 @@ class Backend {
     headers.append("Authorization", `Bearer ${this.token}`);
 
     try {
-      const response = await fetch(`${this.baseURL}/Project/GetAll?pageNumber=${pageNumber}`, {
-        method: "GET",
-        headers,
-        redirect: "follow",
-      });
+      const response = await fetch(
+        `${this.baseURL}/Project/GetAll?pageNumber=${pageNumber}`,
+        {
+          method: "GET",
+          headers,
+          redirect: "follow",
+        }
+      );
       if (response.status > 299) throw new Error(response.statusText);
       const data = await response.json();
 

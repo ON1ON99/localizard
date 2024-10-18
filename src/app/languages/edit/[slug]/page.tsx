@@ -66,7 +66,6 @@ const AddLanguage = () => {
   }, [checked]);
 
   useEffect(() => {
-
     if (datas.pluralForms.length === 0) {
       setChecked(getData.pluralForms);
     }
@@ -74,12 +73,11 @@ const AddLanguage = () => {
     if (datas.name === "") {
       setDatas({ ...datas, name: getData.name });
     }
-    
+
     if (datas.languageCode === "") {
       setDatas({ ...datas, languageCode: getData.languageCode });
     }
   }, [getData]);
-
 
   const HandleSubmit = (e: any) => {
     e.preventDefault();
@@ -88,11 +86,11 @@ const AddLanguage = () => {
       if (data) {
         console.log("Success");
         setTimeout(() => {
-        router.push("/languages");
-        }), 1000;
+          router.push("/languages");
+        }),
+          1000;
       }
-    }
-    );
+    });
   };
 
   return (
