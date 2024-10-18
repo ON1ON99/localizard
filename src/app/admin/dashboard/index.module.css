@@ -1,0 +1,40 @@
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    height: 100vh;
+    padding: 32px;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+    gap: 16px;
+}
+.path{
+    display: flex;
+    gap: 4px;
+    font-size: 14px;
+    color: #717171;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 16px;
+}
+.label{
+    font-size: 14px;
+    color: #717171;
+}
+.input{
+    padding: 8px;
+    border: 1px solid #75808A29;
+    border-radius: 8px;
+    font-size: 14px;
+}
+.select{
+    width: 100%;
+    color: #000;
+}

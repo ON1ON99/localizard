@@ -1,0 +1,26 @@
+.wrapper{
+    display: flex;
+    position: relative;
+    top: 0;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 20px 0;
+    border-bottom: 1px solid #eaeaea;
+    padding: 16px 32px;
+}
+.left_container{
+    display: flex;
+    align-items: center;
+}
+.logo{
+    margin-right: 40px;
+    cursor: pointer;
+}
+.nav ul{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    cursor: pointer;
+}
