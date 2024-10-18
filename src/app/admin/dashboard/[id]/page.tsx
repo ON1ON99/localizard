@@ -3,7 +3,7 @@
 import backend from "@/shared/backend";
 import { Button, Select, SelectItem } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const EditUser = () => {
   const router = useRouter();

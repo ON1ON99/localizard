@@ -15,7 +15,7 @@ const Login = () => {
     if (token) {
       router.push("/projects");
     }
-  }, [token]);
+  }, [token, router]);
   const onSubmit = (e: any) => {
     backend.login(username, password).then((data) => {
       if (data) {
@@ -66,7 +66,3 @@ const Login = () => {
 };
 
 export default Login;
-
-function useAuth(): { login: any } {
-  throw new Error("Function not implemented.");
-}

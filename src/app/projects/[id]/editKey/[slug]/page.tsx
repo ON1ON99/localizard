@@ -89,7 +89,7 @@ const AddKey = () => {
     backend.tags().then((data) => {
       setTags(data);
     });
-  }, []);
+  }, [children]);
 
   const checkbox_data = [
     { key: "ios", label: "iOS" },
@@ -130,7 +130,7 @@ const AddKey = () => {
         russian: getData.russian,
       }));
     }
-  }, [checked, path, getData]);
+  }, [checked, path, getData, datas]);
 
   const HandleSubmit = (e: any) => {
     e.preventDefault();

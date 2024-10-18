@@ -10,7 +10,7 @@ export default function CheckboxGroups({ data, label, setCheckbox }: any) {
       onChange={(e) => setCheckbox(e)}
     >
       {data.map((item: any) => {
-        return <Checkbox value={item.key}>{item.label}</Checkbox>;
+        return <Checkbox key={ item.key } value={item.key}>{item.label}</Checkbox>;
       })}
     </CheckboxGroup>
   );

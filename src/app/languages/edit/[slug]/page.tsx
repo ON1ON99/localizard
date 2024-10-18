@@ -26,7 +26,7 @@ const AddLanguage = () => {
     backend.language(path).then((data) => {
       setGetData(data);
     });
-  }, []);
+  }, [path]);
 
   const [datas, setDatas] = useState<{
     id: number;
@@ -63,7 +63,7 @@ const AddLanguage = () => {
   ];
   useEffect(() => {
     setDatas({ ...datas, pluralForms: checked, id: getData.id });
-  }, [checked]);
+  }, [checked, datas]);
 
   useEffect(() => {
     if (datas.pluralForms.length === 0) {
@@ -77,7 +77,7 @@ const AddLanguage = () => {
     if (datas.languageCode === "") {
       setDatas({ ...datas, languageCode: getData.languageCode });
     }
-  }, [getData]);
+  }, [getData, datas]);
 
   const HandleSubmit = (e: any) => {
     e.preventDefault();

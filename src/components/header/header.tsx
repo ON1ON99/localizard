@@ -2,7 +2,6 @@
 import Image from "next/image";
 import logo from "../../assests/logo.svg";
 import style from "./index.module.css";
-import dark_icon from "../../assests/dark_icon.svg";
 import avatar from "../../assests/profile_avatar.png";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -18,7 +17,7 @@ const Header = () => {
     if (!token) {
       router.push("/login");
     }
-  }, [path]);
+  }, [path, router]);
 
   const logout = () => {
     localStorage.removeItem("token");

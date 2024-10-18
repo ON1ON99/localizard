@@ -38,7 +38,7 @@ const AddProject = () => {
         <div className={style.path}>
           <p>Проекты</p> / <p>Добавить проект</p>
         </div>
-        <form className={style.form} aria-required>
+        <form className={style.form}>
           <label className={style.label} htmlFor="name">
             Название
           </label>

@@ -143,7 +143,7 @@ export default function LangTable() {
           return cellValue;
       }
     },
-    [router]
+    [router, colors]
   ); // Added router to dependencies
 
   return (

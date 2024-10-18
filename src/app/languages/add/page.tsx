@@ -40,7 +40,7 @@ const AddLanguage = () => {
   ];
   useEffect(() => {
     setDatas({ ...datas, pluralForms: checked });
-  }, [checked]);
+  }, [checked, datas]);
 
   const HandleSubmit = (e: any) => {
     e.preventDefault();

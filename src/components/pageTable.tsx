@@ -238,7 +238,7 @@ export default function Tables() {
           return cellValue;
       }
     },
-    [router]
+    [router, languages]
   );
 
   return (
