@@ -12,18 +12,18 @@ const Header = () => {
     const router = useRouter();
     const pathname = usePathname();
     const path = pathname.split("/")[1];
-    const role = localStorage.getItem("role");
+    const role = sessionStorage.getItem("role");
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         if (!token) {
             router.push("/login");
         }
     }, [path, router]);
 
     const logout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("role");
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("role");
         router.push("/login");
     };
 
