@@ -145,7 +145,14 @@ export default function LangTable() {
                                         key="delete"
                                         onClick={() => (
                                             backend.deleteLanguage(user.id).then(
-                                                () => setIsLoading(true),
+                                                () => {
+                                                    setIsLoading(true);
+                                                    backend.languages().then(
+                                                        (responseData) => {
+                                                            setData(responseData);
+                                                        },
+                                                    );
+                                                }
                                             )
                                         )} // Directly use user.id here
                                     >
