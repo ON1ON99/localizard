@@ -149,7 +149,7 @@ const AddKey = () => {
 
                     <div className={style.file_name}>
                         <div className={style.file_name_cover}>
-                            <label htmlFor="file">Имя файла iOS</label>
+                            <label htmlFor="ios_name">Имя файла iOS</label>
                             <input
                                 type="text"
                                 id="ios_name"
@@ -167,7 +167,7 @@ const AddKey = () => {
                         </div>
 
                         <div className={style.file_name_cover}>
-                            <label htmlFor="file">Имя файла Android</label>
+                            <label htmlFor="android_name">Имя файла Android</label>
                             <input
                                 type="text"
                                 id="android_name"
@@ -185,7 +185,7 @@ const AddKey = () => {
                         </div>
 
                         <div className={style.file_name_cover}>
-                            <label htmlFor="file">Имя файла Web</label>
+                            <label htmlFor="web_name">Имя файла Web</label>
                             <input
                                 type="text"
                                 id="web_name"
