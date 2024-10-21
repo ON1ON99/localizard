@@ -244,7 +244,7 @@ export default function Tables() {
                                     onClick={() =>
                                         backend
                                             .deleteProject(user.id)
-                                            .then(() => router.refresh())
+                                            .then(() => router.push("/projects"))
                                     }
                                 >
                                     Удалить
