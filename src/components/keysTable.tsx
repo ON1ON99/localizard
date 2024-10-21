@@ -90,7 +90,15 @@ export default function KeysTable({
                                     onClick={() =>
                                         backend
                                             .deleteTranslation(item.id)
-                                            .then()
+                                            .then(
+                                                ()=>{
+                                                    setIsLoading(true)
+                                                    backend.getTranslations(item.parentId, "").then((data) => {
+                                                        setIsLoading(false)
+                                                        rows = data
+                                                    })
+                                                }
+                                            )
                                     }
                                 >
                                     Удалить
