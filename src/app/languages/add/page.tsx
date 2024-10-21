@@ -4,6 +4,7 @@ import { Button, Select, SelectItem } from "@nextui-org/react";
 import style from "../index.module.css";
 import { useEffect, useState } from "react";
 import backend from "@/shared/backend";
+import { useRouter } from "next/navigation";
 
 const AddLanguage = () => {
     const [checked, setChecked] = useState<string[]>([]);
@@ -41,14 +42,14 @@ const AddLanguage = () => {
     useEffect(() => {
         setDatas({ ...datas, pluralForms: checked });
     }, [checked, datas]);
-
+    const router = useRouter();
     const HandleSubmit = (e: any) => {
         e.preventDefault();
         console.log("Data before POST:", datas); // Log the data being sent
 
         backend.addLanguage(datas).then((data) => {
             if (data) {
-                console.log("Success");
+                router.push("/languages");
             }
         });
     };
