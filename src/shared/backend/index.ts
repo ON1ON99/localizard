@@ -227,9 +227,7 @@ class Backend {
         try {
             const response = await fetch(`${this.baseURL}/Project/${id}`, {
                 method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers,
                 redirect: "follow",
                 body: JSON.stringify(data),
             });
