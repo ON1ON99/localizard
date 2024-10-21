@@ -243,7 +243,8 @@ export default function Tables() {
                                     key="delete"
                                     onClick={() =>
                                         backend
-                                            .deleteProject(user.id).then(() => { 
+                                            .deleteProject(user.id)
+                                            .then(() => {
                                                 setIsLoading(true);
                                                 backend
                                                     .projects(page)
@@ -259,8 +260,7 @@ export default function Tables() {
                                                     .finally(() => {
                                                         setIsLoading(false);
                                                     });
-                                            }
-                                            )
+                                            })
                                     }
                                 >
                                     Удалить

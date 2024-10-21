@@ -9,11 +9,13 @@ import {
     DropdownItem,
     DropdownMenu,
     DropdownTrigger,
+    Spinner,
 } from "@nextui-org/react";
 import Image from "next/image";
 import edit from "@/assests/menu.svg";
 import backend from "@/shared/backend";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function KeysTable({
     rows,
@@ -22,6 +24,13 @@ export default function KeysTable({
     rows: any[];
     columns: any[];
 }) {
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        setIsLoading(true);
+    }, []);
+
+    const loadingState = isLoading || rows.length === 0 ? "loading" : "idle";
     const router = useRouter();
     const rengerCell = (item: any, columnKey: any) => {
         const cellValue = item[columnKey];
@@ -78,10 +87,11 @@ export default function KeysTable({
                                 <DropdownItem
                                     color="danger"
                                     key="delete"
-                                    onClick={() => (
-                                        backend.deleteTranslation(item.id),
-                                        router.refresh()
-                                    )}
+                                    onClick={() =>
+                                        backend
+                                            .deleteTranslation(item.id)
+                                            .then()
+                                    }
                                 >
                                     Удалить
                                 </DropdownItem>
@@ -101,7 +111,12 @@ export default function KeysTable({
                     <TableColumn key={column.key}>{column.label}</TableColumn>
                 )}
             </TableHeader>
-            <TableBody emptyContent={"No rows to display."} items={rows}>
+            <TableBody
+                loadingContent={<Spinner />}
+                loadingState={loadingState}
+                emptyContent={"No rows to display."}
+                items={rows}
+            >
                 {(item) => (
                     <TableRow key={String(item.id)}>
                         {(columnKey) => (

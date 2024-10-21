@@ -144,8 +144,9 @@ export default function LangTable() {
                                         color="danger"
                                         key="delete"
                                         onClick={() => (
-                                            backend.deleteLanguage(user.id),
-                                            router.refresh()
+                                            backend.deleteLanguage(user.id).then(
+                                                () => setIsLoading(true),
+                                            )
                                         )} // Directly use user.id here
                                     >
                                         Удалить
