@@ -9,7 +9,7 @@ const Login = () => {
     const router = useRouter();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    
+
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (token) {
@@ -18,11 +18,9 @@ const Login = () => {
     }, [router]);
     const onSubmit = (e: any) => {
         backend.login(username, password).then((data) => {
-            if (data) {
-                setTimeout(() => {
-                    router.push("/projects");
-                }, 1000);
-            }
+            setTimeout(() => {
+                router.push("/");
+            }, 2000);
         });
         e.preventDefault();
     };
