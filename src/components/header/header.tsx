@@ -55,7 +55,7 @@ const Header = () => {
                     {
                         path === "login" ? null : (
                     <li>
-                        <Button onClick={logout} color="danger" variant="ghost">
+                        <Button onClick={logout} color="primary" variant="ghost">
                             Выйти
                         </Button>
                     </li>
