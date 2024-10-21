@@ -52,11 +52,15 @@ const Header = () => {
             <div className={style.nav}>
                 <ul>
                     {/* <li><Image src={dark_icon} alt='dark_icon' /></li> */}
+                    {
+                        path === "login" ? null : (
                     <li>
                         <Button onClick={logout} color="danger" variant="ghost">
                             Выйти
                         </Button>
                     </li>
+                        )
+                    }
                     <li
                         onClick={() =>
                             role === "admin"
