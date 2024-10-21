@@ -17,7 +17,7 @@ const Login = () => {
         }
     }, [router]);
     const onSubmit = (e: any) => {
-        backend.login(username, password).then((data) => {
+        backend.login(username, password).then(() => {
             setTimeout(() => {
                 router.push("/");
             }, 2000);
