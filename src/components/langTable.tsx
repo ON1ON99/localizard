@@ -62,7 +62,7 @@ export default function LangTable() {
         },
     ];
     useEffect(() => {
-        setIsLoading(true); // Start loading
+        setIsLoading(true);
         backend
             .languages()
             .then((responseData) => {
@@ -75,13 +75,6 @@ export default function LangTable() {
                 setIsLoading(false); // Stop loading
             });
     }, []);
-    // const { data, isLoading } = useSWR(
-    //   `https://0t18bjmv-7118.euw.devtunnels.ms/api/Language`,
-    //   fetcher,
-    //   {
-    //     keepPreviousData: true,
-    //   }
-    // );
 
     const loadingState = isLoading || data?.length === 0 ? "loading" : "idle";
     const renderCell = React.useCallback(
@@ -143,18 +136,22 @@ export default function LangTable() {
                                     <DropdownItem
                                         color="danger"
                                         key="delete"
-                                        onClick={() => (
+                                        onClick={() => {
                                             backend.deleteLanguage(user.id).then(
                                                 () => {
                                                     setIsLoading(true);
                                                     backend.languages().then(
                                                         (responseData) => {
                                                             setData(responseData);
+                                                            setIsLoading(false);
                                                         },
                                                     );
                                                 }
-                                            )
-                                        )} // Directly use user.id here
+                                            ).catch((error) => {
+                                                console.error("Error deleting language:", error);
+                                                setIsLoading(false);
+                                            });
+                                        }} // Directly use user.id here
                                     >
                                         Удалить
                                     </DropdownItem>
