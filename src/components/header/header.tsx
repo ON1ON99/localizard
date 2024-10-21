@@ -5,25 +5,28 @@ import logo from "../../assests/logo.svg";
 import style from "./index.module.css";
 import avatar from "../../assests/profile_avatar.png";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@nextui-org/react";
 
 const Header = () => {
     const router = useRouter();
     const pathname = usePathname();
     const path = pathname.split("/")[1];
-    const role = sessionStorage.getItem("role");
-
+    const [role, setRole] = useState<string | null>(null);
+    
     useEffect(() => {
-        const token = sessionStorage.getItem("token");
+        setRole(localStorage.getItem("role"));
+        const token = localStorage.getItem("token");
         if (!token) {
             router.push("/login");
         }
     }, [path, router]);
 
     const logout = () => {
-        sessionStorage.removeItem("token");
-        sessionStorage.removeItem("role");
+        if(window){
+            localStorage.removeItem("token");
+            localStorage.removeItem("role");
+        }
         router.push("/login");
     };
 

@@ -4,7 +4,7 @@ class Backend {
 
     constructor() {
         if (typeof window !== "undefined") {
-            this.token = window.sessionStorage.getItem("token") || "";
+            this.token = window.localStorage.getItem("token") || "";
         }
     }
 
@@ -29,8 +29,8 @@ class Backend {
             this.token = data.token;
 
             if (typeof window !== "undefined") {
-                window.sessionStorage.setItem("token", data.token);
-                window.sessionStorage.setItem("role", data.role);
+                window.localStorage.setItem("token", data.token);
+                window.localStorage.setItem("role", data.role);
             }
         } catch {
             return {};

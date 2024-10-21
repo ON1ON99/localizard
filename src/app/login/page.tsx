@@ -9,13 +9,13 @@ const Login = () => {
     const router = useRouter();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const token = sessionStorage.getItem("token");
-
+    
     useEffect(() => {
+        const token = localStorage.getItem("token");
         if (token) {
             router.push("/projects");
         }
-    }, [token, router]);
+    }, [router]);
     const onSubmit = (e: any) => {
         backend.login(username, password).then((data) => {
             if (data) {
