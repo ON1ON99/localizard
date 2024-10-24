@@ -64,12 +64,6 @@ const Keys = () => {
                     >
                         Добавить ключ
                     </Button>
-                    {/* <button
-            className="btn btn-primary"
-            onClick={() => router.push(`/projects/${id}/addKey`)}
-          >
-            Добавить ключ
-          </button> */}
                 </div>
             </div>
             <div className="w-full flex flex-col gap-6">

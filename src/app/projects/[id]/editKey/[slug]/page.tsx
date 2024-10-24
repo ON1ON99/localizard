@@ -21,13 +21,8 @@ const AddKey = () => {
         fileNameIOS: string;
         fileNameAndroid: string;
         fileNameWeb: string;
-        // platform: string[];
         russian: string;
         english: string;
-        // details: [
-        //   {
-        //   }
-        // ];
     }>({
         id: 0,
         nameKeys: "",
@@ -35,16 +30,11 @@ const AddKey = () => {
         fileNameIOS: "",
         fileNameAndroid: "",
         fileNameWeb: "",
-        // platform: [],
         description: "",
 
         parentId: 0,
         russian: "",
         english: "",
-        // details: [
-        //   {
-        //   },
-        // ],
     });
     const [datas, setDatas] = useState<{
         id: number;
@@ -55,13 +45,8 @@ const AddKey = () => {
         fileNameIOS: string;
         fileNameAndroid: string;
         fileNameWeb: string;
-        // platform: string[];
         russian: string;
         english: string;
-        // details: [
-        //   {
-        //   }
-        // ];
     }>({
         id: 0,
         nameKeys: "",
@@ -69,16 +54,11 @@ const AddKey = () => {
         fileNameIOS: "",
         fileNameAndroid: "",
         fileNameWeb: "",
-        // platform: [],
         description: "",
         russian: "",
         english: "",
 
         parentId: 0,
-        // details: [
-        //   {
-        //   },
-        // ],
     });
 
     useEffect(() => {
@@ -97,14 +77,12 @@ const AddKey = () => {
         { key: "web", label: "Web" },
     ];
     useEffect(() => {
-        // Update the id and parentId fields
         setDatas((prevDatas) => ({
             ...prevDatas,
             id: getData.id,
             parentId: getData.parentId,
         }));
 
-        // Check if the required fields in the datas object are empty and update them from getData if they are
         const fieldsToCheck = [
             "description",
             "nameKeys",
@@ -176,7 +154,6 @@ const AddKey = () => {
                         name="name"
                     />
 
-                    {/* <label htmlFor="language">Теги</label> */}
                     <Select
                         label="Теги"
                         labelPlacement="outside"
@@ -268,8 +245,6 @@ const AddKey = () => {
                             />
                         </div>
                     </div>
-                    {/* {getData?.details?.map((item) => {
-            return ( */}
                     <div className={style.input_containers}>
                         <div className={style.container_title}>
                             <label htmlFor="text">Русский</label>
@@ -280,12 +255,7 @@ const AddKey = () => {
                                 onChange={(e) =>
                                     setDatas({
                                         ...datas,
-                                        // details: [
-                                        //   {
-                                        //     ...datas.details[0],
                                         russian: e.target.value,
-                                        //   },
-                                        // ],
                                     })
                                 }
                                 type="text"
