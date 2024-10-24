@@ -166,7 +166,7 @@ class Backend {
 
         try {
             const response = await fetch(
-                `${this.baseURL}/Project/GetAll?pageNumber=${pageNumber}`,
+                `${this.baseURL}/Project?currentPage=${pageNumber}`,
                 {
                     method: "GET",
                     headers,

@@ -10,7 +10,7 @@ const AddProject = () => {
     const [datas, setDatas] = useState({
         name: "",
         defaultLanguage: "",
-        availableLanguage: "",
+        availableLanguage: [] as string[],
     });
     const languages = [
         { key: "ru", label: "Russian" },
@@ -82,7 +82,7 @@ const AddProject = () => {
                         onChange={(e) =>
                             setDatas({
                                 ...datas,
-                                availableLanguage: e.target.value,
+                                availableLanguage: Array.isArray(e) ? e.map((item: any) => item.value) : [],
                             })
                         }
                     >

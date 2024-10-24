@@ -35,6 +35,10 @@ export default function Tables() {
             value: "Русский",
         },
         {
+            key: "uz",
+            value: "Узбекский",
+        },
+        {
             key: "en",
             value: "Английский",
         },
@@ -203,18 +207,30 @@ export default function Tables() {
                             <span>{cellValue}</span>
                         </div>
                     );
-                case "defaultLanguage":
+                case "defaultLAnguage":
                     return (
-                        languages.find((lang) => lang.key === cellValue)
-                            ?.value ?? cellValue
+                        <div>
+                            {languages.find((l) => l.key === cellValue)?.value ??
+                                cellValue}
+                        </div>
                     );
-                case "availableLanguages":
-                    return cellValue
-                        .map(
-                            (lang: string) =>
-                                languages.find((l) => l.key === lang)?.value,
-                        )
-                        .join(", ");
+                case "availableLanguage":
+                    return (
+                        <div className="flex gap-1 w-full">
+                            {cellValue.slice(0, 3).map((lang: string) => (
+                                <span key={lang} className="text-xs font-medium py-0.5 px-2 rounded-3xl border bg-gray-800 bg-opacity-5">
+                                    {languages.find((l) => l.key === lang)?.value ?? lang}
+                                </span>
+                            ))}
+                            {cellValue.length > 3 && (
+                                <span className="text-xs font-medium py-0.5 px-2 rounded-3xl border bg-gray-800 bg-opacity-5">
+                                    +{cellValue.length - 3} more
+                                </span>
+                            )}
+                        </div>
+                    );
+
+                    
                 case "CreatedAt":
                 case "UpdatedAt":
                     return new Date(cellValue).toLocaleString();
