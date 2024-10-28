@@ -1,3 +1,6 @@
+"use client";
+
+import React, { useEffect, useCallback } from "react";
 import {
     Table,
     TableHeader,
@@ -5,84 +8,58 @@ import {
     TableBody,
     TableRow,
     TableCell,
-    Dropdown,
-    DropdownItem,
-    DropdownMenu,
-    DropdownTrigger,
     Spinner,
+    Dropdown,
+    DropdownTrigger,
+    DropdownMenu,
+    DropdownItem,
 } from "@nextui-org/react";
-import Image from "next/image";
-import edit from "../assests/menu.svg";
-import backend from "@/shared/backend";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import Image from "next/image";
+import edit from "@/assests/menu.svg";
+import backend from "@/shared/backend";
 
-interface KeysTableProps {
-    rows: any[];
-    columns: { key: string; label: string }[];
-}
-
-export default function KeysTable({
-    rows: initialRows,
-    columns,
-}: KeysTableProps) {
-    const [rows, setRows] = useState(initialRows);
-    const [isLoading, setIsLoading] = useState(true);
+export default function KeysTable( {rows, isLoading, setIsLoading}: any ) {
     const router = useRouter();
 
     useEffect(() => {
-        // Load data or handle initial state here
-        if (rows.length > 0) setIsLoading(false);
-    }, [rows]);
+        rows.length === 0 ? setIsLoading(true) : setIsLoading(false);
+    }, [rows, setIsLoading]);
 
-    const loadingState = isLoading || rows.length === 0 ? "loading" : "idle";
+    const loadingState =
+        isLoading || rows.length === 0 ? "loading" : "idle";
 
-    const handleDelete = async (item: any) => {
-        setIsLoading(true);
-        try {
-            await backend.deleteTranslation(item.id);
-            const updatedRows = await backend.getTranslations(
-                item.parentId,
-                "",
-            );
-            setRows(updatedRows);
-        } catch (error) {
-            console.error("Error deleting translation:", error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    const renderCell = useCallback(
+        (item: any, columnKey: any) => {
+            const cellValue = item[columnKey];
 
-    const renderCell = (item: any, columnKey: string) => {
-        const cellValue = item[columnKey];
-
-        switch (columnKey) {
-            case "nameKeys":
-                return (
-                    <div className="flex items-center gap-2">
-                        <span>{cellValue}</span>
-                    </div>
-                );
-            case "details":
-                return (
-                    <div className="flex flex-col gap-2 text-xl">
-                        <div className="border-b-1 p-1 flex flex-col">
-                            <span className="text-gray-500 text-sm">
-                                Русский
-                            </span>
-                            {item.russian}
+            switch (columnKey) {
+                case "namekeys":
+                    return (
+                        <div
+                            className="flex items-center gap-2 cursor-pointer"
+                        >
+                            <span>{cellValue}</span>
                         </div>
-                        <div className="border-b-1 p-1 flex flex-col">
-                            <span className="text-gray-500 text-sm">
-                                English
-                            </span>
-                            {item.english}
-                        </div>
-                    </div>
-                );
-            case "actions":
-                return (
-                    <div className="flex justify-end items-center">
+                    );
+                    case "translations":
+                        return (
+                            <div className="flex flex-col gap-2 text-xl">
+        
+                                {
+                                    item.translations.map((translation: any) => (
+                                        <div className="border-b-1 p-1 flex flex-col">
+                                            <span key={translation.key} className="text-gray-500 text-sm">
+                                                {translation.language}
+                                            </span>
+                                            {translation.text}
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                        );
+                case "actions":
+                    return (
                         <Dropdown>
                             <DropdownTrigger>
                                 <Image
@@ -96,9 +73,7 @@ export default function KeysTable({
                                 <DropdownItem
                                     key="edit"
                                     onClick={() =>
-                                        router.push(
-                                            `/projects/${item.parentId}/editKey/${item.id}`,
-                                        )
+                                        router.push(`/projects/${item.parentId}/editKey/${item.id}`)
                                     }
                                 >
                                     Изменить
@@ -106,35 +81,46 @@ export default function KeysTable({
                                 <DropdownItem
                                     color="danger"
                                     key="delete"
-                                    onClick={() => handleDelete(item)}
+                                    onClick={() =>
+                                        backend
+                                            .deleteTranslation(item.id)
+                                            .then(() => {
+                                                setIsLoading(true);
+                                                router.push(`/projects/${item.parentId}`);
+                                            })
+                                    }
                                 >
                                     Удалить
                                 </DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
-                    </div>
-                );
-            default:
-                return cellValue;
-        }
-    };
+                    );
+                default:
+                    return cellValue;
+            }
+        },
+        [router, setIsLoading],
+    );
 
     return (
-        <Table aria-label="Keys Table" isStriped className="border-collapse">
-            <TableHeader columns={columns}>
-                {(column) => (
-                    <TableColumn key={column.key}>{column.label}</TableColumn>
-                )}
+        <Table
+            aria-label="Example table with client async pagination">
+            <TableHeader>
+                <TableColumn key="namekeys">Название</TableColumn>
+                <TableColumn key="translations">
+                    Язык по умолчанию
+                </TableColumn>
+                <TableColumn key="actions"> </TableColumn>
             </TableHeader>
             <TableBody
+                items={rows ?? []}
                 loadingContent={<Spinner />}
                 loadingState={loadingState}
-                emptyContent="No rows to display."
-                items={rows}
+                emptyContent={"No rows to display."}
             >
-                {(item) => (
-                    <TableRow key={String(item.id)}>
-                        {(columnKey: any) => (
+                {(item: any) => (
+                    <TableRow key={item?.id}>
+                        {(columnKey) => (
                             <TableCell>{renderCell(item, columnKey)}</TableCell>
                         )}
                     </TableRow>

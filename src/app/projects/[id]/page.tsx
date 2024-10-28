@@ -18,6 +18,7 @@ const Keys = () => {
     const [data, setData] = useState([]);
     const [id, setId] = useState<string | null>(null);
     const [search, setSearch] = useState<string>("");
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const pathId = window.location.pathname.split("/")[2];
@@ -27,11 +28,11 @@ const Keys = () => {
     const columns = [
         {
             label: "Название",
-            key: "nameKeys",
+            key: "namekeys",
         },
         {
             label: "Переводы",
-            key: "details",
+            key: "translations",
         },
         {
             label: " ",
@@ -45,9 +46,16 @@ const Keys = () => {
             });
             backend.getTranslations(id, search).then((data) => {
                 setData(data);
+            }).catch((error) => {
+                console.error("Error fetching data:", error);
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
         }
     }, [id, search]);
+    console.log(data, "data");
+    
     return (
         <div className=" flex flex-col m-8">
             <div className=" flex gap-1 flex-col">
@@ -80,7 +88,7 @@ const Keys = () => {
                     }
                     className="w-full"
                 />
-                <KeysTable rows={data ?? []} columns={columns} />
+                <KeysTable rows={data ?? []} isLoading={isLoading} setIsLoading={setIsLoading}/>
             </div>
         </div>
     );

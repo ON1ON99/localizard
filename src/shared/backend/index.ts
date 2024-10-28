@@ -263,7 +263,7 @@ class Backend {
 
         try {
             const response = await fetch(
-                `${this.baseURL}/Product?search=${search}&parentId=${parentId}`,
+                `${this.baseURL}/Product?parentId=${parentId}&search=${search}`,
                 {
                     method: "GET",
                     headers,
