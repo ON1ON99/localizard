@@ -79,12 +79,13 @@ const AddProject = () => {
                         variant="bordered"
                         selectionMode="multiple"
                         className={style.select}
-                        onChange={(e) =>
+                        onChange={(e) => {
+                            const selectedValues = e.target.value.split(',').map((item: string) => item.trim());
                             setDatas({
                                 ...datas,
-                                availableLanguage: Array.isArray(e) ? e.map((item: any) => item.value) : [],
-                            })
-                        }
+                                availableLanguage: selectedValues,
+                            });
+                        }}
                     >
                         {languages.map((language) => (
                             <SelectItem
