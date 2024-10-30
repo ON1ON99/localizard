@@ -23,10 +23,14 @@ export default function KeysTable({ rows, isLoading, setIsLoading }: any) {
     const router = useRouter();
 
     useEffect(() => {
-        rows.length === 0 ? setIsLoading(true) : setIsLoading(false);
+        if (rows.length === 0) {
+            setIsLoading(true);
+        } else {
+            setIsLoading(false);
+        }
     }, [rows, setIsLoading]);
 
-    const loadingState = isLoading || rows.length === 0 ? "loading" : "idle";
+    const loadingState = isLoading ? "loading" : "idle";
 
     const renderCell = useCallback(
         (item: any, columnKey: any) => {
