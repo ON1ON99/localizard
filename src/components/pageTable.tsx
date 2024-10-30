@@ -43,6 +43,10 @@ export default function Tables() {
             value: "Английский",
         },
         {
+            key: "kz",
+            value: "Казахский",
+        },
+        {
             key: "de",
             value: "Немецкий",
         },
