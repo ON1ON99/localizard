@@ -109,7 +109,7 @@ const EditProject = () => {
                                     .map((item: string) => item.trim());
                                 setDatas({
                                     ...datas,
-                                    availableLanguage: selectedValues,
+                                    availableLanguage: selectedValues ? selectedValues : getData.availableLanguage,
                                 });
                             }}
                         >
