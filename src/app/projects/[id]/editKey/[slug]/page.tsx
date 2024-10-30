@@ -140,6 +140,7 @@ const EditKey: React.FC = () => {
                         placeholder="Выберите теги"
                         variant="bordered"
                         selectionMode="multiple"
+                        selectedKeys={datas.tags.map(String)}
                         onSelectionChange={(keys) => setDatas({ ...datas, tags: Array.from(keys, Number) })}
                         isRequired
                     >
