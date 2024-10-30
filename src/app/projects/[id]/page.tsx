@@ -25,20 +25,6 @@ const Keys = () => {
         setId(pathId);
     }, []);
 
-    const columns = [
-        {
-            label: "Название",
-            key: "namekeys",
-        },
-        {
-            label: "Переводы",
-            key: "translations",
-        },
-        {
-            label: " ",
-            key: "actions",
-        },
-    ];
     useEffect(() => {
         if (id) {
             backend.project(id).then((data) => {
