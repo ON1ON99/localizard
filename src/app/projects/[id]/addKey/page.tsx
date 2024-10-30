@@ -58,10 +58,10 @@ const EditKey: React.FC = () => {
         { key: "en", lang: "Английский" },
         { key: "uz", lang: "Узбекский" },
         // ... other languages
-        {
-            key: "kz",
-            lang: "Казахский",
-        },
+        // {
+        //     key: "kz",
+        //     lang: "Казахский",
+        // },
     ];
 
     const [datas, setDatas] = useState<Datas>({
@@ -89,9 +89,25 @@ const EditKey: React.FC = () => {
     useEffect(() => {
         setDatas((prev) => ({
             ...prev,
-            parentId: Number(path)
+            parentId: Number(path),
         }));
     }, [checked, path]);
+    const handleTranslationChange = (
+        e: React.ChangeEvent<HTMLInputElement>,
+        langKey: string,
+    ) => {
+        setDatas((prev) => ({
+            ...prev,
+            translations: prev.translations.map((t) =>
+                t.key === langKey
+                    ? {
+                          ...t,
+                          text: e.target.value,
+                      }
+                    : t,
+            ),
+        }));
+    };
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
@@ -102,7 +118,7 @@ const EditKey: React.FC = () => {
     };
 
     const checkboxData = [
-        { key: "ios", label: "iOS" },
+        { key: "ios", label: "IOS" },
         { key: "android", label: "Android" },
         { key: "web", label: "Web" },
     ];
@@ -207,22 +223,10 @@ const EditKey: React.FC = () => {
                                         </label>
                                         <input
                                             onChange={(e) =>
-                                                setDatas((prev) => ({
-                                                    ...prev,
-                                                    translations:
-                                                        prev.translations.map(
-                                                            (t) =>
-                                                                t.key ===
-                                                                item.key
-                                                                    ? {
-                                                                          ...t,
-                                                                          text: e
-                                                                              .target
-                                                                              .value,
-                                                                      }
-                                                                    : t,
-                                                        ),
-                                                }))
+                                                handleTranslationChange(
+                                                    e,
+                                                    item.key,
+                                                )
                                             }
                                             type="text"
                                             placeholder="Введите текст"
