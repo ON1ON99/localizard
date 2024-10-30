@@ -55,7 +55,6 @@ const AddProject = () => {
                     <Select
                         label="Язык по умолчанию"
                         labelPlacement="outside"
-                        selectedKeys={datas.defaultLanguage}
                         onChange={(e) =>
                             setDatas({
                                 ...datas,
@@ -76,10 +75,6 @@ const AddProject = () => {
                         label="Доступные языки"
                         labelPlacement="outside"
                         isRequired
-                        selectedKeys={datas.availableLanguage.map(
-                            (item) => item
-                        ).join(",")
-                        }
                         placeholder="Выберите язык"
                         variant="bordered"
                         selectionMode="multiple"

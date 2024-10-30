@@ -20,10 +20,11 @@ const EditProject = () => {
     });
 
     useEffect(() => {
+        const path = location.pathname.split("/")[3];
         backend.project(path).then((data) => {
             setGetData(data);
         });
-    }, []);
+    }, [path]);
     const languages = [
         { key: "ru", label: "Russian" },
         { key: "en", label: "English" },
@@ -50,80 +51,91 @@ const EditProject = () => {
                 <div className={style.path}>
                     <p>Проекты</p> / <p>Изменить проект</p>
                 </div>
-                <form className={style.form} aria-required>
-                    <label className={style.label} htmlFor="name">
-                        Название
-                    </label>
-                    <input
-                        required
-                        defaultValue={getData.name}
-                        onChange={(e) =>
-                            setDatas({ ...datas, name: e.target.value })
-                        }
-                        className={style.input}
-                        type="text"
-                        id="name"
-                        name="name"
-                    />
-                    <Select
-                        label="Язык по умолчанию"
-                        labelPlacement="outside"
-                        onChange={(e) =>
-                            setDatas({
-                                ...datas,
-                                defaultLanguage: e.target.value,
-                            })
-                        }
-                        placeholder="Выберите язык"
-                        variant="bordered"
-                        className="w-full"
-                        // selectedKeys={datas.defaultLanguage}
-                        isRequired
-                    >
-                        {languages.map((language) => (
-                            <SelectItem key={language.key}>
-                                {language.label}
-                            </SelectItem>
-                        ))}
-                    </Select>
-                    <Select
-                        label="Доступные языки"
-                        labelPlacement="outside"
-                        isRequired
-                        placeholder="Выберите язык"
-                        selectedKeys={datas.availableLanguage.map((item) => item)}
-                        variant="bordered"
-                        selectionMode="multiple"
-                        className={style.select}
-                        onChange={(e) =>
-                            setDatas({
-                                ...datas,
-                                availableLanguage: Array.isArray(e.target.value) ? e.target.value : [e.target.value],
-                            })
-                        }
-                    >
-                        {languages.map((language) => (
-                            <SelectItem
-                                className={style.selected}
-                                key={language.key}
-                            >
-                                {language.label}
-                            </SelectItem>
-                        ))}
-                    </Select>
-                    <div className=" flex gap-2">
-                        <Button
-                            color="primary"
-                            onClick={HandleSubmit}
-                            type="submit"
+                {getData && (
+                    <form className={style.form} aria-required>
+                        <label className={style.label} htmlFor="name">
+                            Название
+                        </label>
+                        <input
+                            required
+                            defaultValue={getData.name}
+                            onChange={(e) =>
+                                setDatas({ ...datas, name: e.target.value })
+                            }
+                            className={style.input}
+                            type="text"
+                            id="name"
+                            name="name"
+                        />
+                        <Select
+                            label="Язык по умолчанию"
+                            labelPlacement="outside"
+                            isRequired
+                            placeholder="Выберите язык"
+                            selectedKeys={getData.defaultLanguage}
+                            variant="bordered"
+                            // selectionMode="multiple"
+                            className={style.select}
+                            onChange={(e) => {
+                                setDatas({
+                                    ...datas,
+                                    defaultLanguage: e.target.value,
+                                });
+                            }}
                         >
-                            Изменить проект
-                        </Button>
-                        <Button variant="ghost" type="reset">
-                            Отменить
-                        </Button>
-                    </div>
-                </form>
+                            {languages.map((language) => (
+                                <SelectItem
+                                    className={style.selected}
+                                    key={language.key}
+                                >
+                                    {language.label}
+                                </SelectItem>
+                            ))}
+                        </Select>
+                        <Select
+                            label="Доступные языки"
+                            labelPlacement="outside"
+                            isRequired
+                            placeholder="Выберите язык"
+                            selectedKeys={getData?.availableLanguage.map(
+                                String,
+                            )}
+                            variant="bordered"
+                            selectionMode="multiple"
+                            className={style.select}
+                            onChange={(e) => {
+                                const selectedValues = e.target.value
+                                    .split(",")
+                                    .map((item: string) => item.trim());
+                                setDatas({
+                                    ...datas,
+                                    availableLanguage: selectedValues,
+                                });
+                            }}
+                        >
+                            {languages.map((language) => (
+                                <SelectItem
+                                    className={style.selected}
+                                    key={language.key}
+                                >
+                                    {language.label}
+                                </SelectItem>
+                            ))}
+                        </Select>
+                        <div className=" flex gap-2">
+                            <Button
+                                color="primary"
+                                onClick={HandleSubmit}
+                                type="submit"
+                            >
+                                Изменить проект
+                            </Button>
+                            <Button variant="ghost" type="reset">
+                                Отменить
+                            </Button>
+                        </div>
+                    </form>
+                )}
             </div>
         </div>
     );
