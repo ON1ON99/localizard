@@ -1,5 +1,5 @@
 "use client";
-import CheckboxGroups from "@/components/checkboxGroup";
+// import CheckboxGroups from "@/components/checkboxGroup";
 import { Button, Select, SelectItem } from "@nextui-org/react";
 import style from "./index.module.css";
 import { useEffect, useState, FormEvent } from "react";
@@ -23,14 +23,13 @@ interface Translation {
 }
 
 interface GetData {
-    id: number;
     namekeys: string;
     parentId: number;
     description: string;
     tags: Tag[];
-    fileNameIOS: string;
-    fileNameAndroid: string;
-    fileNameWeb: string;
+    // fileNameIOS: string;
+    // fileNameAndroid: string;
+    // fileNameWeb: string;
     translations: Translation[];
 }
 
@@ -49,9 +48,9 @@ const EditKey: React.FC = () => {
             ? window.location.pathname.split("/")[4]
             : "";
 
-    const [projectData, setProjectData] = useState<any>(null);
+    // const [projectData, setProjectData] = useState<any>(null);
     const [tags, setTags] = useState<Tag[]>([]);
-    const [checked, setChecked] = useState<string[]>([]);
+    // const [checked, setChecked] = useState<string[]>([]);
 
     const languages: Language[] = [
         { key: "ru", lang: "Русский" },
@@ -65,14 +64,13 @@ const EditKey: React.FC = () => {
     ];
 
     const [datas, setDatas] = useState<Datas>({
-        id: 0,
         namekeys: "",
         description: "",
         tags: [],
-        fileNameIOS: "",
-        fileNameAndroid: "",
-        fileNameWeb: "",
-        translations: [{ key: "", language: "", text: "" }],
+        // fileNameIOS: "",
+        // fileNameAndroid: "",
+        // fileNameWeb: "",
+        translations: [],
         parentId: 0,
     });
 
@@ -80,18 +78,23 @@ const EditKey: React.FC = () => {
         backend.tags().then((data) => setTags(data));
     }, [children]);
 
-    useEffect(() => {
-        if (path) {
-            backend.project(path).then((data) => setProjectData(data));
-        }
-    }, [path]);
+    // useEffect(() => {
+    //     if (path) {
+    //         backend.project(path).then((data) => setProjectData(data));
+    //     }
+    // }, [path]);
 
     useEffect(() => {
         setDatas((prev) => ({
             ...prev,
             parentId: Number(path),
+            translations: languages.map((lang) => ({
+                key: lang.key,
+                language: lang.lang,
+                text: "",
+            })),
         }));
-    }, [checked, path]);
+    }, [path]);
     const handleTranslationChange = (
         e: React.ChangeEvent<HTMLInputElement>,
         langKey: string,
@@ -117,11 +120,11 @@ const EditKey: React.FC = () => {
         setTimeout(() => router.push(`/projects/${path}`), 1000);
     };
 
-    const checkboxData = [
-        { key: "ios", label: "IOS" },
-        { key: "android", label: "Android" },
-        { key: "web", label: "Web" },
-    ];
+    // const checkboxData = [
+    //     { key: "ios", label: "IOS" },
+    //     { key: "android", label: "Android" },
+    //     { key: "web", label: "Web" },
+    // ];
 
     return (
         <div className={style.wrapper}>
@@ -171,7 +174,7 @@ const EditKey: React.FC = () => {
                         ))}
                     </Select>
 
-                    <CheckboxGroups
+                    {/* <CheckboxGroups
                         setCheckbox={setChecked}
                         value={checked}
                         label="Платформа"
@@ -207,35 +210,27 @@ const EditKey: React.FC = () => {
                                 />
                             </div>
                         ))}
-                    </div>
-                    <div>
-                        {projectData?.availableLanguage?.map((lang: any) =>
-                            languages?.map((item) =>
-                                item.key === lang ? (
-                                    <div
-                                        className={style.input_containers}
-                                        key={item.key}
-                                    >
-                                        <label htmlFor="text">
-                                            {languages?.find(
-                                                (l) => l.key === item.key,
-                                            )?.lang || "Language not found"}
-                                        </label>
-                                        <input
-                                            onChange={(e) =>
-                                                handleTranslationChange(
-                                                    e,
-                                                    item.key,
-                                                )
-                                            }
-                                            type="text"
-                                            placeholder="Введите текст"
-                                        />
-                                    </div>
-                                ) : null,
-                            ),
-                        )}
-                    </div>
+                    </div> */}
+                    {languages.map((item) => (
+                        <div className={style.input_containers} key={item.key}>
+                            <label className="p-1 border-b-1" htmlFor="text">
+                                {item.lang}
+                            </label>
+                            <input
+                                className="p-1"
+                                onChange={(e) =>
+                                    handleTranslationChange(e, item.key)
+                                }
+                                type="text"
+                                placeholder="Введите текст"
+                                value={
+                                    datas.translations.find(
+                                        (t) => t.key === item.key,
+                                    )?.text || ""
+                                }
+                            />
+                        </div>
+                    ))}
 
                     <div className="flex gap-2 my-6">
                         <Button color="primary" type="submit">

@@ -1,5 +1,5 @@
 "use client";
-import CheckboxGroups from "@/components/checkboxGroup";
+// import CheckboxGroups from "@/components/checkboxGroup";
 import { Button, Select, SelectItem } from "@nextui-org/react";
 import style from "./index.module.css";
 import { useEffect, useState, FormEvent } from "react";
@@ -45,7 +45,7 @@ const EditKey: React.FC = () => {
 
     const [projectData, setProjectData] = useState<any>(null);
     const [tags, setTags] = useState<Tag[]>([]);
-    const [checked, setChecked] = useState<string[]>([]);
+    // const [checked, setChecked] = useState<string[]>([]);
     const [getData, setGetData] = useState<GetData>({
         id: 0,
         namekeys: "",
@@ -151,7 +151,7 @@ const EditKey: React.FC = () => {
                         ))}
                     </Select>
 
-                    <CheckboxGroups setCheckbox={setChecked} value={checked} label="Платформа" data={[
+                    {/* <CheckboxGroups setCheckbox={setChecked} value={checked} label="Платформа" data={[
                         { key: "ios", label: "IOS" },
                         { key: "android", label: "Android" },
                         { key: "web", label: "Web" },
@@ -170,7 +170,7 @@ const EditKey: React.FC = () => {
                                 />
                             </div>
                         ))}
-                    </div>
+                    </div> */}
                     <div className="flex flex-col gap-4">
                         {datas.translations.map(({ key, language, text }) => (
                             <div className={style.input_containers} key={key}>
