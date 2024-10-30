@@ -20,11 +20,12 @@ const EditProject = () => {
     });
 
     useEffect(() => {
-        const path = location.pathname.split("/")[3];
         backend.project(path).then((data) => {
             setGetData(data);
+            setDatas(data); // initialize datas with fetched data
         });
     }, [path]);
+
     const languages = [
         { key: "ru", label: "Russian" },
         { key: "en", label: "English" },
@@ -37,7 +38,8 @@ const EditProject = () => {
         { key: "ue", label: "Ukrainian" },
         { key: "ar", label: "Arabic" },
     ];
-    const HandleSubmit = (e: any) => {
+
+    const handleSubmit = (e: any) => {
         e.preventDefault();
         backend.updateProject(path, datas).then(() => {
             setTimeout(() => {
@@ -45,6 +47,7 @@ const EditProject = () => {
             }, 1000);
         });
     };
+
     return (
         <div className={style.wrapper}>
             <div className={style.container}>
@@ -72,14 +75,14 @@ const EditProject = () => {
                             labelPlacement="outside"
                             isRequired
                             placeholder="Выберите язык"
-                            selectedKeys={getData.defaultLanguage}
+                            selectedKeys={[datas.defaultLanguage]}
                             variant="bordered"
-                            // selectionMode="multiple"
                             className={style.select}
-                            onChange={(e) => {
+                            onSelectionChange={(keys) => {
+                                const selectedKey = Array.from(keys).join(""); // single select, so join one element
                                 setDatas({
                                     ...datas,
-                                    defaultLanguage: e.target.value,
+                                    defaultLanguage: selectedKey,
                                 });
                             }}
                         >
@@ -97,19 +100,14 @@ const EditProject = () => {
                             labelPlacement="outside"
                             isRequired
                             placeholder="Выберите язык"
-                            selectedKeys={getData?.availableLanguage.map(
-                                String,
-                            )}
+                            selectedKeys={new Set(datas.availableLanguage)}
                             variant="bordered"
                             selectionMode="multiple"
                             className={style.select}
-                            onChange={(e) => {
-                                const selectedValues = e.target.value
-                                    .split(",")
-                                    .map((item: string) => item.trim());
+                            onSelectionChange={(keys) => {
                                 setDatas({
                                     ...datas,
-                                    availableLanguage: selectedValues ? selectedValues : getData.availableLanguage,
+                                    availableLanguage: Array.from(keys) as string[],
                                 });
                             }}
                         >
@@ -122,10 +120,10 @@ const EditProject = () => {
                                 </SelectItem>
                             ))}
                         </Select>
-                        <div className=" flex gap-2">
+                        <div className="flex gap-2">
                             <Button
                                 color="primary"
-                                onClick={HandleSubmit}
+                                onClick={handleSubmit}
                                 type="submit"
                             >
                                 Изменить проект
