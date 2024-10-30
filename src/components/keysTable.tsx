@@ -43,7 +43,7 @@ export default function KeysTable({ rows, isLoading, setIsLoading }: any) {
                     return (
                         <div className="flex flex-col gap-2 text-xl">
                             {item.translations.map((translation: any) => (
-                                <div className="border-b-1 p-1 flex flex-col">
+                                <div key={translation.key} className="border-b-1 p-1 flex flex-col">
                                     <span
                                         key={translation.key}
                                         className="text-gray-500 text-sm"
