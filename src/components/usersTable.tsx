@@ -104,11 +104,23 @@ export default function UsersList() {
                                     color="danger"
                                     key="delete"
                                     onClick={() =>
-                                        backend
-                                            .deleteUser(user.id)
-                                            .then(() =>
-                                                router.push("/admin/dashboard"),
-                                            )
+                                        backend.deleteUser(user.id).then(() => {
+                                            setIsLoading(true);
+                                            backend
+                                                .users(page)
+                                                .then((responseData) => {
+                                                    setData(responseData);
+                                                })
+                                                .catch((error) => {
+                                                    console.error(
+                                                        "Error fetching data:",
+                                                        error,
+                                                    );
+                                                })
+                                                .finally(() => {
+                                                    setIsLoading(false);
+                                                });
+                                        })
                                     }
                                 >
                                     Удалить
