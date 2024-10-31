@@ -21,6 +21,16 @@ const Login = () => {
             setTimeout(() => {
                 router.push("/");
             }, 2000);
+        }).catch((error) => {
+            if (error.response.status === 401) {
+                alert("Invalid username or password");
+            }else if(error.response.status === 500){
+                alert("Server error");
+            }else if(error.response.status === 400){
+                alert("Bad request");
+            } else {
+                alert("Something went wrong");
+            }
         });
         e.preventDefault();
     };
