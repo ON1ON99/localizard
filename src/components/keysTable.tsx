@@ -13,6 +13,7 @@ import {
     DropdownTrigger,
     DropdownMenu,
     DropdownItem,
+    Tooltip,
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -40,14 +41,32 @@ export default function KeysTable({ rows, isLoading, setIsLoading }: any) {
                 case "namekeys":
                     return (
                         <div className="flex items-center gap-2 cursor-pointer">
-                            <span>{cellValue}</span>
+                            <Tooltip
+                                showArrow
+                                placement="bottom"
+                                content={item.description}
+                                classNames={{
+                                    base: [
+                                        "before:bg-neutral-400 dark:before:bg-white",
+                                    ],
+                                    content: [
+                                        "py-2 px-4 shadow-xl",
+                                        "text-black bg-gradient-to-br from-white to-neutral-400",
+                                    ],
+                                }}
+                            >
+                                <span>{cellValue}</span>
+                            </Tooltip>
                         </div>
                     );
                 case "translations":
                     return (
                         <div className="flex flex-col gap-2 text-xl">
                             {item.translations.map((translation: any) => (
-                                <div key={translation.key} className="border-b-1 p-1 flex flex-col">
+                                <div
+                                    key={translation.key}
+                                    className="border-b-1 p-1 flex flex-col"
+                                >
                                     <span
                                         key={translation.key}
                                         className="text-gray-500 text-sm"

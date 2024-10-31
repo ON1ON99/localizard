@@ -74,6 +74,7 @@
     flex-direction: column;
     border: 1px solid #75808a29;
     border-radius: 16px;
+    margin-bottom: 24px;
 }
 .container_title {
     display: flex;

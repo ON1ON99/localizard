@@ -213,26 +213,28 @@ const EditKey: React.FC = () => {
                     </div> */}
                     {languages.map((item) => (
                         <div className={style.input_containers} key={item.key}>
-                            <label className="p-1 border-b-1" htmlFor="text">
+                            <label className="p-1 border-b-1 text-xs" htmlFor="text">
                                 {item.lang}
                             </label>
-                            <input
-                                className="p-1"
-                                onChange={(e) =>
-                                    handleTranslationChange(e, item.key)
-                                }
-                                type="text"
-                                placeholder="Введите текст"
-                                value={
-                                    datas.translations.find(
-                                        (t) => t.key === item.key,
-                                    )?.text || ""
-                                }
-                            />
+                            <div className=" pb-4 pt-2 px-6">
+                                <input
+                                    className="p-1 border rounded-lg"
+                                    onChange={(e) =>
+                                        handleTranslationChange(e, item.key)
+                                    }
+                                    type="text"
+                                    placeholder="Введите текст"
+                                    value={
+                                        datas.translations.find(
+                                            (t) => t.key === item.key,
+                                        )?.text || ""
+                                    }
+                                />
+                            </div>
                         </div>
                     ))}
 
-                    <div className="flex gap-2 my-6">
+                    <div className="flex gap-2 mb-6">
                         <Button color="primary" type="submit">
                             Добавить
                         </Button>

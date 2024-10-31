@@ -214,27 +214,30 @@ export default function Tables() {
                 case "defaultLAnguage":
                     return (
                         <div>
-                            {languages.find((l) => l.key === cellValue)?.value ??
-                                cellValue}
+                            {languages.find((l) => l.key === cellValue)
+                                ?.value ?? cellValue}
                         </div>
                     );
                 case "availableLanguage":
                     return (
                         <div className="flex gap-1 w-full">
                             {cellValue.slice(0, 3).map((lang: string) => (
-                                <span key={lang} className="text-xs font-medium py-0.5 px-2 rounded-3xl border bg-gray-800 bg-opacity-5">
-                                    {languages.find((l) => l.key === lang)?.value ?? lang}
+                                <span
+                                    key={lang}
+                                    className="text-xs font-medium py-0.5 px-2 rounded-3xl border bg-gray-800 bg-opacity-5"
+                                >
+                                    {languages.find((l) => l.key === lang)
+                                        ?.value ?? lang}
                                 </span>
                             ))}
                             {cellValue.length > 3 && (
                                 <span className="text-xs font-medium py-0.5 px-2 rounded-3xl border bg-gray-800 bg-opacity-5">
-                                    +{cellValue.length - 3} more
+                                    +{cellValue.length - 3}
                                 </span>
                             )}
                         </div>
                     );
 
-                    
                 case "CreatedAt":
                 case "UpdatedAt":
                     return new Date(cellValue).toLocaleString();
