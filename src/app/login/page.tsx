@@ -9,6 +9,7 @@ const Login = () => {
     const router = useRouter();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -16,6 +17,8 @@ const Login = () => {
             router.push("/projects");
         }
     }, [router]);
+
+
     const onSubmit = (e: any) => {
         backend.login(username, password).then(() => {
             setTimeout(() => {
@@ -24,6 +27,7 @@ const Login = () => {
         }).catch((error) => {
             if (error.response.status === 401) {
                 alert("Invalid username or password");
+                setError(true);
             }else if(error.response.status === 500){
                 alert("Server error");
             }else if(error.response.status === 400){
@@ -40,7 +44,7 @@ const Login = () => {
             <h1 className="mt-12 text-4xl font-semibold">Login</h1>
 
             <form className="flex flex-col w-1/4 gap-4 ">
-                <label htmlFor="username" className="text-2xl">
+                <label htmlFor="username" className="text-2xl" style={error ? { color: 'red' } : {}}>
                     Username
                 </label>
                 <input
@@ -49,9 +53,10 @@ const Login = () => {
                     type="text"
                     id="username"
                     name="username"
+
                 />
 
-                <label htmlFor="password" className="text-2xl">
+                <label htmlFor="password" className="text-2xl" style={error ? {color: 'red'} : {}}>
                     Password
                 </label>
                 <input
