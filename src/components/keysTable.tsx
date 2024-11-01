@@ -45,7 +45,7 @@ export default function KeysTable({ rows, isLoading, setIsLoading }: any) {
                                 showArrow
                                 placement="bottom"
                                 content={item.description}
-                                classNames={{
+                                classNames={{ 
                                     base: [
                                         "before:bg-neutral-400 dark:before:bg-white",
                                     ],
@@ -140,7 +140,7 @@ export default function KeysTable({ rows, isLoading, setIsLoading }: any) {
                 emptyContent={"No rows to display."}
             >
                 {(item: any) => (
-                    <TableRow key={item?.id}>
+                    <TableRow key={item?.id} className="border-b-1">
                         {(columnKey) => (
                             <TableCell>{renderCell(item, columnKey)}</TableCell>
                         )}

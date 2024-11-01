@@ -13,16 +13,16 @@ const AddProject = () => {
         availableLanguage: [] as string[],
     });
     const languages = [
-        { key: "ru", label: "Russian" },
-        { key: "en", label: "English" },
-        { key: "uz", label: "Uzbek" },
-        { key: "de", label: "German" },
-        { key: "kz", label: "Kazak" },
-        { key: "fr", label: "French" },
-        { key: "sp", label: "Spanish" },
-        { key: "jp", label: "Japanese" },
-        { key: "ue", label: "Ukrainian" },
-        { key: "ar", label: "Arabic" },
+        { key: "ru", value: "Russian" },
+        { key: "en", value: "English" },
+        { key: "uz", value: "Uzbek" },
+        { key: "de", value: "German" },
+        { key: "kz", value: "Kazak" },
+        { key: "fr", value: "French" },
+        { key: "sp", value: "Spanish" },
+        { key: "jp", value: "Japanese" },
+        { key: "ue", value: "Ukrainian" },
+        { key: "ar", value: "Arabic" },
     ];
     const HandleSubmit = (e: any) => {
         e.preventDefault();
@@ -67,7 +67,7 @@ const AddProject = () => {
                     >
                         {languages.map((language) => (
                             <SelectItem key={language.key}>
-                                {language.label}
+                                {language.value}
                             </SelectItem>
                         ))}
                     </Select>
@@ -92,7 +92,7 @@ const AddProject = () => {
                                 className={style.selected}
                                 key={language.key}
                             >
-                                {language.label}
+                                {language.value}
                             </SelectItem>
                         ))}
                     </Select>
