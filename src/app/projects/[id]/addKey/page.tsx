@@ -32,6 +32,12 @@ interface GetData {
     // fileNameWeb: string;
     translations: Translation[];
 }
+interface projectData {
+    name: string;
+    defaultLanguage: string;
+    availableLanguage: string[];
+
+}
 
 interface Datas extends Omit<GetData, "tags"> {
     tags: number[];
@@ -48,53 +54,45 @@ const EditKey: React.FC = () => {
             ? window.location.pathname.split("/")[4]
             : "";
 
-    // const [projectData, setProjectData] = useState<any>(null);
     const [tags, setTags] = useState<Tag[]>([]);
-    // const [checked, setChecked] = useState<string[]>([]);
+    const [projectData, setProjectData] = useState<projectData | null>(null);
+
 
     const languages: Language[] = [
         { key: "ru", lang: "Русский" },
         { key: "en", lang: "Английский" },
         { key: "uz", lang: "Узбекский" },
         // ... other languages
-        // {
-        //     key: "kz",
-        //     lang: "Казахский",
-        // },
+        { key: "kz", lang: "Казахский" },
     ];
 
     const [datas, setDatas] = useState<Datas>({
         namekeys: "",
         description: "",
         tags: [],
-        // fileNameIOS: "",
-        // fileNameAndroid: "",
-        // fileNameWeb: "",
         translations: [],
         parentId: 0,
     });
 
     useEffect(() => {
         backend.tags().then((data) => setTags(data));
+        backend.project(path).then((data) => setProjectData(data));
     }, [children]);
-
-    // useEffect(() => {
-    //     if (path) {
-    //         backend.project(path).then((data) => setProjectData(data));
-    //     }
-    // }, [path]);
 
     useEffect(() => {
         setDatas((prev) => ({
             ...prev,
             parentId: Number(path),
-            translations: languages.map((lang) => ({
-                key: lang.key,
-                language: lang.lang,
-                text: "",
-            })),
+            translations: languages
+                .filter((lang) => projectData?.availableLanguage.includes(lang.key))
+                .map((lang) => ({
+                    key: lang.key,
+                    language: lang.lang,
+                    text: "",
+                })),
         }));
     }, [path]);
+
     const handleTranslationChange = (
         e: React.ChangeEvent<HTMLInputElement>,
         langKey: string,
@@ -114,10 +112,20 @@ const EditKey: React.FC = () => {
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        backend.addTranslation(datas).then((data) => {
-            if (data) console.log("Success");
-        });
-        setTimeout(() => router.push(`/projects/${path}`), 1000);
+
+        backend.addTranslation(datas)
+            .then((data) => {
+                if (data) setTimeout(() => router.push(`/projects/${path}`), 1000);
+            })
+            .catch((err) => {
+                if (err.response.status === 400) {
+                    alert("Ошибка");
+                } else if (err.response.status === 401) {
+                    alert("Ошибка");
+                } else if (err.response.status === 403) {
+                    alert("Ошибка");
+                }
+            });
     };
 
     // const checkboxData = [
@@ -182,7 +190,7 @@ const EditKey: React.FC = () => {
                     />
 
                     <div className={style.file_name}>
-                        {["iOS", "Android", "Web"].map((platform) => (
+                        {["IOS", "Android", "Web"].map((platform) => (
                             <div
                                 className={style.file_name_cover}
                                 key={platform}
@@ -200,8 +208,7 @@ const EditKey: React.FC = () => {
                                             ...prev,
                                             [`fileName${platform as "IOS" | "Android" | "Web"}`]:
                                                 e.target.value,
-                                        }))
-                                    }
+                                        }))}
                                     disabled={
                                         !checked.includes(
                                             platform.toLowerCase(),
@@ -211,28 +218,31 @@ const EditKey: React.FC = () => {
                             </div>
                         ))}
                     </div> */}
-                    {languages.map((item) => (
-                        <div className={style.input_containers} key={item.key}>
-                            <label className="p-1 border-b-1 text-xs" htmlFor="text">
-                                {item.lang}
-                            </label>
-                            <div className=" pb-4 pt-2 px-6">
-                                <input
-                                    className="p-1 border rounded-lg"
-                                    onChange={(e) =>
-                                        handleTranslationChange(e, item.key)
-                                    }
-                                    type="text"
-                                    placeholder="Введите текст"
-                                    value={
-                                        datas.translations.find(
-                                            (t) => t.key === item.key,
-                                        )?.text || ""
-                                    }
-                                />
+
+                    {languages
+                        .filter((lang) => projectData?.availableLanguage.includes(lang.key))
+                        .map((item) => (
+                            <div className={style.input_containers} key={item.key}>
+                                <label className="p-1 border-b-1 text-xs" htmlFor="text">
+                                    {item.lang}
+                                </label>
+                                <div className="pb-4 pt-2 px-6">
+                                    <input
+                                        className="p-1 border rounded-lg"
+                                        onChange={(e) =>
+                                            handleTranslationChange(e, item.key)
+                                        }
+                                        type="text"
+                                        placeholder="Введите текст"
+                                        value={
+                                            datas.translations.find(
+                                                (t) => t.key === item.key,
+                                            )?.text || ""
+                                        }
+                                    />
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
 
                     <div className="flex gap-2 mb-6">
                         <Button color="primary" type="submit">
