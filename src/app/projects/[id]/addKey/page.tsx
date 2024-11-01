@@ -5,11 +5,7 @@ import style from "./index.module.css";
 import { useEffect, useState, FormEvent } from "react";
 import backend from "@/shared/backend";
 import { useRouter } from "next/navigation";
-
-interface Language {
-    key: string;
-    lang: string;
-}
+import { languages } from "@/shared/mock_data";
 
 interface Tag {
     id: number;
@@ -36,14 +32,13 @@ interface projectData {
     name: string;
     defaultLanguage: string;
     availableLanguage: string[];
-
 }
 
 interface Datas extends Omit<GetData, "tags"> {
     tags: number[];
 }
 
-const EditKey: React.FC = () => {
+const AddKey: React.FC = () => {
     const router = useRouter();
     const path =
         typeof window !== "undefined"
@@ -55,16 +50,18 @@ const EditKey: React.FC = () => {
             : "";
 
     const [tags, setTags] = useState<Tag[]>([]);
-    const [projectData, setProjectData] = useState<projectData | null>(null);
+    const [projectData, setProjectData] = useState<projectData>({
+        name: "",
+        defaultLanguage: "",
+        availableLanguage: [],
+    });
 
-
-    const languages: Language[] = [
-        { key: "ru", lang: "Русский" },
-        { key: "en", lang: "Английский" },
-        { key: "uz", lang: "Узбекский" },
-        // ... other languages
-        { key: "kz", lang: "Казахский" },
-    ];
+    // const languages: Language[] = [
+    //     { key: "ru", lang: "Русский" },
+    //     { key: "en", lang: "Английский" },
+    //     { key: "uz", lang: "Узбекский" },
+    //     { key: "kz", lang: "Казахский" },
+    // ];
 
     const [datas, setDatas] = useState<Datas>({
         namekeys: "",
@@ -84,10 +81,12 @@ const EditKey: React.FC = () => {
             ...prev,
             parentId: Number(path),
             translations: languages
-                .filter((lang) => projectData?.availableLanguage.includes(lang.key))
+                .filter((lang) =>
+                    projectData?.availableLanguage.includes(lang.key),
+                )
                 .map((lang) => ({
                     key: lang.key,
-                    language: lang.lang,
+                    language: lang.value,
                     text: "",
                 })),
         }));
@@ -113,9 +112,11 @@ const EditKey: React.FC = () => {
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
 
-        backend.addTranslation(datas)
+        backend
+            .addTranslation(datas)
             .then((data) => {
-                if (data) setTimeout(() => router.push(`/projects/${path}`), 1000);
+                if (data)
+                    setTimeout(() => router.push(`/projects/${path}`), 1000);
             })
             .catch((err) => {
                 if (err.response.status === 400) {
@@ -220,11 +221,19 @@ const EditKey: React.FC = () => {
                     </div> */}
 
                     {languages
-                        .filter((lang) => projectData?.availableLanguage.includes(lang.key))
+                        .filter((lang) =>
+                            projectData?.availableLanguage.includes(lang.key),
+                        )
                         .map((item) => (
-                            <div className={style.input_containers} key={item.key}>
-                                <label className="p-1 border-b-1 text-xs" htmlFor="text">
-                                    {item.lang}
+                            <div
+                                className={style.input_containers}
+                                key={item.key}
+                            >
+                                <label
+                                    className="p-1 border-b-1 text-xs"
+                                    htmlFor="text"
+                                >
+                                    {item.value}
                                 </label>
                                 <div className="pb-4 pt-2 px-6">
                                     <input
@@ -258,4 +267,4 @@ const EditKey: React.FC = () => {
     );
 };
 
-export default EditKey;
+export default AddKey;
