@@ -5,11 +5,12 @@ import style from "../index.module.css";
 import { useEffect, useState } from "react";
 import backend from "@/shared/backend";
 import { useRouter } from "next/navigation";
+import { languages } from "@/shared/mock_data";
 
 const AddLanguage = () => {
     const [checked, setChecked] = useState<string[]>([]);
     const [datas, setDatas] = useState<{
-        name: string;
+        name: any;
         languageCode: string;
         pluralForms: string[];
     }>({
@@ -18,18 +19,18 @@ const AddLanguage = () => {
         pluralForms: [],
     });
 
-    const languages = [
-        { key: "russian", label: "Russian" },
-        { key: "english", label: "English" },
-        { key: "uzbek", label: "Uzbek" },
-        { key: "deutsch", label: "German" },
-        { key: "kazak", label: "Kazak" },
-        { key: "french", label: "French" },
-        { key: "spanish", label: "Spanish" },
-        { key: "japanese", label: "Japanese" },
-        { key: "ukrainian", label: "Ukrainian" },
-        { key: "arabic", label: "Arabic" },
-    ];
+    // const languages = [
+    //     { key: "russian", label: "Russian" },
+    //     { key: "english", label: "English" },
+    //     { key: "uzbek", label: "Uzbek" },
+    //     { key: "deutsch", label: "German" },
+    //     { key: "kazak", label: "Kazak" },
+    //     { key: "french", label: "French" },
+    //     { key: "spanish", label: "Spanish" },
+    //     { key: "japanese", label: "Japanese" },
+    //     { key: "ukrainian", label: "Ukrainian" },
+    //     { key: "arabic", label: "Arabic" },
+    // ];
 
     const checkbox_data = [
         { key: "zero", label: "Zero" },
@@ -52,9 +53,10 @@ const AddLanguage = () => {
                 router.push("/languages");
             }
         });
+        console.log("Data:", datas);
     };
-    console.log("Checked", checked);
 
+    
     return (
         <div className={style.wrapper}>
             <div className={style.container}>
@@ -70,14 +72,12 @@ const AddLanguage = () => {
                         placeholder="Выберите язык"
                         className="w-full"
                         variant="bordered"
-                        onChange={(e) =>
-                            setDatas({ ...datas, name: e.target.value })
-                        }
+                        onChange={(value) => setDatas({ ...datas, name: value })}
                         isRequired
                     >
                         {languages.map((language) => (
-                            <SelectItem key={language.key} value={language.key}>
-                                {language.label}
+                            <SelectItem key={language.key} value={language.value}>
+                                {language.value}
                             </SelectItem>
                         ))}
                     </Select>
