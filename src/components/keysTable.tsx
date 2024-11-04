@@ -38,14 +38,14 @@ export default function KeysTable({ rows, isLoading, setIsLoading }: any) {
             const cellValue = item[columnKey];
 
             switch (columnKey) {
-                case "namekeys":
+                case "projectName":
                     return (
                         <div className="flex items-center gap-2 cursor-pointer">
                             <Tooltip
                                 showArrow
                                 placement="bottom"
-                                content={item.description}
-                                classNames={{ 
+                                content={item.productDesc}
+                                classNames={{
                                     base: [
                                         "before:bg-neutral-400 dark:before:bg-white",
                                     ],
@@ -55,14 +55,14 @@ export default function KeysTable({ rows, isLoading, setIsLoading }: any) {
                                     ],
                                 }}
                             >
-                                <span>{cellValue}</span>
+                                <span>{item.projectName}</span>
                             </Tooltip>
                         </div>
                     );
-                case "translations":
+                case "translation":
                     return (
                         <div className="flex flex-col gap-2 text-xl">
-                            {item.translations.map((translation: any) => (
+                            {item.translation.map((translation: any) => (
                                 <div
                                     key={translation.key}
                                     className="border-b-1 p-1 flex flex-col"
@@ -83,6 +83,7 @@ export default function KeysTable({ rows, isLoading, setIsLoading }: any) {
                         <Dropdown>
                             <DropdownTrigger>
                                 <Image
+                                    className="left-full"
                                     src={edit}
                                     alt="edit"
                                     width={20}
@@ -94,7 +95,7 @@ export default function KeysTable({ rows, isLoading, setIsLoading }: any) {
                                     key="edit"
                                     onClick={() =>
                                         router.push(
-                                            `/projects/${item.parentId}/editKey/${item.id}`,
+                                            `/projects/${item.parent}/editKey/${item.projecID}`,
                                         )
                                     }
                                 >
@@ -105,11 +106,11 @@ export default function KeysTable({ rows, isLoading, setIsLoading }: any) {
                                     key="delete"
                                     onClick={() =>
                                         backend
-                                            .deleteTranslation(item.id)
+                                            .deleteTranslation(item.projectID)
                                             .then(() => {
                                                 setIsLoading(true);
                                                 router.push(
-                                                    `/projects/${item.parentId}`,
+                                                    `/projects/${item.parent}`,
                                                 );
                                             })
                                     }
@@ -129,8 +130,8 @@ export default function KeysTable({ rows, isLoading, setIsLoading }: any) {
     return (
         <Table aria-label="Example table with client async pagination">
             <TableHeader>
-                <TableColumn key="namekeys">Название</TableColumn>
-                <TableColumn key="translations">Переводы</TableColumn>
+                <TableColumn key="projectName">Название</TableColumn>
+                <TableColumn key="translation">Переводы</TableColumn>
                 <TableColumn key="actions"> </TableColumn>
             </TableHeader>
             <TableBody
@@ -140,7 +141,7 @@ export default function KeysTable({ rows, isLoading, setIsLoading }: any) {
                 emptyContent={"No rows to display."}
             >
                 {(item: any) => (
-                    <TableRow key={item?.id} className="border-b-1">
+                    <TableRow key={item?.projectID} className="border-b-1">
                         {(columnKey) => (
                             <TableCell>{renderCell(item, columnKey)}</TableCell>
                         )}

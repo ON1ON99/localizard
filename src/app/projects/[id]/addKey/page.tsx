@@ -5,7 +5,7 @@ import style from "./index.module.css";
 import { useEffect, useState, FormEvent } from "react";
 import backend from "@/shared/backend";
 import { useRouter } from "next/navigation";
-import { languages } from "@/shared/mock_data";
+import { languages } from "@/shared/mock_data"; // Ensure languages has { key: string, value: string } structure
 
 interface Tag {
     id: number;
@@ -74,23 +74,25 @@ const AddKey: React.FC = () => {
     useEffect(() => {
         backend.tags().then((data) => setTags(data));
         backend.project(path).then((data) => setProjectData(data));
-    }, [children]);
+    }, [children, path]);
 
     useEffect(() => {
-        setDatas((prev) => ({
-            ...prev,
-            parentId: Number(path),
-            translations: languages
-                .filter((lang) =>
-                    projectData?.availableLanguage.includes(lang.key),
-                )
-                .map((lang) => ({
-                    key: lang.key,
-                    language: lang.value,
-                    text: "",
-                })),
-        }));
-    }, [path]);
+        if (projectData.availableLanguage.length > 0) {
+            setDatas((prev) => ({
+                ...prev,
+                parentId: Number(path),
+                translations: languages
+                    .filter((lang) =>
+                        projectData.availableLanguage.includes(lang.key),
+                    )
+                    .map((lang) => ({
+                        key: lang.key,
+                        language: lang.value,
+                        text: "",
+                    })),
+            }));
+        }
+    }, [path, projectData]);
 
     const handleTranslationChange = (
         e: React.ChangeEvent<HTMLInputElement>,
@@ -230,24 +232,19 @@ const AddKey: React.FC = () => {
                                 key={item.key}
                             >
                                 <label
-                                    className="p-1 border-b-1 text-xs"
+                                    className="p-2 border-b-1 text-xs"
                                     htmlFor="text"
                                 >
                                     {item.value}
                                 </label>
                                 <div className="pb-4 pt-2 px-6">
                                     <input
-                                        className="p-1 border rounded-lg"
+                                        className="p-1 border rounded-lg w-full outline-none"
                                         onChange={(e) =>
                                             handleTranslationChange(e, item.key)
                                         }
                                         type="text"
                                         placeholder="Введите текст"
-                                        value={
-                                            datas.translations.find(
-                                                (t) => t.key === item.key,
-                                            )?.text || ""
-                                        }
                                     />
                                 </div>
                             </div>
