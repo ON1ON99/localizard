@@ -5,6 +5,7 @@ import style from "../../index.module.css";
 import { useEffect, useState } from "react";
 import backend from "@/shared/backend";
 import { useRouter } from "next/navigation";
+import { languages } from "@/shared/mock_data";
 
 const AddLanguage = () => {
     const [checked, setChecked] = useState<string[]>([]);
@@ -39,19 +40,6 @@ const AddLanguage = () => {
         languageCode: "",
         pluralForms: [],
     });
-
-    const languages = [
-        { key: "russian", label: "Russian" },
-        { key: "english", label: "English" },
-        { key: "uzbek", label: "Uzbek" },
-        { key: "deutsch", label: "German" },
-        { key: "kazak", label: "Kazak" },
-        { key: "french", label: "French" },
-        { key: "spanish", label: "Spanish" },
-        { key: "japanese", label: "Japanese" },
-        { key: "ukrainian", label: "Ukrainian" },
-        { key: "arabic", label: "Arabic" },
-    ];
 
     const checkbox_data = [
         { key: "zero", label: "Zero" },
@@ -91,6 +79,8 @@ const AddLanguage = () => {
                     1000;
             }
         });
+
+        router.push("/languages");
     };
 
     return (
@@ -101,20 +91,26 @@ const AddLanguage = () => {
                 </div>
                 <h1 className={style.title}>Изменить язык</h1>
                 <form className={style.form}>
-                    <Select
+                <Select
                         label="Язык"
                         labelPlacement="outside"
                         placeholder="Выберите язык"
                         className="w-full"
                         variant="bordered"
-                        onChange={(e) =>
-                            setDatas({ ...datas, name: e.target.value })
+                        onSelectionChange={(value) =>
+                            setDatas((prevDatas) => ({
+                                ...prevDatas,
+                                name:
+                                    languages.find(
+                                        (lang) => lang.key === value.currentKey,
+                                    )?.value || "",
+                            }))
                         }
                         isRequired
                     >
                         {languages.map((language) => (
-                            <SelectItem key={language.key} value={language.key}>
-                                {language.label}
+                            <SelectItem key={language.key}>
+                                {language.value}
                             </SelectItem>
                         ))}
                     </Select>
