@@ -95,7 +95,7 @@ export default function KeysTable({ rows, isLoading, setIsLoading }: any) {
                                     key="edit"
                                     onClick={() =>
                                         router.push(
-                                            `/projects/${item.parent}/editKey/${item.projecID}`,
+                                            `/projects/${item.parent}/editKey/${item.projectID}`,
                                         )
                                     }
                                 >
