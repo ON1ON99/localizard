@@ -10,7 +10,7 @@ import { languages } from "@/shared/mock_data";
 const AddLanguage = () => {
     const [checked, setChecked] = useState<string[]>([]);
     const [datas, setDatas] = useState<{
-        name: any;
+        name: string;
         languageCode: string;
         pluralForms: string[];
     }>({
@@ -19,20 +19,7 @@ const AddLanguage = () => {
         pluralForms: [],
     });
 
-    // const languages = [
-    //     { key: "russian", label: "Russian" },
-    //     { key: "english", label: "English" },
-    //     { key: "uzbek", label: "Uzbek" },
-    //     { key: "deutsch", label: "German" },
-    //     { key: "kazak", label: "Kazak" },
-    //     { key: "french", label: "French" },
-    //     { key: "spanish", label: "Spanish" },
-    //     { key: "japanese", label: "Japanese" },
-    //     { key: "ukrainian", label: "Ukrainian" },
-    //     { key: "arabic", label: "Arabic" },
-    // ];
-
-    const checkbox_data = [
+    const checkboxData = [
         { key: "zero", label: "Zero" },
         { key: "one", label: "One" },
         { key: "two", label: "Two" },
@@ -40,23 +27,24 @@ const AddLanguage = () => {
         { key: "many", label: "Many" },
         { key: "other", label: "Other" },
     ];
-    useEffect(() => {
-        setDatas({ ...datas, pluralForms: checked });
-    }, [checked, datas]);
-    const router = useRouter();
-    const HandleSubmit = (e: any) => {
-        e.preventDefault();
-        console.log("Data before POST:", datas); // Log the data being sent
 
-        backend.addLanguage(datas).then((data) => {
-            if (data) {
-                router.push("/languages");
-            }
-        });
+    useEffect(() => {
+        setDatas((prevDatas) => ({ ...prevDatas, pluralForms: checked }));
+    }, [checked]);
+
+    const router = useRouter();
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        console.log("Data before POST:", datas);
+
+        const data = await backend.addLanguage(datas);
+        if (data) {
+            router.push("/languages");
+        }
         console.log("Data:", datas);
     };
 
-    
     return (
         <div className={style.wrapper}>
             <div className={style.container}>
@@ -64,48 +52,54 @@ const AddLanguage = () => {
                     <div>Языки</div> / <div>Добавить язык</div>
                 </div>
                 <h1 className={style.title}>Добавить язык</h1>
-                <form className={style.form}>
-                    {/* <label htmlFor="language">Язык</label> */}
+                <form className={style.form} onSubmit={handleSubmit}>
                     <Select
                         label="Язык"
                         labelPlacement="outside"
                         placeholder="Выберите язык"
                         className="w-full"
                         variant="bordered"
-                        onChange={(value) => setDatas({ ...datas, name: value })}
+                        onSelectionChange={(value) =>
+                            setDatas((prevDatas) => ({
+                                ...prevDatas,
+                                name:
+                                    languages.find(
+                                        (lang) => lang.key === value.currentKey,
+                                    )?.value || "",
+                            }))
+                        }
                         isRequired
                     >
                         {languages.map((language) => (
-                            <SelectItem key={language.key} value={language.value}>
+                            <SelectItem key={language.key}>
                                 {language.value}
                             </SelectItem>
                         ))}
                     </Select>
 
-                    <label htmlFor="name">Код языка</label>
+                    <label htmlFor="languageCode">Код языка</label>
                     <input
                         className={style.input}
                         onChange={(e) =>
-                            setDatas({ ...datas, languageCode: e.target.value })
+                            setDatas((prevDatas) => ({
+                                ...prevDatas,
+                                languageCode: e.target.value,
+                            }))
                         }
                         type="text"
-                        id="name"
-                        name="name"
+                        id="languageCode"
+                        name="languageCode"
                     />
 
                     <CheckboxGroups
                         setCheckbox={setChecked}
                         labelPlacement="outside"
                         label={"Множественное число"}
-                        data={checkbox_data}
+                        data={checkboxData}
                     />
 
                     <div className="flex gap-2">
-                        <Button
-                            onClick={HandleSubmit}
-                            color="primary"
-                            type="submit"
-                        >
+                        <Button color="primary" type="submit">
                             Добавить
                         </Button>
                         <Button type="reset" variant="ghost">
