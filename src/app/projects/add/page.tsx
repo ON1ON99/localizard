@@ -4,6 +4,7 @@ import style from "../index.module.css";
 import { Button, Select, SelectItem } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { languages } from "@/shared/mock_data";
 
 const AddProject = () => {
     const router = useRouter();
@@ -12,18 +13,6 @@ const AddProject = () => {
         defaultLanguage: "",
         availableLanguage: [] as string[],
     });
-    const languages = [
-        { key: "ru", value: "Russian" },
-        { key: "en", value: "English" },
-        { key: "uz", value: "Uzbek" },
-        { key: "de", value: "German" },
-        { key: "kz", value: "Kazak" },
-        { key: "fr", value: "French" },
-        { key: "sp", value: "Spanish" },
-        { key: "jp", value: "Japanese" },
-        { key: "ue", value: "Ukrainian" },
-        { key: "ar", value: "Arabic" },
-    ];
     const HandleSubmit = (e: any) => {
         e.preventDefault();
         backend.addProject(datas).then((data) => {
