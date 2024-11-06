@@ -4,6 +4,7 @@ import style from "../../index.module.css";
 import { Button, Select, SelectItem } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { languages } from "@/shared/mock_data";
 
 const EditProject = () => {
     const router = useRouter();
@@ -25,19 +26,6 @@ const EditProject = () => {
             setDatas(data); // initialize datas with fetched data
         });
     }, [path]);
-
-    const languages = [
-        { key: "ru", label: "Russian" },
-        { key: "en", label: "English" },
-        { key: "uz", label: "Uzbek" },
-        { key: "de", label: "German" },
-        { key: "kz", label: "Kazak" },
-        { key: "fr", label: "French" },
-        { key: "sp", label: "Spanish" },
-        { key: "jp", label: "Japanese" },
-        { key: "ue", label: "Ukrainian" },
-        { key: "ar", label: "Arabic" },
-    ];
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
@@ -91,7 +79,7 @@ const EditProject = () => {
                                     className={style.selected}
                                     key={language.key}
                                 >
-                                    {language.label}
+                                    {language.value}
                                 </SelectItem>
                             ))}
                         </Select>
@@ -116,7 +104,7 @@ const EditProject = () => {
                                     className={style.selected}
                                     key={language.key}
                                 >
-                                    {language.label}
+                                    {language.value}
                                 </SelectItem>
                             ))}
                         </Select>

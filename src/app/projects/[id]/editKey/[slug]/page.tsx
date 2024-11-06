@@ -5,6 +5,7 @@ import style from "./index.module.css";
 import { useEffect, useState, FormEvent } from "react";
 import backend from "@/shared/backend";
 import { useRouter } from "next/navigation";
+import { languages } from "@/shared/mock_data";
 
 interface Language {
     key: string;
@@ -58,11 +59,6 @@ const EditKey: React.FC = () => {
         parentId: 0,
     });
     
-    const languages: Language[] = [
-        { key: "ru", lang: "Русский" },
-        { key: "en", lang: "Английский" },
-        { key: "uz", lang: "Узбекский" },
-    ];
 
     const [datas, setDatas] = useState<Datas>({
         ...getData,
@@ -86,7 +82,7 @@ const EditKey: React.FC = () => {
                     ...data,
                     translations: languages.map((lang) => {
                         const translation = data.translations.find((t: { key: string; }) => t.key === lang.key);
-                        return translation ? translation : { key: lang.key, language: lang.lang, text: "" };
+                        return translation ? translation : { key: lang.key, language: lang.value, text: "" };
                     })
                 });
             }

@@ -56,13 +56,6 @@ const AddKey: React.FC = () => {
         availableLanguage: [],
     });
 
-    // const languages: Language[] = [
-    //     { key: "ru", lang: "Русский" },
-    //     { key: "en", lang: "Английский" },
-    //     { key: "uz", lang: "Узбекский" },
-    //     { key: "kz", lang: "Казахский" },
-    // ];
-
     const [datas, setDatas] = useState<Datas>({
         namekeys: "",
         description: "",
