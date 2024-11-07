@@ -2,10 +2,11 @@
 import { Button } from "@nextui-org/react";
 import style from "./index.module.css";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "next-i18next";
 
 const Add = ({ name, keys }: any) => {
     const router = useRouter();
-
+    const { t } = useTranslation();
     return (
         <div className={style.wrapper}>
             <h1>{name}</h1>
@@ -14,7 +15,7 @@ const Add = ({ name, keys }: any) => {
                 color="primary"
                 variant="ghost"
             >
-                Добавить
+                {t('Add')}
             </Button>
         </div>
     );
