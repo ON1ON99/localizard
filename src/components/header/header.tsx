@@ -6,13 +6,18 @@ import style from "./index.module.css";
 import avatar from "../../assests/profile_avatar.png";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Button } from "@nextui-org/react";
+import { Button, Select, SelectSection, SelectItem } from "@nextui-org/react";
 
 const Header = () => {
     const router = useRouter();
     const pathname = usePathname();
     const path = pathname.split("/")[1];
     const [role, setRole] = useState<string | null>(null);
+    const languages = [
+        { key: "en", value: <Image src='{}' alt="" /> },
+        { key: "ru", value: <Image src='{}' alt="" /> },
+        { key: "uz", value: <Image src='{}' alt="" /> },
+    ];
     
     useEffect(() => {
         setRole(localStorage.getItem("role"));
@@ -51,6 +56,19 @@ const Header = () => {
             </div>
             <div className={style.nav}>
                 <ul>
+                    <li>
+                        <Select>
+                            <SelectSection  
+                                title="Выберите язык"
+                            >
+                                {languages.map((language) => (
+                                    <SelectItem key={language.key}>
+                                        {language.value}
+                                    </SelectItem>
+                                ))}
+                            </SelectSection>
+                        </Select>
+                    </li>
                     {/* <li><Image src={dark_icon} alt='dark_icon' /></li> */}
                     {
                         path === "login" ? null : (
