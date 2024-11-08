@@ -7,10 +7,10 @@ import backend from "@/shared/backend";
 import { useRouter } from "next/navigation";
 import { languages } from "@/shared/mock_data";
 
-interface Language {
-    key: string;
-    lang: string;
-}
+// interface Language {
+//     key: string;
+//     lang: string;
+// }
 
 interface Tag {
     id: number;

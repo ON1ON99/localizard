@@ -5,7 +5,7 @@ import logo from "../../assests/logo.svg";
 import style from "./index.module.css";
 import avatar from "../../assests/profile_avatar.png";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
     Avatar,
     Button,
@@ -13,8 +13,8 @@ import {
     DropdownItem,
     DropdownMenu,
     DropdownTrigger,
-    Select,
-    SelectItem,
+    // Select,
+    // SelectItem,
 } from "@nextui-org/react";
 
 const Header = () => {
