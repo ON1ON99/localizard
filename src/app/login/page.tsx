@@ -38,7 +38,6 @@ const Login = () => {
                 window.alert("Something went wrong");
             }
 
-
         }).finally(() => {
             if (localStorage.getItem("token")) {
                 setTimeout(() => {
