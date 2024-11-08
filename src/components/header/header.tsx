@@ -63,13 +63,13 @@ const Header = () => {
             </div>
             <div className={style.nav}>
                 <ul>
-                    <li className="w-full">
-                        <Dropdown>
-                            <DropdownTrigger>
+                    <li>
+                        <Dropdown className="w-14 min-w-0">
+                            <DropdownTrigger className="w-14 min-w-0">
                                 <Button
                                     variant="light"
                                     color="default"
-                                    className="capitalize"
+                                    className="capitalize w-14 p-0 min-w-0"
                                 >
                                     <Avatar
                                         alt=""
@@ -79,6 +79,7 @@ const Header = () => {
                                 </Button>
                             </DropdownTrigger>
                             <DropdownMenu
+                             className="w-16 min-w-0"
                                 variant="flat"
                                 disallowEmptySelection
                                 selectionMode="single"
@@ -87,21 +88,21 @@ const Header = () => {
                                     setSelectedKeys(keys as Set<string>)
                                 }
                             >
-                                <DropdownItem key="ru">
+                                <DropdownItem className="min-w-0" key="ru">
                                     <Avatar
                                         alt=""
                                         className="w-6 h-6"
                                         src="https://flagcdn.com/ru.svg"
                                     />
                                 </DropdownItem>
-                                <DropdownItem key="gb">
+                                <DropdownItem className="min-w-0" key="gb">
                                     <Avatar
                                         alt=""
                                         className="w-6 h-6"
                                         src="https://flagcdn.com/gb.svg"
                                     />
                                 </DropdownItem>
-                                <DropdownItem key="uz">
+                                <DropdownItem className="min-w-0" key="uz">
                                     <Avatar
                                         alt=""
                                         className="w-6 h-6"
