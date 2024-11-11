@@ -40,7 +40,6 @@ const Keys = () => {
             });
         }
     }, [id, search]);
-    console.log(data, "data");
     
     return (
         <div className=" flex flex-col m-8">
