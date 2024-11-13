@@ -79,26 +79,12 @@ const EditKey: React.FC = () => {
             if (data) {
                 setGetData(data);
                 setDatas({
-                    ...data,
-                    translations: languages.map((lang) => {
-                        const translation = data.translations.find((t: { key: string; }) => t.key === lang.key);
-                        return translation ? translation : { key: lang.key, language: lang.value, text: "" };
-                    })
+                    ...data
                 });
             }
         };
         fetchData();
     }, [path, children]);
-
-    const handleTranslationChange = (key: string, text: string) => {
-        setDatas((prev) => ({
-            ...prev,
-            translations: prev.translations.map((t) =>
-                t.key === key ? { ...t, text } : t
-            ),
-        }));
-    };
-
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         await backend.updateTranslation(children, datas);
@@ -167,20 +153,40 @@ const EditKey: React.FC = () => {
                             </div>
                         ))}
                     </div> */}
-                    <div className="flex flex-col gap-4">
-                        {datas.translations.map(({ key, language, text }) => (
-                            <div className={style.input_containers} key={key}>
-                                <label className="p-1 border-b-1">{language || "Language not found"}</label>
-                                <input
-                                    className="p-1"
-                                    value={text}
-                                    onChange={(e) => handleTranslationChange(key, e.target.value)}
-                                    type="text"
-                                    placeholder="Введите текст"
-                                />
+                    {languages
+                        .filter((lang) =>
+                            projectData?.availableLanguage.includes(lang.key),
+                        )
+                        .map((item) => (
+                            <div
+                                className={style.input_containers}
+                                key={item.key}
+                            >
+                                <label
+                                    className="p-2 border-b-1 text-xs"
+                                    htmlFor="text"
+                                >
+                                    {item.value}
+                                </label>
+                                <div className="pb-4 pt-2 px-6">
+                                    <input
+                                        className="p-1 border rounded-lg w-full outline-none"
+                                        onChange={(e: any) =>
+                                            setDatas((prev) => ({
+                                                ...prev,
+                                                translations:[
+                                                    ...prev.translations.filter((t) => t.key !== item.key),
+                                                    { key: item.key, language: item.value, text: e.target.value }
+                                                ]
+                                            }))
+                                        }
+                                        type="text"
+                                        defaultValue={datas.translations.find((t) => t.key === item.key)?.text}
+                                        placeholder="Введите текст"
+                                    />
+                                </div>
                             </div>
                         ))}
-                    </div>
 
                     <div className="flex gap-2 my-6">
                         <Button color="primary" type="submit">Изменить</Button>

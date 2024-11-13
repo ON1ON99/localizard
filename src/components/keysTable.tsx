@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import {
     Table,
     TableHeader,
@@ -17,19 +17,25 @@ import {
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import edit from "@/assests/menu.svg";
+import edit from "../assests/menu.svg";
 import backend from "@/shared/backend";
 
-export default function KeysTable({ rows, isLoading, setIsLoading }: any) {
+export default function KeysTable({ id, search }: any) {
+    const pathId = window.location.pathname.split("/")[2];
     const router = useRouter();
+    const [data, setData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        if (rows.length === 0) {
-            setIsLoading(true);
-        } else {
+        backend.getTranslations(pathId, search).then((data) => {
+            setData(data);
+        }).catch((error) => {
+            console.error("Error fetching data:", error);
+        })
+        .finally(() => {
             setIsLoading(false);
-        }
-    }, [rows, setIsLoading]);
+        });
+    }, [id, search]);
 
     const loadingState = isLoading ? "loading" : "idle";
 
@@ -67,10 +73,7 @@ export default function KeysTable({ rows, isLoading, setIsLoading }: any) {
                                     key={translation.key}
                                     className="border-b-1 p-1 flex flex-col"
                                 >
-                                    <span
-                                        key={translation.key}
-                                        className="text-gray-500 text-sm"
-                                    >
+                                    <span className="text-gray-500 text-sm">
                                         {translation.language}
                                     </span>
                                     {translation.text}
@@ -109,9 +112,16 @@ export default function KeysTable({ rows, isLoading, setIsLoading }: any) {
                                             .deleteTranslation(item.projectID)
                                             .then(() => {
                                                 setIsLoading(true);
-                                                router.push(
-                                                    `/projects/${item.parent}`,
-                                                );
+                                                backend.getTranslations(pathId, search).then((data) => {
+                                                    setData(data);
+                                                }
+                                                ).catch((error) => {
+                                                    console.error("Error fetching data:", error);
+                                                }
+                                                ).finally(() => {
+                                                    setIsLoading(false);
+                                                });
+
                                             })
                                     }
                                 >
@@ -124,7 +134,7 @@ export default function KeysTable({ rows, isLoading, setIsLoading }: any) {
                     return cellValue;
             }
         },
-        [router, setIsLoading],
+        [router],
     );
 
     return (
@@ -135,9 +145,9 @@ export default function KeysTable({ rows, isLoading, setIsLoading }: any) {
                 <TableColumn key="actions"> </TableColumn>
             </TableHeader>
             <TableBody
-                items={rows ?? []}
-                loadingContent={<Spinner />}
                 loadingState={loadingState}
+                loadingContent={<Spinner />}
+                items={data ?? []}
                 emptyContent={"No rows to display."}
             >
                 {(item: any) => (

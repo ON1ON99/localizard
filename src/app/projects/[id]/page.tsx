@@ -15,10 +15,8 @@ interface ProjectData {
 const Keys = () => {
     const router = useRouter();
     const [projectData, setProjectData] = useState<ProjectData>({});
-    const [data, setData] = useState([]);
     const [id, setId] = useState<string | null>(null);
     const [search, setSearch] = useState<string>("");
-    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const pathId = window.location.pathname.split("/")[2];
@@ -29,14 +27,6 @@ const Keys = () => {
         if (id) {
             backend.project(id).then((data) => {
                 setProjectData(data);
-            });
-            backend.getTranslations(id, search).then((data) => {
-                setData(data);
-            }).catch((error) => {
-                console.error("Error fetching data:", error);
-            })
-            .finally(() => {
-                setIsLoading(false);
             });
         }
     }, [id, search]);
@@ -73,7 +63,7 @@ const Keys = () => {
                     }
                     className="w-full"
                 />
-                <KeysTable rows={data ?? []} isLoading={isLoading} setIsLoading={setIsLoading}/>
+                <KeysTable search={search} id={id}/>
             </div>
         </div>
     );
