@@ -76,7 +76,9 @@ export default function KeysTable({ id, search }: any) {
                                     <span className="text-gray-500 text-sm">
                                         {translation.language}
                                     </span>
-                                    {translation.text}
+                                    {
+                                    translation.text.slice(0, 50) + (translation.text.length > 50 ? "..." : "")
+                                    }
                                 </div>
                             ))}
                         </div>
