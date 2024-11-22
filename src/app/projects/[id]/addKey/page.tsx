@@ -5,7 +5,7 @@ import style from "./index.module.css";
 import { useEffect, useState, FormEvent } from "react";
 import backend from "@/shared/backend";
 import { useRouter } from "next/navigation";
-import { languages } from "@/shared/mock_data"; // Ensure languages has { key: string, value: string } structure
+import { languages } from "@/shared/mock_data";
 
 interface Tag {
     id: number;
@@ -50,6 +50,7 @@ const AddKey: React.FC = () => {
             : "";
 
     const [tags, setTags] = useState<Tag[]>([]);
+    const [textTranslation, setTextTranslation] = useState<string>("");
     const [projectData, setProjectData] = useState<projectData>({
         name: "",
         defaultLanguage: "",
@@ -129,6 +130,13 @@ const AddKey: React.FC = () => {
     //     { key: "android", label: "Android" },
     //     { key: "web", label: "Web" },
     // ];
+
+    const textKeySymbolcheck = (e: any) => {    
+        if (e.match(/[^a-zA-Z0-9]/g)) {
+            e = e.replace(/[^a-zA-Z0-9]/g, '');
+        }
+        return e;
+    }
 
     return (
         <div className={style.wrapper}>
