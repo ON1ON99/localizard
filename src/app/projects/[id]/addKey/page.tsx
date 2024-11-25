@@ -50,7 +50,7 @@ const AddKey: React.FC = () => {
             : "";
 
     const [tags, setTags] = useState<Tag[]>([]);
-    const [textTranslation, setTextTranslation] = useState<string>("");
+    // const [textTranslation, setTextTranslation] = useState<string>("");
     const [projectData, setProjectData] = useState<projectData>({
         name: "",
         defaultLanguage: "",
@@ -131,12 +131,12 @@ const AddKey: React.FC = () => {
     //     { key: "web", label: "Web" },
     // ];
 
-    const textKeySymbolcheck = (e: any) => {    
-        if (e.match(/[^a-zA-Z0-9]/g)) {
-            e = e.replace(/[^a-zA-Z0-9]/g, '');
-        }
-        return e;
-    }
+    //!! const textKeySymbolcheck = (e: any) => {    
+    //     if (e.match(/[^a-zA-Z0-9]/g)) {
+    //         e = e.replace(/[^a-zA-Z0-9]/g, '');
+    //     }
+    //     return e;
+    // }
 
     return (
         <div className={style.wrapper}>
