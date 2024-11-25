@@ -1,6 +1,6 @@
 class Backend {
     private token: string = "";
-    private baseURL: string = "https://0t18bjmv-7118.euw.devtunnels.ms/api";
+    private baseURL: string = "https://0t18bjmv-7283.euw.devtunnels.ms";
 
     constructor() {
         if (typeof window !== "undefined") {
@@ -15,7 +15,7 @@ class Backend {
         headers.append("Content-Type", "application/json");
 
         try {
-            const response = await fetch(`${this.baseURL}/Auth/login`, {
+            const response = await fetch(`${this.baseURL}/api/Auth/Login`, {
                 method: "POST",
                 headers,
                 redirect: "follow",
@@ -42,7 +42,7 @@ class Backend {
         headers.append("Content-Type", "application/json");
 
         try {
-            const response = await fetch(`${this.baseURL}/Auth/register`, {
+            const response = await fetch(`${this.baseURL}/api/Auth/Register`, {
                 method: "POST",
                 headers,
                 redirect: "follow",
@@ -68,7 +68,7 @@ class Backend {
 
         try {
             const response = await fetch(
-                `${this.baseURL}/Auth?pageNumber=${pageNumber}`,
+                `${this.baseURL}/api/User/GetAllUsers?page=${pageNumber}`,
                 {
                     method: "GET",
                     headers,
@@ -91,7 +91,7 @@ class Backend {
         headers.append("Authorization", `Bearer ${this.token}`);
 
         try {
-            const response = await fetch(`${this.baseURL}/Auth/${id}`, {
+            const response = await fetch(`${this.baseURL}/api/User/GetById/${id}`, {
                 method: "GET",
                 headers,
                 redirect: "follow",
@@ -109,7 +109,7 @@ class Backend {
         headers.append("Content-Type", "application/json");
 
         try {
-            const response = await fetch(`${this.baseURL}/Auth`, {
+            const response = await fetch(`${this.baseURL}/api/User/CreateUser`, {
                 method: "POST",
                 headers,
                 redirect: "follow",
@@ -119,7 +119,7 @@ class Backend {
             return await response.json();
         } catch {
             return {};
-        }
+        } 
     }
 
     async updateUser(id: any, data: any) {
@@ -128,7 +128,7 @@ class Backend {
         headers.append("Content-Type", "application/json");
 
         try {
-            const response = await fetch(`${this.baseURL}/Auth?userId=${id}`, {
+            const response = await fetch(`${this.baseURL}/api/User/UpdateUser?userId=${id}`, {
                 method: "PUT",
                 headers,
                 redirect: "follow",
@@ -146,7 +146,7 @@ class Backend {
         headers.append("Authorization", `Bearer ${this.token}`);
 
         try {
-            const response = await fetch(`${this.baseURL}/Auth?userId=${id}`, {
+            const response = await fetch(`${this.baseURL}/api/User/DeleteUser?userId=${id}`, {
                 method: "DELETE",
                 headers,
                 redirect: "follow",
@@ -166,7 +166,7 @@ class Backend {
 
         try {
             const response = await fetch(
-                `${this.baseURL}/Project?currentPage=${pageNumber}`,
+                `${this.baseURL}/api/Project/GetAllProjects?currentPage=${pageNumber}`,
                 {
                     method: "GET",
                     headers,
@@ -189,7 +189,7 @@ class Backend {
         headers.append("Authorization", `Bearer ${this.token}`);
 
         try {
-            const response = await fetch(`${this.baseURL}/Project/${id}`, {
+            const response = await fetch(`${this.baseURL}/api/Project/GetById/${id}`, {
                 method: "GET",
                 headers,
                 redirect: "follow",
@@ -207,7 +207,7 @@ class Backend {
         headers.append("Content-Type", "application/json");
 
         try {
-            const response = await fetch(`${this.baseURL}/Project/create`, {
+            const response = await fetch(`${this.baseURL}/api/Project/CreateProject`, {
                 method: "POST",
                 headers,
                 redirect: "follow",
@@ -225,7 +225,7 @@ class Backend {
         headers.append("Content-Type", "application/json");
 
         try {
-            const response = await fetch(`${this.baseURL}/Project/${id}`, {
+            const response = await fetch(`${this.baseURL}/api/Project/UpdateProject/${id}`, {
                 method: "PUT",
                 headers,
                 redirect: "follow",
@@ -243,7 +243,7 @@ class Backend {
         headers.append("Authorization", `Bearer ${this.token}`);
 
         try {
-            const response = await fetch(`${this.baseURL}/Project/${id}`, {
+            const response = await fetch(`${this.baseURL}/api/Project/DeleteProject/${id}`, {
                 method: "DELETE",
                 headers,
                 redirect: "follow",
@@ -255,7 +255,7 @@ class Backend {
         }
     }
 
-    //? Translation
+    // Translation
 
     async getTranslations(parentId: string, search: string) {
         const headers = new Headers();
@@ -263,7 +263,7 @@ class Backend {
 
         try {
             const response = await fetch(
-                `${this.baseURL}/Product?parentId=${parentId}&search=${search}`,
+                `${this.baseURL}/api/ProjectDetail/GetAllProjectDetails?parentId=${parentId}&search=${search}`,
                 {
                     method: "GET",
                     headers,
@@ -282,7 +282,7 @@ class Backend {
         headers.append("Authorization", `Bearer ${this.token}`);
 
         try {
-            const response = await fetch(`${this.baseURL}/Product/${id}`, {
+            const response = await fetch(`${this.baseURL}/api/ProjectDetail/GetProjectDetailById/${id}`, {
                 method: "GET",
                 headers,
                 redirect: "follow",
@@ -300,7 +300,7 @@ class Backend {
         headers.append("Content-Type", "application/json");
 
         try {
-            const response = await fetch(`${this.baseURL}/Product`, {
+            const response = await fetch(`${this.baseURL}/api/ProjectDetail/CreateProjectDetail`, {
                 method: "POST",
                 headers,
                 redirect: "follow",
@@ -319,7 +319,7 @@ class Backend {
         headers.append("Content-Type", "application/json");
 
         try {
-            const response = await fetch(`${this.baseURL}/Product/${id}`, {
+            const response = await fetch(`${this.baseURL}/api/ProjectDetail/UpdateProjectDetail/${id}`, {
                 method: "PUT",
                 headers,
                 redirect: "follow",
@@ -337,7 +337,7 @@ class Backend {
         headers.append("Authorization", `Bearer ${this.token}`);
 
         try {
-            const response = await fetch(`${this.baseURL}/Product/${id}`, {
+            const response = await fetch(`${this.baseURL}/api/ProjectDetail/DeleteProjectDetail/${id}`, {
                 method: "DELETE",
                 headers,
                 redirect: "follow",
@@ -349,14 +349,14 @@ class Backend {
         }
     }
 
-    //? Languages
+    // Languages
 
     async languages() {
         const headers = new Headers();
         headers.append("Authorization", `Bearer ${this.token}`);
 
         try {
-            const response = await fetch(`${this.baseURL}/Language`, {
+            const response = await fetch(`${this.baseURL}/api/Language/GetAllLanguages`, {
                 method: "GET",
                 headers,
                 redirect: "follow",
@@ -377,7 +377,7 @@ class Backend {
         headers.append("Authorization", `Bearer ${this.token}`);
 
         try {
-            const response = await fetch(`${this.baseURL}/Language/${id}`, {
+            const response = await fetch(`${this.baseURL}/api/Language/GetLanguageById/:${id}`, {
                 method: "GET",
                 headers,
                 redirect: "follow",
@@ -395,7 +395,7 @@ class Backend {
         headers.append("Content-Type", "application/json");
 
         try {
-            const response = await fetch(`${this.baseURL}/Language`, {
+            const response = await fetch(`${this.baseURL}/api/Language/CreateLanguage`, {
                 method: "POST",
                 headers,
                 redirect: "follow",
@@ -414,7 +414,7 @@ class Backend {
         headers.append("Content-Type", "application/json");
 
         try {
-            const response = await fetch(`${this.baseURL}/Language/${id}`, {
+            const response = await fetch(`${this.baseURL}/api/Language/UpdateLanguage/${id}`, {
                 method: "PUT",
                 headers,
                 redirect: "follow",
@@ -432,7 +432,7 @@ class Backend {
         headers.append("Authorization", `Bearer ${this.token}`);
 
         try {
-            const response = await fetch(`${this.baseURL}/Language/${id}`, {
+            const response = await fetch(`${this.baseURL}/api/Language/DeleteLanguage/${id}`, {
                 method: "DELETE",
                 headers,
                 redirect: "follow",
