@@ -10,8 +10,8 @@ const AddProject = () => {
     const router = useRouter();
     const [datas, setDatas] = useState({
         name: "",
-        defaultLanguage: "",
-        AvailableLanguageIds: [] as string[],
+        defaultLanguageId: 0,
+        AvailableLanguageIds: [] as number[],
     });
     const HandleSubmit = (e: any) => {
         e.preventDefault();
@@ -47,7 +47,7 @@ const AddProject = () => {
                         onChange={(e) =>
                             setDatas({
                                 ...datas,
-                                defaultLanguage: e.target.value,
+                                defaultLanguageId: Number(e.target.value),
                             })
                         }
                         placeholder="Выберите язык"
@@ -69,7 +69,7 @@ const AddProject = () => {
                         selectionMode="multiple"
                         className={style.select}
                         onChange={(e) => {
-                            const selectedValues = e.target.value.split(',').map((item: string) => item.trim());
+                            const selectedValues = e.target.value.split(',').map((item: string) => Number(item.trim()));
                             setDatas({
                                 ...datas,
                                 AvailableLanguageIds: selectedValues,
@@ -90,7 +90,7 @@ const AddProject = () => {
                             color="primary"
                             isDisabled={
                                 !datas?.AvailableLanguageIds ||
-                                !datas?.defaultLanguage ||
+                                !datas?.defaultLanguageId ||
                                 !datas?.name
                                     ? true
                                     : false
