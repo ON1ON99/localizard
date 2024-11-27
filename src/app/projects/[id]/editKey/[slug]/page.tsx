@@ -18,7 +18,7 @@ interface Tag {
 }
 
 interface Translation {
-    key: string;
+    key: number;
     language: string;
     text: string;
 }
@@ -155,7 +155,7 @@ const EditKey: React.FC = () => {
                     </div> */}
                     {languages
                         .filter((lang) =>
-                            projectData?.availableLanguage.includes(lang.key),
+                            projectData?.AvailableLanguageIds.includes(lang.key),
                         )
                         .map((item) => (
                             <div

@@ -9,12 +9,12 @@ import { languages } from "@/shared/mock_data";
 
 interface Tag {
     id: number;
-    text: string;
+    name: string;
 }
 
 interface Translation {
-    key: string;
-    language: string;
+    languageId: number;
+    // language: string;
     text: string;
 }
 
@@ -30,10 +30,9 @@ interface GetData {
 }
 interface projectData {
     name: string;
-    defaultLanguage: string;
-    availableLanguage: string[];
+    defaultLanguageId: number;
+    availableLanguageIds: number[];
 }
-
 interface Datas extends Omit<GetData, "tags"> {
     tags: number[];
 }
@@ -53,8 +52,8 @@ const AddKey: React.FC = () => {
     // const [textTranslation, setTextTranslation] = useState<string>("");
     const [projectData, setProjectData] = useState<projectData>({
         name: "",
-        defaultLanguage: "",
-        availableLanguage: [],
+        defaultLanguageId: 0,
+        availableLanguageIds: [],
     });
 
     const [datas, setDatas] = useState<Datas>({
@@ -71,17 +70,17 @@ const AddKey: React.FC = () => {
     }, [children, path]);
 
     useEffect(() => {
-        if (projectData.availableLanguage.length > 0) {
-            setDatas((prev) => ({
+        if (projectData?.availableLanguageIds?.length > 0) {
+            setDatas((prev: any) => ({
                 ...prev,
                 parentId: Number(path),
                 translations: languages
-                    .filter((lang) =>
-                        projectData.availableLanguage.includes(lang.key),
+                    .filter((lang: any) =>
+                        projectData?.availableLanguageIds?.includes(lang?.key),
                     )
                     .map((lang) => ({
                         key: lang.key,
-                        language: lang.value,
+                        // language: lang.value,
                         text: "",
                     })),
             }));
@@ -94,8 +93,8 @@ const AddKey: React.FC = () => {
     ) => {
         setDatas((prev) => ({
             ...prev,
-            translations: prev.translations.map((t) =>
-                t.key === langKey
+            translations: prev.translations.map((t: any) =>
+                t?.key === langKey
                     ? {
                           ...t,
                           text: e.target.value,
@@ -131,12 +130,22 @@ const AddKey: React.FC = () => {
     //     { key: "web", label: "Web" },
     // ];
 
-    //!! const textKeySymbolcheck = (e: any) => {    
-    //     if (e.match(/[^a-zA-Z0-9]/g)) {
-    //         e = e.replace(/[^a-zA-Z0-9]/g, '');
-    //     }
-    //     return e;
-    // }
+    const copyText = (text: string) => {
+        const regex = /\@\[(.*?)\]\@/g;
+        const matches = text.match(regex);
+        if (matches) {
+            return matches;
+        }
+        return null;
+    };
+
+    const text = "Hello @[world]@";
+    const copy = copyText(text); 
+
+
+    console.log(copy);
+
+
 
     return (
         <div className={style.wrapper}>
@@ -181,7 +190,7 @@ const AddKey: React.FC = () => {
                     >
                         {tags.map((tag) => (
                             <SelectItem key={tag.id} value={tag.id}>
-                                {tag.text}
+                                {tag.name}
                             </SelectItem>
                         ))}
                     </Select>
@@ -225,9 +234,9 @@ const AddKey: React.FC = () => {
 
                     {languages
                         .filter((lang) =>
-                            projectData?.availableLanguage.includes(lang.key),
+                            projectData?.availableLanguageIds?.includes(lang.key),
                         )
-                        .map((item) => (
+                        .map((item: any) => (
                             <div
                                 className={style.input_containers}
                                 key={item.key}
@@ -245,7 +254,7 @@ const AddKey: React.FC = () => {
                                             handleTranslationChange(e, item.key)
                                         }
                                         type="text"
-                                        placeholder="Введите текст"
+                                        placeholder="Введите текст" 
                                     />
                                 </div>
                             </div>

@@ -21,7 +21,9 @@ import edit from "../assests/menu.svg";
 import backend from "@/shared/backend";
 
 export default function KeysTable({ id, search }: any) {
+    
     const pathId = window.location.pathname.split("/")[2];
+
     const router = useRouter();
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);

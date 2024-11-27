@@ -24,16 +24,16 @@ import { languages } from "@/shared/mock_data";
 export default function Tables() {
     const [page, setPage] = useState(1);
     interface ProjectData {
-        totalRecords: number;
-        data: any[];
+        totalCount: number;
+        projects: any[];
         pageNumber?: number;
         total?: number;
         pageSize?: number;
     }
     
     const [data, setData] = useState<ProjectData>({
-        totalRecords: 0,
-        data: [],
+        totalCount: 0,
+        projects: [],
     });
     const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
@@ -56,13 +56,13 @@ export default function Tables() {
     const rowsPerPage = 10;
 
     const pages = useMemo(() => {
-        return data?.totalRecords
-            ? Math.ceil(data.totalRecords / rowsPerPage)
+        return data?.totalCount
+            ? Math.ceil(data.totalCount / rowsPerPage)
             : 0;
-    }, [data?.totalRecords, rowsPerPage]);
+    }, [data?.totalCount, rowsPerPage]);
 
     const loadingState =
-        isLoading || data?.data?.length === 0 ? "loading" : "idle";
+        isLoading || data?.projects?.length === 0 ? "loading" : "idle";
 
     const renderCell = useCallback(
         (user: any, columnKey: any) => {
@@ -78,17 +78,20 @@ export default function Tables() {
                             <span>{cellValue}</span>
                         </div>
                     );
-                case "defaultLAnguage":
+                case "defaultLanguageId":
                     return (
                         <div>
                             {languages.find((l) => l.key === cellValue)
                                 ?.value ?? cellValue}
                         </div>
+                        // <div>
+                        //     {cellValue?.name}
+                        // </div>
                     );
-                case "availableLanguage":
+                case "availableLanguageIds":
                     return (
                         <div className="flex gap-1 w-full">
-                            {cellValue.slice(0, 3).map((lang: string) => (
+                            {cellValue?.slice(0, 3).map((lang: any) => (
                                 <span
                                     key={lang}
                                     className="text-xs font-medium py-0.5 px-2 rounded-3xl border bg-gray-800 bg-opacity-5"
@@ -97,7 +100,17 @@ export default function Tables() {
                                         ?.value ?? lang}
                                 </span>
                             ))}
-                            {cellValue.length > 3 && (
+                            {/* {
+                                cellValue?.map((lang: any) => (
+                                    <span
+                                        key={lang.id}
+                                        className="text-xs font-medium py-0.5 px-2 rounded-3xl border bg-gray-800 bg-opacity-5"
+                                    >
+                                        {lang.name}
+                                    </span>
+                                ))
+                            } */}
+                            {cellValue?.length > 3 && (
                                 <span className="text-xs font-medium py-0.5 px-2 rounded-3xl border bg-gray-800 bg-opacity-5">
                                     +{cellValue.length - 3}
                                 </span>
@@ -105,8 +118,8 @@ export default function Tables() {
                         </div>
                     );
 
-                case "CreatedAt":
-                case "UpdatedAt":
+                case "createdAt":
+                case "updatedAt":
                     return new Date(cellValue).toLocaleString();
                 case "actions":
                     return (
@@ -186,18 +199,18 @@ export default function Tables() {
         >
             <TableHeader>
                 <TableColumn key="name">Название</TableColumn>
-                <TableColumn key="defaultLAnguage">
+                <TableColumn key="defaultLanguageId">
                     Язык по умолчанию
                 </TableColumn>
-                <TableColumn key="availableLanguage">
+                <TableColumn key="availableLanguageIds">
                     Доступные языки
                 </TableColumn>
-                <TableColumn key="CreatedAt">Дата добавления</TableColumn>
-                <TableColumn key="UpdatedAt">Последнее обновление</TableColumn>
+                <TableColumn key="createdAt">Дата добавления</TableColumn>
+                <TableColumn key="updatedAt">Последнее обновление</TableColumn>
                 <TableColumn key="actions"> </TableColumn>
             </TableHeader>
             <TableBody
-                items={data?.data ?? []}
+                items={data?.projects ?? []}
                 loadingContent={<Spinner />}
                 loadingState={loadingState}
                 emptyContent={"No rows to display."}

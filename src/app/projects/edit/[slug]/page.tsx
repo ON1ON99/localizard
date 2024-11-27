@@ -12,12 +12,12 @@ const EditProject = () => {
     const [getData, setGetData] = useState({
         name: "",
         defaultLanguage: "",
-        availableLanguage: [] as string[],
+        AvailableLanguageIds: [] as string[],
     });
     const [datas, setDatas] = useState({
         name: "",
         defaultLanguage: "",
-        availableLanguage: [] as string[],
+        AvailableLanguageIds: [] as string[],
     });
 
     useEffect(() => {
@@ -88,14 +88,14 @@ const EditProject = () => {
                             labelPlacement="outside"
                             isRequired
                             placeholder="Выберите язык"
-                            selectedKeys={new Set(datas.availableLanguage)}
+                            selectedKeys={new Set(datas.AvailableLanguageIds)}
                             variant="bordered"
                             selectionMode="multiple"
                             className={style.select}
                             onSelectionChange={(keys) => {
                                 setDatas({
                                     ...datas,
-                                    availableLanguage: Array.from(keys) as string[],
+                                    AvailableLanguageIds: Array.from(keys) as string[],
                                 });
                             }}
                         >

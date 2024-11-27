@@ -1,134 +1,134 @@
 export const languages = [
     {
-        key: "ru",
+        key: 1,
         value: "Русский",
     },
     {
-        key: "uz",
+        key: 2,
         value: "Узбекский",
     },
     {
-        key: "en",
+        key: 3,
         value: "Английский",
     },
     {
-        key: "kz",
+        key: 4,
         value: "Казахский",
     },
     {
-        key: "de",
+        key: 5,
         value: "Немецкий",
     },
     {
-        key: "fr",
+        key: 6,
         value: "Французский",
     },
     {
-        key: "es",
+        key: 7,
         value: "Испанский",
     },
     {
-        key: "it",
+        key: 8,
         value: "Итальянский",
     },
     {
-        key: "pt",
+        key: 9,
         value: "Португальский",
     },
     {
-        key: "zh",
+        key: 10,
         value: "Китайский",
     },
     {
-        key: "ja",
+        key: 11,
         value: "Японский",
     },
     {
-        key: "ko",
+        key: 12,
         value: "Корейский",
     },
     {
-        key: "ar",
+        key: 13,
         value: "Арабский",
     },
     {
-        key: "tr",
+        key: 14,
         value: "Турецкий",
     },
     {
-        key: "vi",
+        key: 15,
         value: "Вьетнамский",
     },
     {
-        key: "th",
+        key: 16,
         value: "Тайский",
     },
     {
-        key: "hi",
+        key: 17,
         value: "Хинди",
     },
     {
-        key: "bn",
+        key: 18,
         value: "Бенгальский",
     },
     {
-        key: "ur",
+        key: 19,
         value: "Урду",
     },
     {
-        key: "fa",
+        key: 20,
         value: "Персидский",
     },
     {
-        key: "he",
+        key: 21,
         value: "Иврит",
     },
     {
-        key: "id",
+        key: 22,
         value: "Индонезийский",
     },
     {
-        key: "ms",
+        key: 23,
         value: "Малайский",
     },
     {
-        key: "fil",
+        key: 24,
         value: "Филиппинский",
     },
     {
-        key: "sw",
+        key: 25,
         value: "Суахили",
     },
     {
-        key: "yo",
+        key: 26,
         value: "Йоруба",
     },
     {
-        key: "ha",
+        key: 27,
         value: "Хауса",
     },
     {
-        key: "ig",
+        key: 28,
         value: "Игбо",
     },
     {
-        key: "am",
+        key: 29,
         value: "Амхарский",
     },
     {
-        key: "om",
+        key: 30,
         value: "Оромо",
     },
     {
-        key: "ti",
+        key: 31,
         value: "Тигринья",
     },
     {
-        key: "so",
+        key: 32,
         value: "Сомали",
     },
     {
-        key: "st",
+        key: 33,
         value: "Сесото",
     },
 ];

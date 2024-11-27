@@ -1,6 +1,6 @@
 class Backend {
     private token: string = "";
-    private baseURL: string = "https://0t18bjmv-7283.euw.devtunnels.ms";
+    private baseURL: string = "https://88f3-195-158-8-210.ngrok-free.app";
 
     constructor() {
         if (typeof window !== "undefined") {
@@ -40,6 +40,7 @@ class Backend {
     async register(username: string, password: string, role: string) {
         const headers = new Headers();
         headers.append("Content-Type", "application/json");
+        
 
         try {
             const response = await fetch(`${this.baseURL}/api/Auth/Register`, {
@@ -65,6 +66,8 @@ class Backend {
     async users(pageNumber: number) {
         const headers = new Headers();
         headers.append("Authorization", `Bearer ${this.token}`);
+        headers.append("ngrok-skip-browser-warning", "69420")
+
 
         try {
             const response = await fetch(
@@ -89,6 +92,8 @@ class Backend {
     async user(id: string) {
         const headers = new Headers();
         headers.append("Authorization", `Bearer ${this.token}`);
+        headers.append("ngrok-skip-browser-warning", "69420")
+
 
         try {
             const response = await fetch(`${this.baseURL}/api/User/GetById/${id}`, {
@@ -107,6 +112,8 @@ class Backend {
         const headers = new Headers();
         headers.append("Authorization", `Bearer ${this.token}`);
         headers.append("Content-Type", "application/json");
+        headers.append("ngrok-skip-browser-warning", "69420")
+
 
         try {
             const response = await fetch(`${this.baseURL}/api/User/CreateUser`, {
@@ -126,6 +133,8 @@ class Backend {
         const headers = new Headers();
         headers.append("Authorization", `Bearer ${this.token}`);
         headers.append("Content-Type", "application/json");
+        headers.append("ngrok-skip-browser-warning", "69420")
+
 
         try {
             const response = await fetch(`${this.baseURL}/api/User/UpdateUser?userId=${id}`, {
@@ -144,6 +153,8 @@ class Backend {
     async deleteUser(id: string) {
         const headers = new Headers();
         headers.append("Authorization", `Bearer ${this.token}`);
+        headers.append("ngrok-skip-browser-warning", "69420")
+
 
         try {
             const response = await fetch(`${this.baseURL}/api/User/DeleteUser?userId=${id}`, {
@@ -163,6 +174,7 @@ class Backend {
     async projects(pageNumber: number) {
         const headers = new Headers();
         headers.append("Authorization", `Bearer ${this.token}`);
+        headers.append("ngrok-skip-browser-warning", "69420")
 
         try {
             const response = await fetch(
@@ -187,6 +199,8 @@ class Backend {
     async project(id: string) {
         const headers = new Headers();
         headers.append("Authorization", `Bearer ${this.token}`);
+        headers.append("ngrok-skip-browser-warning", "69420")
+
 
         try {
             const response = await fetch(`${this.baseURL}/api/Project/GetById/${id}`, {
@@ -205,6 +219,8 @@ class Backend {
         const headers = new Headers();
         headers.append("Authorization", `Bearer ${this.token}`);
         headers.append("Content-Type", "application/json");
+        headers.append("ngrok-skip-browser-warning", "69420")
+
 
         try {
             const response = await fetch(`${this.baseURL}/api/Project/CreateProject`, {
@@ -223,6 +239,8 @@ class Backend {
         const headers = new Headers();
         headers.append("Authorization", `Bearer ${this.token}`);
         headers.append("Content-Type", "application/json");
+        headers.append("ngrok-skip-browser-warning", "69420")
+
 
         try {
             const response = await fetch(`${this.baseURL}/api/Project/UpdateProject/${id}`, {
@@ -241,6 +259,8 @@ class Backend {
     async deleteProject(id: string) {
         const headers = new Headers();
         headers.append("Authorization", `Bearer ${this.token}`);
+        headers.append("ngrok-skip-browser-warning", "69420")
+
 
         try {
             const response = await fetch(`${this.baseURL}/api/Project/DeleteProject/${id}`, {
@@ -260,10 +280,12 @@ class Backend {
     async getTranslations(parentId: string, search: string) {
         const headers = new Headers();
         headers.append("Authorization", `Bearer ${this.token}`);
+        headers.append("ngrok-skip-browser-warning", "69420")
+
 
         try {
             const response = await fetch(
-                `${this.baseURL}/api/ProjectDetail/GetAllProjectDetails?parentId=${parentId}&search=${search}`,
+                `${this.baseURL}/api/ProjectDetail/GetAllProjectDetails?search=${search}`,
                 {
                     method: "GET",
                     headers,
@@ -280,6 +302,8 @@ class Backend {
     async translation(id: string) {
         const headers = new Headers();
         headers.append("Authorization", `Bearer ${this.token}`);
+        headers.append("ngrok-skip-browser-warning", "69420")
+
 
         try {
             const response = await fetch(`${this.baseURL}/api/ProjectDetail/GetProjectDetailById/${id}`, {
@@ -298,6 +322,8 @@ class Backend {
         const headers = new Headers();
         headers.append("Authorization", `Bearer ${this.token}`);
         headers.append("Content-Type", "application/json");
+        headers.append("ngrok-skip-browser-warning", "69420")
+
 
         try {
             const response = await fetch(`${this.baseURL}/api/ProjectDetail/CreateProjectDetail`, {
@@ -317,6 +343,8 @@ class Backend {
         const headers = new Headers();
         headers.append("Authorization", `Bearer ${this.token}`);
         headers.append("Content-Type", "application/json");
+        headers.append("ngrok-skip-browser-warning", "69420")
+
 
         try {
             const response = await fetch(`${this.baseURL}/api/ProjectDetail/UpdateProjectDetail/${id}`, {
@@ -335,6 +363,8 @@ class Backend {
     async deleteTranslation(id: string) {
         const headers = new Headers();
         headers.append("Authorization", `Bearer ${this.token}`);
+        headers.append("ngrok-skip-browser-warning", "69420")
+
 
         try {
             const response = await fetch(`${this.baseURL}/api/ProjectDetail/DeleteProjectDetail/${id}`, {
@@ -354,6 +384,8 @@ class Backend {
     async languages() {
         const headers = new Headers();
         headers.append("Authorization", `Bearer ${this.token}`);
+        headers.append("ngrok-skip-browser-warning", "69420")
+
 
         try {
             const response = await fetch(`${this.baseURL}/api/Language/GetAllLanguages`, {
@@ -375,6 +407,8 @@ class Backend {
     async language(id: string) {
         const headers = new Headers();
         headers.append("Authorization", `Bearer ${this.token}`);
+        headers.append("ngrok-skip-browser-warning", "69420")
+
 
         try {
             const response = await fetch(`${this.baseURL}/api/Language/GetLanguageById/:${id}`, {
@@ -393,6 +427,8 @@ class Backend {
         const headers = new Headers();
         headers.append("Authorization", `Bearer ${this.token}`);
         headers.append("Content-Type", "application/json");
+        headers.append("ngrok-skip-browser-warning", "69420")
+
 
         try {
             const response = await fetch(`${this.baseURL}/api/Language/CreateLanguage`, {
@@ -412,6 +448,8 @@ class Backend {
         const headers = new Headers();
         headers.append("Authorization", `Bearer ${this.token}`);
         headers.append("Content-Type", "application/json");
+        headers.append("ngrok-skip-browser-warning", "69420")
+
 
         try {
             const response = await fetch(`${this.baseURL}/api/Language/UpdateLanguage/${id}`, {
@@ -430,6 +468,8 @@ class Backend {
     async deleteLanguage(id: string) {
         const headers = new Headers();
         headers.append("Authorization", `Bearer ${this.token}`);
+        headers.append("ngrok-skip-browser-warning", "69420")
+
 
         try {
             const response = await fetch(`${this.baseURL}/api/Language/DeleteLanguage/${id}`, {
@@ -449,9 +489,11 @@ class Backend {
     async tags() {
         const headers = new Headers();
         headers.append("Authorization", `Bearer ${this.token}`);
+        headers.append("ngrok-skip-browser-warning", "69420")
+
 
         try {
-            const response = await fetch(`${this.baseURL}/Tags/tags`, {
+            const response = await fetch(`${this.baseURL}/api/Tag/GetAllTags`, {
                 method: "GET",
                 headers,
                 redirect: "follow",

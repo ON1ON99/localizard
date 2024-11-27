@@ -97,7 +97,7 @@ const AddLanguage = () => {
                         placeholder="Выберите язык"
                         className="w-full"
                         variant="bordered"
-                        onSelectionChange={(value) =>
+                        onSelectionChange={(value: any) =>
                             setDatas((prevDatas) => ({
                                 ...prevDatas,
                                 name:

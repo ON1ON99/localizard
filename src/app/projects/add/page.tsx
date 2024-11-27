@@ -11,7 +11,7 @@ const AddProject = () => {
     const [datas, setDatas] = useState({
         name: "",
         defaultLanguage: "",
-        availableLanguage: [] as string[],
+        AvailableLanguageIds: [] as string[],
     });
     const HandleSubmit = (e: any) => {
         e.preventDefault();
@@ -72,7 +72,7 @@ const AddProject = () => {
                             const selectedValues = e.target.value.split(',').map((item: string) => item.trim());
                             setDatas({
                                 ...datas,
-                                availableLanguage: selectedValues,
+                                AvailableLanguageIds: selectedValues,
                             });
                         }}
                     >
@@ -89,7 +89,7 @@ const AddProject = () => {
                         <Button
                             color="primary"
                             isDisabled={
-                                !datas?.availableLanguage ||
+                                !datas?.AvailableLanguageIds ||
                                 !datas?.defaultLanguage ||
                                 !datas?.name
                                     ? true
