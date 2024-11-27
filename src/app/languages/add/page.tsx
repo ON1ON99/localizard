@@ -64,7 +64,7 @@ const AddLanguage = () => {
                                 ...prevDatas,
                                 name:
                                     languages.find(
-                                        (lang) => lang.key === value.currentKey,
+                                        (lang:any) => lang.key === value.currentKey,
                                     )?.value || "",
                             }))
                         }
