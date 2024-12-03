@@ -20,17 +20,18 @@ import Image from "next/image";
 import edit from "../assests/menu.svg";
 import backend from "@/shared/backend";
 
-export default function KeysTable({ id, search }: any) {
+export default function KeysTable({ search }: any) {
     
-    const pathId = window.location.pathname.split("/")[2];
-
+    
     const router = useRouter();
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [id, setId] = useState<string>('');
     const [languages, setLanguages] = useState<any>([]);
-
+    
     useEffect(() => {
-        backend.getTranslations(pathId, search).then((data) => {
+        const pathId = window.location.pathname.split("/")[2]; 
+        backend.getTranslations(id, search).then((data) => {
             setData(data);
         }).catch((error) => {
             console.error("Error fetching data:", error);
@@ -42,7 +43,9 @@ export default function KeysTable({ id, search }: any) {
         backend.languages().then((data) => {
             setLanguages(data);
         });
-    }, [id, search]);
+
+        setId(pathId);
+    }, [search, id]);
 
     const loadingState = isLoading ? "loading" : "idle";
 
@@ -123,7 +126,7 @@ export default function KeysTable({ id, search }: any) {
                                             .deleteTranslation(item.id)
                                             .then(() => {
                                                 setIsLoading(true);
-                                                backend.getTranslations(pathId, search).then((data) => {
+                                                backend.getTranslations(id, search).then((data) => {
                                                     setData(data);
                                                 }
                                                 ).catch((error) => {
