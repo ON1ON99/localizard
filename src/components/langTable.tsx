@@ -26,58 +26,51 @@ export default function LangTable() {
     const colors = [
         {
             key: "zero",
-            background: "#0086C914;",
+            background: "#0086C914",
             border: "1px solid #0086C93D",
-            text: "#0086C9;",
+            text: "#0086C9",
         },
         {
             key: "one",
-            background: "#6938EF14;",
+            background: "#6938EF14",
             border: "1px solid #6938EF3D",
-            text: "#6938EF;",
+            text: "#6938EF",
         },
         {
             key: "two",
-            background: "#E31B5414;",
+            background: "#E31B5414",
             border: "1px solid #E31B543D",
-            text: "#E31B54;",
+            text: "#E31B54",
         },
         {
             key: "few",
-            background: "#0E938414;",
+            background: "#0E938414",
             border: "1px solid #0E93843D",
-            text: "#0E9384;",
+            text: "#0E9384",
         },
         {
             key: "many",
-            background: "#FF440514;",
+            background: "#FF440514",
             border: "1px solid #FF44053D",
-            text: "#FF4405;",
+            text: "#FF4405",
         },
         {
             key: "other",
-            background: "#0010240A;",
+            background: "#0010240A",
             border: "1px solid var(--separator-normal, #75808A29)",
-            text: "#001024;",
+            text: "#001024",
         },
     ];
+
     useEffect(() => {
         setIsLoading(true);
         backend
             .languages()
-            .then((responseData) => {
-                setData(responseData);
-            })
-            .catch((error) => {
-                console.error("Error fetching data:", error);
-            })
-            .finally(() => {
-                setIsLoading(false); // Stop loading
-            });
+            .then((responseData) => setData(responseData))
+            .catch((error) => console.error("Error fetching data:", error))
+            .finally(() => setIsLoading(false));
     }, []);
 
-    type LoadingState = "loading" | "empty" | "idle";
-    const loadingState: LoadingState = isLoading ? "loading" : data?.length === 0 ? "empty" : "idle";
     const renderCell = React.useCallback(
         (user: any, columnKey: any) => {
             const cellValue = user[columnKey];
@@ -88,7 +81,7 @@ export default function LangTable() {
                 case "plurals":
                     return (
                         <div className="flex gap-2">
-                            {user?.plurals  ?.map((item: any) => (
+                            {user?.plurals?.map((item: any) => (
                                 <div
                                     style={{
                                         border: colors.find(
@@ -130,7 +123,7 @@ export default function LangTable() {
                                             router.push(
                                                 `languages/edit/${user.id}`,
                                             )
-                                        } // Directly use user.id here
+                                        }
                                     >
                                         Изменить
                                     </DropdownItem>
@@ -138,21 +131,24 @@ export default function LangTable() {
                                         color="danger"
                                         key="delete"
                                         onClick={() => {
-                                            backend.deleteLanguage(user.id).then(
-                                                () => {
+                                            backend
+                                                .deleteLanguage(user.id)
+                                                .then(() => {
                                                     setIsLoading(true);
-                                                    backend.languages().then(
-                                                        (responseData) => {
-                                                            setData(responseData);
-                                                            setIsLoading(false);
-                                                        },
-                                                    );
-                                                }
-                                            ).catch((error) => {
-                                                console.error("Error deleting language:", error);
-                                                setIsLoading(false);
-                                            });
-                                        }} // Directly use user.id here
+                                                    backend
+                                                        .languages()
+                                                        .then(setData)
+                                                        .finally(() =>
+                                                            setIsLoading(false),
+                                                        );
+                                                })
+                                                .catch((error) =>
+                                                    console.error(
+                                                        "Error deleting language:",
+                                                        error,
+                                                    ),
+                                                );
+                                        }}
                                     >
                                         Удалить
                                     </DropdownItem>
@@ -165,10 +161,12 @@ export default function LangTable() {
             }
         },
         [router, colors],
-    ); // Added router to dependencies
+    );
 
     return (
-        <Table aria-label="Example table with client async pagination">
+        <Table
+            aria-label="Example table with client async pagination"
+        >
             <TableHeader>
                 <TableColumn key="name">Язык</TableColumn>
                 <TableColumn key="plurals">Множественное число</TableColumn>
@@ -176,10 +174,14 @@ export default function LangTable() {
                 <TableColumn key="actions"> </TableColumn>
             </TableHeader>
             <TableBody
-                items={data ?? []}
-                loadingContent={<Spinner />}
-                loadingState={loadingState}
-                emptyContent={"No rows to display."}
+                items={isLoading ? [] : data}
+                emptyContent={
+                    isLoading ? (
+                        <Spinner />
+                    ) : (
+                        "No rows to display."
+                    )
+                }
             >
                 {(item: any) => (
                     <TableRow key={item?.name}>
