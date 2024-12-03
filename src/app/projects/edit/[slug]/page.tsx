@@ -3,7 +3,7 @@ import backend from "@/shared/backend";
 import style from "../../index.module.css";
 import { Button, Select, SelectItem } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 // import { languages } from "@/shared/mock_data";
 
 const EditProject = () => {
