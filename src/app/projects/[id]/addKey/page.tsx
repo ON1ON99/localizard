@@ -5,7 +5,7 @@ import style from "./index.module.css";
 import { useEffect, useState, FormEvent } from "react";
 import backend from "@/shared/backend";
 import { useRouter } from "next/navigation";
-import { languages } from "@/shared/mock_data";
+// import { languages } from "@/shared/mock_data";
 
 interface Tag {
     id: number;
@@ -13,16 +13,18 @@ interface Tag {
 }
 
 interface Translation {
+    id: number;
     languageId: number;
+    symbolKey: string;
     // language: string;
     text: string;
 }
 
 interface GetData {
-    namekeys: string;
-    parentId: number;
+    key: string;
+    projectInfoId: number;
     description: string;
-    tags: Tag[];
+    tagIds: Tag[];
     // fileNameIOS: string;
     // fileNameAndroid: string;
     // fileNameWeb: string;
@@ -33,8 +35,8 @@ interface projectData {
     defaultLanguageId: number;
     availableLanguageIds: number[];
 }
-interface Datas extends Omit<GetData, "tags"> {
-    tags: number[];
+interface Datas extends Omit<GetData, "tagIds"> {
+    tagIds: number[];
 }
 
 const AddKey: React.FC = () => {
@@ -49,6 +51,7 @@ const AddKey: React.FC = () => {
             : "";
 
     const [tags, setTags] = useState<Tag[]>([]);
+    const [languages, setLanguages] = useState<any>([]);
     // const [textTranslation, setTextTranslation] = useState<string>("");
     const [projectData, setProjectData] = useState<projectData>({
         name: "",
@@ -57,30 +60,64 @@ const AddKey: React.FC = () => {
     });
 
     const [datas, setDatas] = useState<Datas>({
-        namekeys: "",
+        key: "",
         description: "",
-        tags: [],
+        tagIds: [],
         translations: [],
-        parentId: 0,
+        projectInfoId: 0,
     });
 
     useEffect(() => {
         backend.tags().then((data) => setTags(data));
         backend.project(path).then((data) => setProjectData(data));
+        backend.languages().then((data) => setLanguages(data));
     }, [children, path]);
+    //! Copy text
+    const copyText = (text: string) => {
+        console.log(text, "text");
+        
+        const regex = /\@\[(.*?)\]\@/g;
+        const matches = text?.match(regex);
+        if (matches) {
+            return matches;
+        }
+        return null;
+    };
+
+    // text example = "Hello @[world]@";
+    useEffect(() => {
+        const copy = copyText(datas.translations[0]?.text);
+        console.log(copy, "copy");
+        
+        if (copy) {
+            const symbolKey = copy[0].replace(/[@\[\]@]/g, "");
+            setDatas((prev) => ({
+                ...prev,
+                translations: prev.translations.map((t: any) =>
+                    t?.languageId === datas.translations[0]?.languageId
+                        ? {
+                              ...t,
+                              symbolKey: `@[${symbolKey}]@`,
+                          }
+                        : t,
+                ),
+            }));
+        }
+    }, [datas.translations]);
 
     useEffect(() => {
         if (projectData?.availableLanguageIds?.length > 0) {
             setDatas((prev: any) => ({
                 ...prev,
-                parentId: Number(path),
+                projectInfoId: Number(path),
                 translations: languages
                     .filter((lang: any) =>
-                        projectData?.availableLanguageIds?.includes(lang?.key),
+                        projectData?.availableLanguageIds?.includes(lang?.id),
                     )
-                    .map((lang) => ({
-                        key: lang.key,
+                    .map((lang: any) => ({
+                        languageId: lang?.id,
                         // language: lang.value,
+                        symbolKey: "",
                         text: "",
                     })),
             }));
@@ -89,12 +126,12 @@ const AddKey: React.FC = () => {
 
     const handleTranslationChange = (
         e: React.ChangeEvent<HTMLInputElement>,
-        langKey: string,
+        langKey: number,
     ) => {
         setDatas((prev) => ({
             ...prev,
             translations: prev.translations.map((t: any) =>
-                t?.key === langKey
+                t?.languageId === langKey
                     ? {
                           ...t,
                           text: e.target.value,
@@ -130,22 +167,7 @@ const AddKey: React.FC = () => {
     //     { key: "web", label: "Web" },
     // ];
 
-    const copyText = (text: string) => {
-        const regex = /\@\[(.*?)\]\@/g;
-        const matches = text.match(regex);
-        if (matches) {
-            return matches;
-        }
-        return null;
-    };
-
-    const text = "Hello @[world]@";
-    const copy = copyText(text); 
-
-
-    console.log(copy);
-
-
+    
 
     return (
         <div className={style.wrapper}>
@@ -155,14 +177,14 @@ const AddKey: React.FC = () => {
                 </div>
                 <h1 className={style.title}>Добавить ключ</h1>
                 <form className={style.form} onSubmit={handleSubmit}>
-                    <label htmlFor="name">Название ключа</label>
+                    <label htmlFor="key">Название ключа</label>
                     <input
                         className={style.input}
                         onChange={(e) =>
-                            setDatas({ ...datas, namekeys: e.target.value })
+                            setDatas({ ...datas, key: e.target.value })
                         }
                         type="text"
-                        id="name"
+                        id="key"
                     />
                     <label htmlFor="description">Описание</label>
                     <input
@@ -183,7 +205,7 @@ const AddKey: React.FC = () => {
                         onSelectionChange={(keys) =>
                             setDatas({
                                 ...datas,
-                                tags: Array.from(keys, Number),
+                                tagIds: Array.from(keys, Number),
                             })
                         }
                         isRequired
@@ -233,28 +255,27 @@ const AddKey: React.FC = () => {
                     </div> */}
 
                     {languages
-                        .filter((lang) =>
-                            projectData?.availableLanguageIds?.includes(lang.key),
+                        .filter((lang: any) =>
+                            projectData?.availableLanguageIds?.includes(lang.id),
                         )
                         .map((item: any) => (
                             <div
                                 className={style.input_containers}
-                                key={item.key}
+                                key={item.id}
                             >
                                 <label
                                     className="p-2 border-b-1 text-xs"
-                                    htmlFor="text"
                                 >
-                                    {item.value}
+                                    {item.name}
                                 </label>
                                 <div className="pb-4 pt-2 px-6">
                                     <input
                                         className="p-1 border rounded-lg w-full outline-none"
                                         onChange={(e) =>
-                                            handleTranslationChange(e, item.key)
+                                            handleTranslationChange(e, item.id)
                                         }
                                         type="text"
-                                        placeholder="Введите текст" 
+                                        placeholder="Введите текст"
                                     />
                                 </div>
                             </div>

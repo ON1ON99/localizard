@@ -5,22 +5,23 @@ import style from "../../index.module.css";
 import { useEffect, useState } from "react";
 import backend from "@/shared/backend";
 import { useRouter } from "next/navigation";
-import { languages } from "@/shared/mock_data";
+// import { languages } from "@/shared/mock_data";
 
-const AddLanguage = () => {
+const EditLanguage = () => {
     const [checked, setChecked] = useState<string[]>([]);
+    const [languages, setLanguages] = useState<any[]>([]);
     const path = location.pathname.split("/")[3];
     const router = useRouter();
     const [getData, setGetData] = useState<{
         id: number;
         name: string;
         languageCode: string;
-        pluralForms: string[];
+        plurals: string[];
     }>({
         id: 0,
         name: "",
         languageCode: "",
-        pluralForms: [],
+        plurals: [],
     });
 
     useEffect(() => {
@@ -33,12 +34,12 @@ const AddLanguage = () => {
         id: number;
         name: string;
         languageCode: string;
-        pluralForms: string[];
+        plurals: string[];
     }>({
         id: 0,
         name: "",
         languageCode: "",
-        pluralForms: [],
+        plurals: [],
     });
 
     const checkbox_data = [
@@ -50,12 +51,17 @@ const AddLanguage = () => {
         { key: "other", label: "Other" },
     ];
     useEffect(() => {
-        setDatas({ ...datas, pluralForms: checked, id: getData.id });
+        setDatas({ ...datas, plurals: checked, id: getData.id });
     }, [checked, datas]);
+    useEffect(() => {
+        backend.languages().then((data) => {
+            setLanguages(data);
+        });
+    }, []);
 
     useEffect(() => {
-        if (datas.pluralForms.length === 0) {
-            setChecked(getData.pluralForms);
+        if (datas.plurals.length === 0) {
+            setChecked(getData.plurals);
         }
 
         if (datas.name === "") {
@@ -102,14 +108,14 @@ const AddLanguage = () => {
                                 ...prevDatas,
                                 name:
                                     languages.find(
-                                        (lang) => lang.key === value.currentKey,
+                                        (lang) => lang.value === value.currentKey,
                                     )?.value || "",
                             }))
                         }
                         isRequired
                     >
                         {languages.map((language) => (
-                            <SelectItem key={language.key}>
+                            <SelectItem key={language.value}>
                                 {language.value}
                             </SelectItem>
                         ))}
@@ -129,7 +135,7 @@ const AddLanguage = () => {
 
                     <CheckboxGroups
                         setCheckbox={setChecked}
-                        value={getData.pluralForms}
+                        value={getData.plurals}
                         label={"Множественное число"}
                         labelPlacement="outside"
                         isRequired
@@ -154,4 +160,4 @@ const AddLanguage = () => {
     );
 };
 
-export default AddLanguage;
+export default EditLanguage;

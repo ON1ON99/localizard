@@ -1,6 +1,6 @@
 class Backend {
     private token: string = "";
-    private baseURL: string = "https://88f3-195-158-8-210.ngrok-free.app";
+    private baseURL: string = "https://widely-accurate-anteater.ngrok-free.app";
 
     constructor() {
         if (typeof window !== "undefined") {
@@ -93,7 +93,6 @@ class Backend {
         const headers = new Headers();
         headers.append("Authorization", `Bearer ${this.token}`);
         headers.append("ngrok-skip-browser-warning", "69420")
-
 
         try {
             const response = await fetch(`${this.baseURL}/api/User/GetById/${id}`, {
@@ -277,7 +276,7 @@ class Backend {
 
     // Translation
 
-    async getTranslations(parentId: string, search: string) {
+    async getTranslations(projectId: string, search: string) {
         const headers = new Headers();
         headers.append("Authorization", `Bearer ${this.token}`);
         headers.append("ngrok-skip-browser-warning", "69420")
@@ -285,7 +284,7 @@ class Backend {
 
         try {
             const response = await fetch(
-                `${this.baseURL}/api/ProjectDetail/GetAllProjectDetails?search=${search}`,
+                `${this.baseURL}/api/ProjectDetail/GetAllProjectDetails?projectId=${projectId}&Search=${search}`,
                 {
                     method: "GET",
                     headers,
@@ -367,7 +366,7 @@ class Backend {
 
 
         try {
-            const response = await fetch(`${this.baseURL}/api/ProjectDetail/DeleteProjectDetail/${id}`, {
+            const response = await fetch(`${this.baseURL}/api/ProjectDetail/DeleteProjectDetail?id=${id}`, {
                 method: "DELETE",
                 headers,
                 redirect: "follow",
@@ -411,7 +410,7 @@ class Backend {
 
 
         try {
-            const response = await fetch(`${this.baseURL}/api/Language/GetLanguageById/:${id}`, {
+            const response = await fetch(`${this.baseURL}/api/Language/GetLanguageById/${id}`, {
                 method: "GET",
                 headers,
                 redirect: "follow",

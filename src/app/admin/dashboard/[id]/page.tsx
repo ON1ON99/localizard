@@ -13,7 +13,7 @@ const EditUser = () => {
     const [data, setData] = useState({
         // username: "",
         id: 0,
-        passwordHash: "",
+        Password: "",
         role: "",
     });
 
@@ -46,12 +46,12 @@ const EditUser = () => {
             </h1>
 
             <form onSubmit={handleSubmit} className="flex flex-col w-1/3 gap-2">
-                <label htmlFor="passwordHash">Пароль</label>
+                <label htmlFor="Password">Пароль</label>
                 <input
-                    name="passwordHash"
+                    name="Password"
                     type="password"
                     className="h-10 p-1 text-xl border-2 rounded-lg"
-                    id="passwordHash"
+                    id="Password"
                     onChange={handleInputChange}
                 />
 

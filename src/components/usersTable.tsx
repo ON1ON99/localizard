@@ -23,15 +23,15 @@ import backend from "@/shared/backend";
 export default function UsersList() {
     const [page, setPage] = useState(1);
     interface ProjectData {
-        totalRecords: number;
-        data: any[];
+        totalCount: number;
+        data?: any[];
         pageNumber?: number;
-        total?: number;
+        totalPages?: number;
         pageSize?: number;
     }
 
     const [data, setData] = useState<ProjectData>({
-        totalRecords: 0,
+        totalCount: 0,
         data: [],
     });
     const [isLoading, setIsLoading] = useState(true);
@@ -55,10 +55,10 @@ export default function UsersList() {
     const rowsPerPage = 10;
 
     const pages = useMemo(() => {
-        return data?.totalRecords
-            ? Math.ceil(data.totalRecords / rowsPerPage)
+        return data?.totalCount
+            ? Math.ceil(data.totalCount / rowsPerPage)
             : 0;
-    }, [data?.totalRecords, rowsPerPage]);
+    }, [data?.totalCount, rowsPerPage]);
 
     const loadingState =
         isLoading || data?.data?.length === 0 ? "loading" : "idle";
@@ -166,7 +166,7 @@ export default function UsersList() {
                 emptyContent={"No rows to display."}
             >
                 {(item: any) => (
-                    <TableRow key={item?.name}>
+                    <TableRow key={item?.id}>
                         {(columnKey) => (
                             <TableCell>{renderCell(item, columnKey)}</TableCell>
                         )}

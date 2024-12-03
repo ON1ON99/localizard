@@ -5,7 +5,7 @@ import style from "./index.module.css";
 import { useEffect, useState, FormEvent } from "react";
 import backend from "@/shared/backend";
 import { useRouter } from "next/navigation";
-import { languages } from "@/shared/mock_data";
+// import { languages } from "@/shared/mock_data";
 
 // interface Language {
 //     key: string;
@@ -46,6 +46,7 @@ const EditKey: React.FC = () => {
 
     const [projectData, setProjectData] = useState<any>(null);
     const [tags, setTags] = useState<Tag[]>([]);
+    const [languages, setLanguages] = useState<any[]>([]);
     // const [checked, setChecked] = useState<string[]>([]);
     const [getData, setGetData] = useState<GetData>({
         id: 0,
@@ -85,6 +86,11 @@ const EditKey: React.FC = () => {
         };
         fetchData();
     }, [path, children]);
+    useEffect(() => {
+        backend.languages().then((data) => {
+            setLanguages(data);
+        });
+    }, []);
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         await backend.updateTranslation(children, datas);

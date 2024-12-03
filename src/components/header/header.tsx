@@ -156,7 +156,7 @@ const Header = () => {
                     )}
                     <li
                         onClick={() =>
-                            role === "admin"
+                            role === "Admin"
                                 ? router.push("/admin/dashboard")
                                 : router.push("/")
                         }

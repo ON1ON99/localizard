@@ -27,6 +27,7 @@ export default function KeysTable({ id, search }: any) {
     const router = useRouter();
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [languages, setLanguages] = useState<any>([]);
 
     useEffect(() => {
         backend.getTranslations(pathId, search).then((data) => {
@@ -37,6 +38,10 @@ export default function KeysTable({ id, search }: any) {
         .finally(() => {
             setIsLoading(false);
         });
+
+        backend.languages().then((data) => {
+            setLanguages(data);
+        });
     }, [id, search]);
 
     const loadingState = isLoading ? "loading" : "idle";
@@ -46,13 +51,13 @@ export default function KeysTable({ id, search }: any) {
             const cellValue = item[columnKey];
 
             switch (columnKey) {
-                case "projectName":
+                case "key":
                     return (
                         <div className="flex items-center gap-2 cursor-pointer">
                             <Tooltip
                                 showArrow
                                 placement="bottom"
-                                content={item.productDesc}
+                                content={item.description}
                                 classNames={{
                                     base: [
                                         "before:bg-neutral-400 dark:before:bg-white",
@@ -63,20 +68,22 @@ export default function KeysTable({ id, search }: any) {
                                     ],
                                 }}
                             >
-                                <span>{item.projectName}</span>
+                                <span>{item.key}</span>
                             </Tooltip>
                         </div>
                     );
-                case "translation":
+                case "availableTranslations":
                     return (
                         <div className="flex flex-col gap-2 text-xl">
-                            {item.translation.map((translation: any) => (
+                            {item?.availableTranslations?.map((translation: any) => (
                                 <div
-                                    key={translation.key}
+                                    key={translation.id}
                                     className="border-b-1 p-1 flex flex-col"
                                 >
                                     <span className="text-gray-500 text-sm">
-                                        {translation.language}
+                                        {
+                                        languages?.filter( (lang: any) => lang.id === translation.languageId).map((lang: any) => lang.name)
+                                        }
                                     </span>
                                     {
                                     translation.text.slice(0, 50) + (translation.text.length > 50 ? "..." : "")
@@ -113,7 +120,7 @@ export default function KeysTable({ id, search }: any) {
                                     key="delete"
                                     onClick={() =>
                                         backend
-                                            .deleteTranslation(item.projectID)
+                                            .deleteTranslation(item.id)
                                             .then(() => {
                                                 setIsLoading(true);
                                                 backend.getTranslations(pathId, search).then((data) => {
@@ -144,14 +151,14 @@ export default function KeysTable({ id, search }: any) {
     return (
         <Table aria-label="Example table with client async pagination">
             <TableHeader>
-                <TableColumn key="projectName">Название</TableColumn>
-                <TableColumn key="translation">Переводы</TableColumn>
+                <TableColumn key="key">Название</TableColumn>
+                <TableColumn key="availableTranslations">Переводы</TableColumn>
                 <TableColumn key="actions"> </TableColumn>
             </TableHeader>
             <TableBody
                 loadingState={loadingState}
                 loadingContent={<Spinner />}
-                items={data ?? []}
+                items={Array.isArray(data) ? data : []}
                 emptyContent={"No rows to display."}
             >
                 {(item: any) => (

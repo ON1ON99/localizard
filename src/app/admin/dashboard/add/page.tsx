@@ -13,8 +13,8 @@ const AddUser = () => {
         role: "",
     });
     const roles = [
-        { key: "admin", label: "Администратор" },
-        { key: "user", label: "Пользователь" },
+        { key: "Admin", label: "Администратор" },
+        { key: "User", label: "Пользователь" },
     ];
     const HandleSubmit = (e: any) => {
         e.preventDefault();

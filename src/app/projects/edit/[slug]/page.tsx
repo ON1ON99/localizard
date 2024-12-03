@@ -3,29 +3,34 @@ import backend from "@/shared/backend";
 import style from "../../index.module.css";
 import { Button, Select, SelectItem } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { languages } from "@/shared/mock_data";
+import { use, useEffect, useState } from "react";
+// import { languages } from "@/shared/mock_data";
 
 const EditProject = () => {
     const router = useRouter();
     const path = location.pathname.split("/")[3];
     const [getData, setGetData] = useState({
         name: "",
-        defaultLanguage: "",
-        AvailableLanguageIds: [] as string[],
+        defaultLanguage: 0,
+        AvailableLanguageIds: [] as number[],
     });
     const [datas, setDatas] = useState({
         name: "",
-        defaultLanguage: "",
-        AvailableLanguageIds: [] as string[],
+        defaultLanguage: 0,
+        AvailableLanguageIds: [] as number[],
     });
-
+    const [languages, setLanguages] = useState<any[]>([]);
     useEffect(() => {
         backend.project(path).then((data) => {
             setGetData(data);
-            setDatas(data); // initialize datas with fetched data
+            setDatas(data);
         });
     }, [path]);
+    useEffect(() => {
+        backend.languages().then((data) => {
+            setLanguages(data);
+        });
+    }, []);
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
@@ -67,19 +72,19 @@ const EditProject = () => {
                             variant="bordered"
                             className={style.select}
                             onSelectionChange={(keys) => {
-                                const selectedKey = Array.from(keys).join(""); // single select, so join one element
+                                const selectedKey = Array.from(keys);
                                 setDatas({
                                     ...datas,
-                                    defaultLanguage: selectedKey,
+                                    defaultLanguage: selectedKey[0] as number,
                                 });
                             }}
                         >
                             {languages.map((language) => (
                                 <SelectItem
                                     className={style.selected}
-                                    key={language.key}
+                                    key={language.languageId}
                                 >
-                                    {language.value}
+                                    {language.name}
                                 </SelectItem>
                             ))}
                         </Select>
@@ -95,16 +100,16 @@ const EditProject = () => {
                             onSelectionChange={(keys) => {
                                 setDatas({
                                     ...datas,
-                                    AvailableLanguageIds: Array.from(keys) as string[],
+                                    AvailableLanguageIds: Array.from(keys, Number) as number[],
                                 });
                             }}
                         >
                             {languages.map((language) => (
                                 <SelectItem
                                     className={style.selected}
-                                    key={language.key}
+                                    key={language.languageId}
                                 >
-                                    {language.value}
+                                    {language.name}
                                 </SelectItem>
                             ))}
                         </Select>

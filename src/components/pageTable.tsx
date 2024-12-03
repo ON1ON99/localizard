@@ -19,9 +19,15 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import edit from "@/assests/menu.svg";
 import backend from "@/shared/backend";
-import { languages } from "@/shared/mock_data";
+// import { languages } from "@/shared/mock_data";
 
 export default function Tables() {
+    const [languages, setLanguages] = useState([
+        {
+            id: 0,
+            name: "",
+        },
+    ]);
     const [page, setPage] = useState(1);
     interface ProjectData {
         totalCount: number;
@@ -51,6 +57,10 @@ export default function Tables() {
             .finally(() => {
                 setIsLoading(false);
             });
+        backend.languages().then((data) => {
+            setLanguages(data);
+        }
+        );
     }, [page]);
 
     const rowsPerPage = 10;
@@ -81,8 +91,8 @@ export default function Tables() {
                 case "defaultLanguageId":
                     return (
                         <div>
-                            {languages.find((l) => l.key === cellValue)
-                                ?.value ?? cellValue}
+                            {languages.find((l: any) => l.id === cellValue)
+                                ?.name ?? cellValue}
                         </div>
                         // <div>
                         //     {cellValue?.name}
@@ -96,8 +106,8 @@ export default function Tables() {
                                     key={lang}
                                     className="text-xs font-medium py-0.5 px-2 rounded-3xl border bg-gray-800 bg-opacity-5"
                                 >
-                                    {languages.find((l) => l.key === lang)
-                                        ?.value ?? lang}
+                                    {languages.find((l: any) => l.id === lang)
+                                        ?.name ?? lang}
                                 </span>
                             ))}
                             {/* {

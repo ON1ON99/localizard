@@ -76,7 +76,8 @@ export default function LangTable() {
             });
     }, []);
 
-    const loadingState = isLoading || data?.length === 0 ? "loading" : "idle";
+    type LoadingState = "loading" | "empty" | "idle";
+    const loadingState: LoadingState = isLoading ? "loading" : data?.length === 0 ? "empty" : "idle";
     const renderCell = React.useCallback(
         (user: any, columnKey: any) => {
             const cellValue = user[columnKey];
@@ -84,10 +85,10 @@ export default function LangTable() {
             switch (columnKey) {
                 case "name":
                     return cellValue;
-                case "pluralForms":
+                case "plurals":
                     return (
                         <div className="flex gap-2">
-                            {user.pluralForms.map((item: any) => (
+                            {user?.plurals  ?.map((item: any) => (
                                 <div
                                     style={{
                                         border: colors.find(
@@ -170,7 +171,7 @@ export default function LangTable() {
         <Table aria-label="Example table with client async pagination">
             <TableHeader>
                 <TableColumn key="name">Язык</TableColumn>
-                <TableColumn key="pluralForms">Множественное число</TableColumn>
+                <TableColumn key="plurals">Множественное число</TableColumn>
                 <TableColumn key="languageCode">Код языка</TableColumn>
                 <TableColumn key="actions"> </TableColumn>
             </TableHeader>

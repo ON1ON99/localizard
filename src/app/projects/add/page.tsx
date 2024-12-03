@@ -3,11 +3,12 @@ import backend from "@/shared/backend";
 import style from "../index.module.css";
 import { Button, Select, SelectItem } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { languages } from "@/shared/mock_data";
+import { useEffect, useState } from "react";
+// import { languages } from "@/shared/mock_data";
 
 const AddProject = () => {
     const router = useRouter();
+    const [languages, setLanguages] = useState([]);
     const [datas, setDatas] = useState({
         name: "",
         defaultLanguageId: 0,
@@ -21,6 +22,11 @@ const AddProject = () => {
             }
         });
     };
+    useEffect(() => {
+        backend.languages().then((data) => {
+            setLanguages(data);
+        });
+    }, []);
     return (
         <div className={style.wrapper}>
             <div className={style.container}>
@@ -54,9 +60,9 @@ const AddProject = () => {
                         className="w-full"
                         isRequired
                     >
-                        {languages.map((language) => (
-                            <SelectItem key={language.key}>
-                                {language.value}
+                        {languages.map((language: any) => (
+                            <SelectItem key={language.id}>
+                                {language.name}
                             </SelectItem>
                         ))}
                     </Select>
@@ -76,12 +82,12 @@ const AddProject = () => {
                             });
                         }}
                     >
-                        {languages.map((language) => (
+                        {languages.map((language: any) => (
                             <SelectItem
                                 className={style.selected}
-                                key={language.key}
+                                key={language.id}
                             >
-                                {language.value}
+                                {language.name}
                             </SelectItem>
                         ))}
                     </Select>
@@ -100,7 +106,7 @@ const AddProject = () => {
                         >
                             Создать проект
                         </Button>
-                        <Button variant="ghost" type="reset">
+                        <Button onClick={()=> router.push('/projects')} variant="ghost" type="reset">
                             Отменить
                         </Button>
                     </div>

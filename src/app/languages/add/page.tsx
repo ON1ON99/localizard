@@ -12,11 +12,11 @@ const AddLanguage = () => {
     const [datas, setDatas] = useState<{
         name: string;
         languageCode: string;
-        pluralForms: string[];
+        Plurals: string[];
     }>({
         name: "",
         languageCode: "",
-        pluralForms: [],
+        Plurals: [],
     });
 
     const checkboxData = [
@@ -29,7 +29,7 @@ const AddLanguage = () => {
     ];
 
     useEffect(() => {
-        setDatas((prevDatas) => ({ ...prevDatas, pluralForms: checked }));
+        setDatas((prevDatas) => ({ ...prevDatas, Plurals: checked }));
     }, [checked]);
 
     const router = useRouter();
@@ -59,19 +59,16 @@ const AddLanguage = () => {
                         placeholder="Выберите язык"
                         className="w-full"
                         variant="bordered"
-                        onSelectionChange={(value) =>
+                        onChange={(e) =>
                             setDatas((prevDatas) => ({
                                 ...prevDatas,
-                                name:
-                                    languages.find(
-                                        (lang:any) => lang.key === value.currentKey,
-                                    )?.value || "",
+                                name: e.target.value,
                             }))
                         }
                         isRequired
                     >
                         {languages.map((language) => (
-                            <SelectItem key={language.key}>
+                            <SelectItem key={language.value} value={language.value}>
                                 {language.value}
                             </SelectItem>
                         ))}
