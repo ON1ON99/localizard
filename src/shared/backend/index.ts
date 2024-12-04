@@ -15,7 +15,7 @@ class Backend {
         headers.append("Content-Type", "application/json");
 
         try {
-            const response = await fetch(`${this.baseURL}/api/Auth/Login`, {
+            const response = await fetch(`${this.baseURL}/api/auth/login`, {
                 method: "POST",
                 headers,
                 redirect: "follow",
@@ -43,7 +43,7 @@ class Backend {
         
 
         try {
-            const response = await fetch(`${this.baseURL}/api/Auth/Register`, {
+            const response = await fetch(`${this.baseURL}/api/auth/register`, {
                 method: "POST",
                 headers,
                 redirect: "follow",
@@ -71,7 +71,7 @@ class Backend {
 
         try {
             const response = await fetch(
-                `${this.baseURL}/api/User/GetAllUsers?page=${pageNumber}`,
+                `${this.baseURL}/api/user/get-all?page=${pageNumber}`,
                 {
                     method: "GET",
                     headers,
@@ -95,7 +95,7 @@ class Backend {
         headers.append("ngrok-skip-browser-warning", "69420")
 
         try {
-            const response = await fetch(`${this.baseURL}/api/User/GetById/${id}`, {
+            const response = await fetch(`${this.baseURL}/api/user/get-by/${id}`, {
                 method: "GET",
                 headers,
                 redirect: "follow",
@@ -115,7 +115,7 @@ class Backend {
 
 
         try {
-            const response = await fetch(`${this.baseURL}/api/User/CreateUser`, {
+            const response = await fetch(`${this.baseURL}/api/user/create-user`, {
                 method: "POST",
                 headers,
                 redirect: "follow",
@@ -136,7 +136,7 @@ class Backend {
 
 
         try {
-            const response = await fetch(`${this.baseURL}/api/User/UpdateUser?userId=${id}`, {
+            const response = await fetch(`${this.baseURL}/api/user/update?userId=${id}`, {
                 method: "PUT",
                 headers,
                 redirect: "follow",
@@ -156,7 +156,7 @@ class Backend {
 
 
         try {
-            const response = await fetch(`${this.baseURL}/api/User/DeleteUser?userId=${id}`, {
+            const response = await fetch(`${this.baseURL}/api/user/delete?userId=${id}`, {
                 method: "DELETE",
                 headers,
                 redirect: "follow",
@@ -177,7 +177,7 @@ class Backend {
 
         try {
             const response = await fetch(
-                `${this.baseURL}/api/Project/GetAllProjects?currentPage=${pageNumber}`,
+                `${this.baseURL}/api/project/get-all?currentPage=${pageNumber}`,
                 {
                     method: "GET",
                     headers,
@@ -202,7 +202,7 @@ class Backend {
 
 
         try {
-            const response = await fetch(`${this.baseURL}/api/Project/GetById/${id}`, {
+            const response = await fetch(`${this.baseURL}/api/project/get-by/${id}`, {
                 method: "GET",
                 headers,
                 redirect: "follow",
@@ -222,7 +222,7 @@ class Backend {
 
 
         try {
-            const response = await fetch(`${this.baseURL}/api/Project/CreateProject`, {
+            const response = await fetch(`${this.baseURL}/api/project/create`, {
                 method: "POST",
                 headers,
                 redirect: "follow",
@@ -242,7 +242,7 @@ class Backend {
 
 
         try {
-            const response = await fetch(`${this.baseURL}/api/Project/UpdateProject/${id}`, {
+            const response = await fetch(`${this.baseURL}/api/project/update/${id}`, {
                 method: "PUT",
                 headers,
                 redirect: "follow",
@@ -262,7 +262,7 @@ class Backend {
 
 
         try {
-            const response = await fetch(`${this.baseURL}/api/Project/DeleteProject/${id}`, {
+            const response = await fetch(`${this.baseURL}/api/project/delete/${id}`, {
                 method: "DELETE",
                 headers,
                 redirect: "follow",
@@ -284,7 +284,7 @@ class Backend {
 
         try {
             const response = await fetch(
-                `${this.baseURL}/api/ProjectDetail/GetAllProjectDetails?projectId=${projectId}&Search=${search}`,
+                `${this.baseURL}/api/project-detail/get-all?projectId=${projectId}&Search=${search}`,
                 {
                     method: "GET",
                     headers,
@@ -305,7 +305,7 @@ class Backend {
 
 
         try {
-            const response = await fetch(`${this.baseURL}/api/ProjectDetail/GetProjectDetailById/${id}`, {
+            const response = await fetch(`${this.baseURL}/api/project-detail/get-by/${id}`, {
                 method: "GET",
                 headers,
                 redirect: "follow",
@@ -325,7 +325,7 @@ class Backend {
 
 
         try {
-            const response = await fetch(`${this.baseURL}/api/ProjectDetail/CreateProjectDetail`, {
+            const response = await fetch(`${this.baseURL}/api/project-detail/create`, {
                 method: "POST",
                 headers,
                 redirect: "follow",
@@ -346,7 +346,7 @@ class Backend {
 
 
         try {
-            const response = await fetch(`${this.baseURL}/api/ProjectDetail/UpdateProjectDetail/${id}`, {
+            const response = await fetch(`${this.baseURL}/api/project-detail/update/${id}`, {
                 method: "PUT",
                 headers,
                 redirect: "follow",
@@ -366,7 +366,7 @@ class Backend {
 
 
         try {
-            const response = await fetch(`${this.baseURL}/api/ProjectDetail/DeleteProjectDetail?id=${id}`, {
+            const response = await fetch(`${this.baseURL}/api/project-detail/delete?id=${id}`, {
                 method: "DELETE",
                 headers,
                 redirect: "follow",
@@ -387,7 +387,7 @@ class Backend {
 
 
         try {
-            const response = await fetch(`${this.baseURL}/api/Language/GetAllLanguages`, {
+            const response = await fetch(`${this.baseURL}/api/language/get-all`, {
                 method: "GET",
                 headers,
                 redirect: "follow",
@@ -410,7 +410,7 @@ class Backend {
 
 
         try {
-            const response = await fetch(`${this.baseURL}/api/Language/GetLanguageById/${id}`, {
+            const response = await fetch(`${this.baseURL}/api/language/get-by/${id}`, {
                 method: "GET",
                 headers,
                 redirect: "follow",
@@ -430,7 +430,7 @@ class Backend {
 
 
         try {
-            const response = await fetch(`${this.baseURL}/api/Language/CreateLanguage`, {
+            const response = await fetch(`${this.baseURL}/api/language/create`, {
                 method: "POST",
                 headers,
                 redirect: "follow",
@@ -451,7 +451,7 @@ class Backend {
 
 
         try {
-            const response = await fetch(`${this.baseURL}/api/Language/UpdateLanguage/${id}`, {
+            const response = await fetch(`${this.baseURL}/api/language/update/${id}`, {
                 method: "PUT",
                 headers,
                 redirect: "follow",
@@ -471,7 +471,7 @@ class Backend {
 
 
         try {
-            const response = await fetch(`${this.baseURL}/api/Language/DeleteLanguage/${id}`, {
+            const response = await fetch(`${this.baseURL}/api/language/delete/${id}`, {
                 method: "DELETE",
                 headers,
                 redirect: "follow",
@@ -492,7 +492,7 @@ class Backend {
 
 
         try {
-            const response = await fetch(`${this.baseURL}/api/Tag/GetAllTags`, {
+            const response = await fetch(`${this.baseURL}/api/tag/get-all`, {
                 method: "GET",
                 headers,
                 redirect: "follow",

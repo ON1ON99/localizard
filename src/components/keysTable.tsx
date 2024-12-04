@@ -30,21 +30,25 @@ export default function KeysTable({ search }: any) {
     const [languages, setLanguages] = useState<any>([]);
     
     useEffect(() => {
-        const pathId = window.location.pathname.split("/")[2]; 
-        backend.getTranslations(id, search).then((data) => {
-            setData(data);
-        }).catch((error) => {
-            console.error("Error fetching data:", error);
-        })
-        .finally(() => {
-            setIsLoading(false);
-        });
-
-        backend.languages().then((data) => {
-            setLanguages(data);
-        });
-
+        const pathId = window.location.pathname.split("/")[2];
         setId(pathId);
+    }, []);
+
+    useEffect(() => {
+        if (id) {
+            backend.getTranslations(id, search).then((data) => {
+                setData(data);
+            }).catch((error) => {
+                console.error("Error fetching data:", error);
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
+
+            backend.languages().then((data) => {
+                setLanguages(data);
+            });
+        }
     }, [search, id]);
 
     const loadingState = isLoading ? "loading" : "idle";
