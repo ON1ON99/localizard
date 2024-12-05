@@ -175,7 +175,7 @@ class Backend {
 
         try {
             const response = await fetch(
-                `${this.baseURL}/api/project/get-all?currentPage=${pageNumber}`,
+                `${this.baseURL}/api/project/get-all?pageNumber=${pageNumber}`,
                 {
                     method: "GET",
                     headers,
@@ -200,8 +200,6 @@ class Backend {
 
 
         try {
-            console.log(id, 'id');
-            
             const response = await fetch(`${this.baseURL}/api/project/get-by/${id}`, {
                 method: "GET",
                 headers,
