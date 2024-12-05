@@ -54,7 +54,6 @@ class Backend {
                 }),
             });
             if (response.status > 299) throw new Error(response.statusText);
-            const data = await response.json();
         } catch {
             return {};
         }
