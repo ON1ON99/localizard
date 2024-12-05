@@ -175,7 +175,7 @@ class Backend {
 
         try {
             const response = await fetch(
-                `${this.baseURL}/api/project/get-all?pageNumber=${pageNumber}`,
+                `${this.baseURL}/api/project/get-all?pageNumber=${pageNumber}&pageSize=10`,
                 {
                     method: "GET",
                     headers,
