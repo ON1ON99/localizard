@@ -7,8 +7,7 @@ import React, { useState } from "react";
 
 const EditUser = () => {
     const router = useRouter();
-    const path =
-        typeof window !== "undefined" ? location.pathname.split("/")[3] : "";
+    const path = typeof window !== "undefined" ? location.pathname.split("/")[3] : "";
 
     const [data, setData] = useState({
         // username: "",

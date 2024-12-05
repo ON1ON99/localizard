@@ -8,18 +8,17 @@ import { useEffect, useState } from "react";
 
 const EditProject = () => {
     const router = useRouter();
-    const [path, setPath] = useState<string>("");
+    const [id, setId] = useState<string>("");
     const [getData, setGetData] = useState({
         name: "",
         defaultLanguageId: 0,
         availableLanguageIds: [] as number[],
     });
-    
+
     useEffect(() => {
         const path = location.pathname.split("/")[3];
-        setPath(path);
-    }, [path]);
-
+        setId(path);
+    }, [id]);
 
     const [datas, setDatas] = useState({
         name: "",
@@ -28,11 +27,13 @@ const EditProject = () => {
     });
     const [languages, setLanguages] = useState<any[]>([]);
     useEffect(() => {
-        backend.project(path).then((data) => {
-            setGetData(data);
-            setDatas(data);
-        });
-    }, [path]);
+        if (id) {
+            backend.project(id).then((data) => {
+                setGetData(data);
+                setDatas(data);
+            });
+        }
+    }, [id]);
     useEffect(() => {
         backend.languages().then((data) => {
             setLanguages(data);
@@ -41,7 +42,7 @@ const EditProject = () => {
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        backend.updateProject(path, datas).then(() => {
+        backend.updateProject(id, datas).then(() => {
             setTimeout(() => {
                 router.push("/projects");
             }, 1000);
@@ -75,21 +76,23 @@ const EditProject = () => {
                             labelPlacement="outside"
                             isRequired
                             placeholder="Выберите язык"
-                            selectedKeys={[datas.defaultLanguageId.toString()]}   
+                            selectedKeys={[datas.defaultLanguageId.toString()]}
                             variant="bordered"
                             className={style.select}
                             onSelectionChange={(keys) => {
                                 const selectedKey = Array.from(keys);
                                 setDatas({
                                     ...datas,
-                                    defaultLanguageId: Number(selectedKey[0]) as number,
+                                    defaultLanguageId: Number(
+                                        selectedKey[0],
+                                    ) as number,
                                 });
                             }}
                         >
                             {languages.map((language) => (
                                 <SelectItem
                                     className={style.selected}
-                                    key={(language.id)}
+                                    key={language.id}
                                 >
                                     {language.name}
                                 </SelectItem>
@@ -100,14 +103,23 @@ const EditProject = () => {
                             labelPlacement="outside"
                             isRequired
                             placeholder="Выберите язык"
-                            selectedKeys={new Set(datas.availableLanguageIds.toString().split(","))}
+                            selectedKeys={
+                                new Set(
+                                    datas.availableLanguageIds
+                                        .toString()
+                                        .split(","),
+                                )
+                            }
                             variant="bordered"
                             selectionMode="multiple"
                             className={style.select}
                             onSelectionChange={(keys) => {
                                 setDatas({
                                     ...datas,
-                                    availableLanguageIds: Array.from(keys, Number) as number[],
+                                    availableLanguageIds: Array.from(
+                                        keys,
+                                        Number,
+                                    ) as number[],
                                 });
                             }}
                         >

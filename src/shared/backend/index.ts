@@ -200,6 +200,8 @@ class Backend {
 
 
         try {
+            console.log(id, 'id');
+            
             const response = await fetch(`${this.baseURL}/api/project/get-by/${id}`, {
                 method: "GET",
                 headers,

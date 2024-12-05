@@ -24,9 +24,11 @@ const EditLanguage = () => {
     });
 
     useEffect(() => {
-        backend.language(path).then((data) => {
-            setGetData(data);
-        });
+        if (path){
+            backend.language(path).then((data) => {
+                setGetData(data);
+            });
+        }
     }, [path]);
 
     const [datas, setDatas] = useState<{

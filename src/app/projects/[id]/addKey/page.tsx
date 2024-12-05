@@ -69,7 +69,9 @@ const AddKey: React.FC = () => {
 
     useEffect(() => {
         backend.tags().then((data) => setTags(data));
-        backend.project(path).then((data) => setProjectData(data));
+        if (path){
+            backend.project(path).then((data) => setProjectData(data));
+        }
         backend.languages().then((data) => setLanguages(data));
     }, [children, path]);
     //! Copy text
