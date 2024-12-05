@@ -5,11 +5,10 @@ import style from "../../index.module.css";
 import { useEffect, useState } from "react";
 import backend from "@/shared/backend";
 import { useRouter } from "next/navigation";
-// import { languages } from "@/shared/mock_data";
+import { languages } from "@/shared/mock_data";
 
 const EditLanguage = () => {
     const [checked, setChecked] = useState<string[]>([]);
-    const [languages, setLanguages] = useState<any[]>([]);
     const path = location.pathname.split("/")[3];
     const router = useRouter();
     const [getData, setGetData] = useState<{
@@ -52,12 +51,7 @@ const EditLanguage = () => {
     ];
     useEffect(() => {
         setDatas({ ...datas, plurals: checked, id: getData.id });
-    }, [checked, datas]);
-    useEffect(() => {
-        backend.languages().then((data) => {
-            setLanguages(data);
-        });
-    }, []);
+    }, [checked, getData.id]);
 
     useEffect(() => {
         if (datas.plurals.length === 0) {
@@ -71,7 +65,7 @@ const EditLanguage = () => {
         if (datas.languageCode === "") {
             setDatas({ ...datas, languageCode: getData.languageCode });
         }
-    }, [getData, datas]);
+    }, [getData]);
 
     const HandleSubmit = (e: any) => {
         e.preventDefault();
@@ -81,8 +75,7 @@ const EditLanguage = () => {
                 console.log("Success");
                 setTimeout(() => {
                     router.push("/languages");
-                }),
-                    1000;
+                }, 1000);
             }
         });
 
@@ -135,7 +128,7 @@ const EditLanguage = () => {
 
                     <CheckboxGroups
                         setCheckbox={setChecked}
-                        value={getData.plurals}
+                        defaultValue={getData.plurals}
                         label={"Множественное число"}
                         labelPlacement="outside"
                         isRequired

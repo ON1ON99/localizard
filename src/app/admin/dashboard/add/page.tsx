@@ -20,10 +20,14 @@ const AddUser = () => {
         e.preventDefault();
         backend
             .register(datas.username, datas.password, datas.role)
-            .then((data) => {
+            .then((data: any) => {
                 if (data) {
-                    router.push("/admin/dashboard");
+                    return router.push("/admin/dashboard");
                 }
+            }).finally(() => {
+                setDatas({ username: "", password: "", role: "" });
+                router.push("/admin/dashboard");
+
             });
     };
     return (

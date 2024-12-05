@@ -38,8 +38,14 @@ interface Datas extends Omit<GetData, "tagIds"> {
 
 const EditKey: React.FC = () => {
     const router = useRouter();
-    const path = typeof window !== "undefined" ? window.location.pathname.split("/")[2] : "";
-    const keyId = typeof window !== "undefined" ? window.location.pathname.split("/")[4] : "";
+    const path =
+        typeof window !== "undefined"
+            ? window.location.pathname.split("/")[2]
+            : "";
+    const keyId =
+        typeof window !== "undefined"
+            ? window.location.pathname.split("/")[4]
+            : "";
 
     const [tags, setTags] = useState<Tag[]>([]);
     const [languages, setLanguages] = useState<any[]>([]);
@@ -62,7 +68,6 @@ const EditKey: React.FC = () => {
         backend.project(path).then((data) => setProjectData(data));
         backend.languages().then((data) => setLanguages(data));
 
-        // Fetch the data for the key being edited
         if (keyId) {
             backend.translation(keyId).then((data: GetData) => {
                 setDatas({
@@ -75,31 +80,34 @@ const EditKey: React.FC = () => {
 
     const handleTranslationChange = (
         e: React.ChangeEvent<HTMLInputElement>,
-        langKey: number
+        langKey: number,
     ) => {
         const inputValue = e.target.value;
-    
+
         setDatas((prev) => {
             const existingTranslation = prev.translations.find(
-                (t) => t.languageId === langKey
+                (t) => t.languageId === langKey,
             );
-    
+
             return {
                 ...prev,
                 translations: existingTranslation
                     ? prev.translations.map((t) =>
                           t.languageId === langKey
                               ? { ...t, text: inputValue }
-                              : t
+                              : t,
                       )
                     : [
                           ...prev.translations,
-                          { languageId: langKey, symbolKey: "", text: inputValue },
+                          {
+                              languageId: langKey,
+                              symbolKey: "",
+                              text: inputValue,
+                          },
                       ],
             };
         });
     };
-    
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
@@ -126,7 +134,9 @@ const EditKey: React.FC = () => {
                     <input
                         className={style.input}
                         defaultValue={datas.key}
-                        onChange={(e) => setDatas({ ...datas, key: e.target.value })}
+                        onChange={(e) =>
+                            setDatas({ ...datas, key: e.target.value })
+                        }
                         type="text"
                         id="key"
                     />
@@ -147,7 +157,9 @@ const EditKey: React.FC = () => {
                         placeholder="Выберите теги"
                         variant="bordered"
                         selectionMode="multiple"
-                        selectedKeys={new Set(datas.tagIds.toString().split(","))}
+                        selectedKeys={
+                            new Set(datas.tagIds.toString().split(","))
+                        }
                         onSelectionChange={(keys) =>
                             setDatas({
                                 ...datas,
@@ -165,16 +177,19 @@ const EditKey: React.FC = () => {
 
                     {languages
                         .filter((lang) =>
-                            projectData.availableLanguageIds.includes(lang.id)
+                            projectData.availableLanguageIds.includes(lang.id),
                         )
                         .map((item) => (
-                            <div className={style.input_containers} key={item.id}>
+                            <div
+                                className={style.input_containers}
+                                key={item.id}
+                            >
                                 <label>{item.name}</label>
                                 <input
                                     className={style.input}
                                     defaultValue={
                                         datas.translations.find(
-                                            (t) => t.languageId === item.id
+                                            (t) => t.languageId === item.id,
                                         )?.text || ""
                                     }
                                     onChange={(e) =>

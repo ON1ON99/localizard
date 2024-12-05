@@ -55,7 +55,6 @@ class Backend {
             });
             if (response.status > 299) throw new Error(response.statusText);
             const data = await response.json();
-            this.token = data.token;
         } catch {
             return {};
         }
@@ -451,7 +450,7 @@ class Backend {
 
 
         try {
-            const response = await fetch(`${this.baseURL}/api/language/update/${id}`, {
+            const response = await fetch(`${this.baseURL}/api/language/update?id=${id}`, {
                 method: "PUT",
                 headers,
                 redirect: "follow",

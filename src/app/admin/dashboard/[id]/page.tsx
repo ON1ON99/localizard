@@ -63,10 +63,10 @@ const EditUser = () => {
                     variant="bordered"
                     onChange={(e) => handleRoleChange(e.target.value)}
                 >
-                    <SelectItem key="admin" value="admin">
+                    <SelectItem key="Admin" value="Admin">
                         Admin
                     </SelectItem>
-                    <SelectItem key="user" value="user">
+                    <SelectItem key="User" value="User">
                         User
                     </SelectItem>
                 </Select>
