@@ -11,13 +11,13 @@ const EditProject = () => {
     const path = location.pathname.split("/")[3];
     const [getData, setGetData] = useState({
         name: "",
-        defaultLanguage: 0,
-        AvailableLanguageIds: [] as number[],
+        defaultLanguageId: 0,
+        availableLanguageIds: [] as number[],
     });
     const [datas, setDatas] = useState({
         name: "",
-        defaultLanguage: 0,
-        AvailableLanguageIds: [] as number[],
+        defaultLanguageId: 0,
+        availableLanguageIds: [] as number[],
     });
     const [languages, setLanguages] = useState<any[]>([]);
     useEffect(() => {
@@ -68,21 +68,21 @@ const EditProject = () => {
                             labelPlacement="outside"
                             isRequired
                             placeholder="Выберите язык"
-                            selectedKeys={[datas.defaultLanguage]}
+                            selectedKeys={[datas.defaultLanguageId.toString()]}   
                             variant="bordered"
                             className={style.select}
                             onSelectionChange={(keys) => {
                                 const selectedKey = Array.from(keys);
                                 setDatas({
                                     ...datas,
-                                    defaultLanguage: selectedKey[0] as number,
+                                    defaultLanguageId: Number(selectedKey[0]) as number,
                                 });
                             }}
                         >
                             {languages.map((language) => (
                                 <SelectItem
                                     className={style.selected}
-                                    key={language.languageId}
+                                    key={(language.id)}
                                 >
                                     {language.name}
                                 </SelectItem>
@@ -93,21 +93,21 @@ const EditProject = () => {
                             labelPlacement="outside"
                             isRequired
                             placeholder="Выберите язык"
-                            selectedKeys={new Set(datas.AvailableLanguageIds)}
+                            selectedKeys={new Set(datas.availableLanguageIds.toString().split(","))}
                             variant="bordered"
                             selectionMode="multiple"
                             className={style.select}
                             onSelectionChange={(keys) => {
                                 setDatas({
                                     ...datas,
-                                    AvailableLanguageIds: Array.from(keys, Number) as number[],
+                                    availableLanguageIds: Array.from(keys, Number) as number[],
                                 });
                             }}
                         >
                             {languages.map((language) => (
                                 <SelectItem
                                     className={style.selected}
-                                    key={language.languageId}
+                                    key={language.id}
                                 >
                                     {language.name}
                                 </SelectItem>

@@ -19,7 +19,6 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import edit from "@/assests/menu.svg";
 import backend from "@/shared/backend";
-// import { languages } from "@/shared/mock_data";
 
 export default function Tables() {
     const [languages, setLanguages] = useState([

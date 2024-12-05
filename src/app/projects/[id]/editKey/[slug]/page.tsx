@@ -1,123 +1,142 @@
 "use client";
-// import CheckboxGroups from "@/components/checkboxGroup";
+
 import { Button, Select, SelectItem } from "@nextui-org/react";
 import style from "./index.module.css";
 import { useEffect, useState, FormEvent } from "react";
 import backend from "@/shared/backend";
 import { useRouter } from "next/navigation";
-// import { languages } from "@/shared/mock_data";
-
-// interface Language {
-//     key: string;
-//     lang: string;
-// }
 
 interface Tag {
     id: number;
-    text: string;
+    name: string;
 }
 
 interface Translation {
-    key: number;
-    language: string;
+    // id: number;
+    languageId: number;
+    symbolKey: string;
     text: string;
 }
 
 interface GetData {
-    id: number;
-    namekeys: string;
-    parentId: number;
+    key: string;
+    projectInfoId: number;
     description: string;
-    tags: Tag[];
-    fileNameIOS: string;
-    fileNameAndroid: string;
-    fileNameWeb: string;
+    tagIds: Tag[];
     translations: Translation[];
 }
 
-interface Datas extends Omit<GetData, 'tags'> {
-    tags: number[];
+interface projectData {
+    name: string;
+    defaultLanguageId: number;
+    availableLanguageIds: number[];
+}
+
+interface Datas extends Omit<GetData, "tagIds"> {
+    tagIds: number[];
 }
 
 const EditKey: React.FC = () => {
     const router = useRouter();
     const path = typeof window !== "undefined" ? window.location.pathname.split("/")[2] : "";
-    const children = typeof window !== "undefined" ? window.location.pathname.split("/")[4] : "";
+    const keyId = typeof window !== "undefined" ? window.location.pathname.split("/")[4] : "";
 
-    const [projectData, setProjectData] = useState<any>(null);
     const [tags, setTags] = useState<Tag[]>([]);
     const [languages, setLanguages] = useState<any[]>([]);
-    // const [checked, setChecked] = useState<string[]>([]);
-    const [getData, setGetData] = useState<GetData>({
-        id: 0,
-        namekeys: "",
-        description: "",
-        tags: [],
-        fileNameIOS: "",
-        fileNameAndroid: "",
-        fileNameWeb: "",
-        translations: [],
-        parentId: 0,
+    const [projectData, setProjectData] = useState<projectData>({
+        name: "",
+        defaultLanguageId: 0,
+        availableLanguageIds: [],
     });
-    
 
     const [datas, setDatas] = useState<Datas>({
-        ...getData,
-        tags: [],
-        translations: []
+        key: "",
+        description: "",
+        tagIds: [],
+        translations: [],
+        projectInfoId: 0,
     });
 
     useEffect(() => {
-        const fetchData = async () => {
-            const [project, tagsData, data] = await Promise.all([
-                backend.project(path),
-                backend.tags(),
-                children ? backend.translation(children) : Promise.resolve(null)
-            ]);
+        backend.tags().then((data) => setTags(data));
+        backend.project(path).then((data) => setProjectData(data));
+        backend.languages().then((data) => setLanguages(data));
 
-            setProjectData(project);
-            setTags(tagsData);
-            if (data) {
-                setGetData(data);
+        // Fetch the data for the key being edited
+        if (keyId) {
+            backend.translation(keyId).then((data: GetData) => {
                 setDatas({
-                    ...data
+                    ...data,
+                    tagIds: data.tagIds.map((tag) => tag.id),
                 });
-            }
-        };
-        fetchData();
-    }, [path, children]);
-    useEffect(() => {
-        backend.languages().then((data) => {
-            setLanguages(data);
+            });
+        }
+    }, [keyId, path]);
+
+    const handleTranslationChange = (
+        e: React.ChangeEvent<HTMLInputElement>,
+        langKey: number
+    ) => {
+        const inputValue = e.target.value;
+    
+        setDatas((prev) => {
+            const existingTranslation = prev.translations.find(
+                (t) => t.languageId === langKey
+            );
+    
+            return {
+                ...prev,
+                translations: existingTranslation
+                    ? prev.translations.map((t) =>
+                          t.languageId === langKey
+                              ? { ...t, text: inputValue }
+                              : t
+                      )
+                    : [
+                          ...prev.translations,
+                          { languageId: langKey, symbolKey: "", text: inputValue },
+                      ],
+            };
         });
-    }, []);
-    const handleSubmit = async (e: FormEvent) => {
+    };
+    
+
+    const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        await backend.updateTranslation(children, datas);
-        router.push(`/projects/${path}`);
+
+        backend
+            .updateTranslation(keyId, datas)
+            .then(() => {
+                setTimeout(() => router.push(`/projects/${path}`), 1000);
+            })
+            .catch(() => {
+                alert("Ошибка при обновлении ключа");
+            });
     };
 
     return (
         <div className={style.wrapper}>
             <div className={style.container}>
                 <div className={style.path}>
-                    <div>Проекты</div> / <div>{projectData?.name}</div> / <div>Изменить ключ</div>
+                    <div>Проекты</div> / <div>Редактировать ключ</div>
                 </div>
-                <h1 className={style.title}>Изменить ключ</h1>
+                <h1 className={style.title}>Редактировать ключ</h1>
                 <form className={style.form} onSubmit={handleSubmit}>
-                    <label htmlFor="name">Название ключа</label>
+                    <label htmlFor="key">Название ключа</label>
                     <input
                         className={style.input}
-                        defaultValue={getData.namekeys}
-                        onChange={(e) => setDatas({ ...datas, namekeys: e.target.value })}
+                        defaultValue={datas.key}
+                        onChange={(e) => setDatas({ ...datas, key: e.target.value })}
                         type="text"
-                        id="name"
+                        id="key"
                     />
                     <label htmlFor="description">Описание</label>
                     <input
                         className={style.input}
-                        defaultValue={getData.description}
-                        onChange={(e) => setDatas({ ...datas, description: e.target.value })}
+                        defaultValue={datas.description}
+                        onChange={(e) =>
+                            setDatas({ ...datas, description: e.target.value })
+                        }
                         type="text"
                         id="description"
                     />
@@ -128,75 +147,56 @@ const EditKey: React.FC = () => {
                         placeholder="Выберите теги"
                         variant="bordered"
                         selectionMode="multiple"
-                        selectedKeys={datas.tags.map(String)}
-                        onSelectionChange={(keys) => setDatas({ ...datas, tags: Array.from(keys, Number) })}
+                        selectedKeys={new Set(datas.tagIds.toString().split(","))}
+                        onSelectionChange={(keys) =>
+                            setDatas({
+                                ...datas,
+                                tagIds: Array.from(keys, Number),
+                            })
+                        }
                         isRequired
                     >
                         {tags.map((tag) => (
                             <SelectItem key={tag.id} value={tag.id}>
-                                {tag.text}
+                                {tag.name}
                             </SelectItem>
                         ))}
                     </Select>
 
-                    {/* <CheckboxGroups setCheckbox={setChecked} value={checked} label="Платформа" data={[
-                        { key: "ios", label: "IOS" },
-                        { key: "android", label: "Android" },
-                        { key: "web", label: "Web" },
-                    ]} />
-
-                    <div className={style.file_name}>
-                        {["iOS", "Android", "Web"].map((platform) => (
-                            <div className={style.file_name_cover} key={platform}>
-                                <label htmlFor={`${platform.toLowerCase()}_name`}>Имя файла {platform}</label>
+                    {languages
+                        .filter((lang) =>
+                            projectData.availableLanguageIds.includes(lang.id)
+                        )
+                        .map((item) => (
+                            <div className={style.input_containers} key={item.id}>
+                                <label>{item.name}</label>
                                 <input
+                                    className={style.input}
+                                    defaultValue={
+                                        datas.translations.find(
+                                            (t) => t.languageId === item.id
+                                        )?.text || ""
+                                    }
+                                    onChange={(e) =>
+                                        handleTranslationChange(e, item.id)
+                                    }
                                     type="text"
-                                    id={`${platform.toLowerCase()}_name`}
-                                    defaultValue={getData[`fileName${platform as 'IOS' | 'Android' | 'Web'}`]}
-                                    onChange={(e) => setDatas((prev) => ({ ...prev, [`fileName${platform}`]: e.target.value }))}
-                                    disabled={!checked.includes(platform.toLowerCase())}
+                                    placeholder="Введите текст"
                                 />
                             </div>
                         ))}
-                    </div> */}
-                    {languages
-                        .filter((lang) =>
-                            projectData?.AvailableLanguageIds.includes(lang.key),
-                        )
-                        .map((item) => (
-                            <div
-                                className={style.input_containers}
-                                key={item.key}
-                            >
-                                <label
-                                    className="p-2 border-b-1 text-xs"
-                                    htmlFor="text"
-                                >
-                                    {item.value}
-                                </label>
-                                <div className="pb-4 pt-2 px-6">
-                                    <input
-                                        className="p-1 border rounded-lg w-full outline-none"
-                                        onChange={(e: any) =>
-                                            setDatas((prev) => ({
-                                                ...prev,
-                                                translations:[
-                                                    ...prev.translations.filter((t) => t.key !== item.key),
-                                                    { key: item.key, language: item.value, text: e.target.value }
-                                                ]
-                                            }))
-                                        }
-                                        type="text"
-                                        defaultValue={datas.translations.find((t) => t.key === item.key)?.text}
-                                        placeholder="Введите текст"
-                                    />
-                                </div>
-                            </div>
-                        ))}
 
-                    <div className="flex gap-2 my-6">
-                        <Button color="primary" type="submit">Изменить</Button>
-                        <Button onClick={() => router.push(`/projects/${path}`)} type="reset" variant="ghost">Отменить</Button>
+                    <div className="flex gap-2 mb-6">
+                        <Button color="primary" type="submit">
+                            Сохранить
+                        </Button>
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            onClick={() => router.push(`/projects/${path}`)}
+                        >
+                            Отменить
+                        </Button>
                     </div>
                 </form>
             </div>
