@@ -3,17 +3,24 @@ import backend from "@/shared/backend";
 import style from "../../index.module.css";
 import { Button, Select, SelectItem } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 // import { languages } from "@/shared/mock_data";
 
 const EditProject = () => {
     const router = useRouter();
-    const path = location.pathname.split("/")[3];
+    const [path, setPath] = useState<string>("");
     const [getData, setGetData] = useState({
         name: "",
         defaultLanguageId: 0,
         availableLanguageIds: [] as number[],
     });
+    
+    useEffect(() => {
+        const path = location.pathname.split("/")[3];
+        setPath(path);
+    }, [path]);
+
+
     const [datas, setDatas] = useState({
         name: "",
         defaultLanguageId: 0,
