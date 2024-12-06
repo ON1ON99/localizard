@@ -22,7 +22,12 @@ interface GetData {
     key: string;
     projectInfoId: number;
     description: string;
-    tagIds: Tag[];
+    tags: [
+        {
+            id: number;
+            name: string;
+        },
+    ];
     translations: Translation[];
 }
 
@@ -32,8 +37,11 @@ interface projectData {
     availableLanguageIds: number[];
 }
 
-interface Datas extends Omit<GetData, "tagIds"> {
-    tagIds: number[];
+interface Datas extends Omit<GetData, "tags"> {
+    tags: [{
+        id: number;
+        name: string;
+    }];
 }
 
 const EditKey: React.FC = () => {
@@ -58,7 +66,12 @@ const EditKey: React.FC = () => {
     const [datas, setDatas] = useState<Datas>({
         key: "",
         description: "",
-        tagIds: [],
+        tags: [
+            {
+                id: 0,
+                name: "",
+            },
+        ],
         translations: [],
         projectInfoId: 0,
     });
@@ -74,7 +87,7 @@ const EditKey: React.FC = () => {
             backend.translation(keyId).then((data: GetData) => {
                 setDatas({
                     ...data,
-                    tagIds: data.tagIds.map((tag) => tag.id),
+                    tags: data.tags,
                 });
             });
         }
@@ -160,12 +173,15 @@ const EditKey: React.FC = () => {
                         variant="bordered"
                         selectionMode="multiple"
                         selectedKeys={
-                            new Set(datas.tagIds.toString().split(","))
+                            new Set(datas.tags.toString().split(","))
                         }
-                        onSelectionChange={(keys) =>
+                        onSelectionChange={(keys: any) =>
                             setDatas({
                                 ...datas,
-                                tagIds: Array.from(keys, Number),
+                                tags: keys.map((key: any) => ({
+                                    id: key,
+                                    name: tags.find((tag) => tag.id === key)?.name,
+                                })),
                             })
                         }
                         isRequired

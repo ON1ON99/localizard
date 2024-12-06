@@ -24,7 +24,7 @@ interface GetData {
     key: string;
     projectInfoId: number;
     description: string;
-    tagIds: Tag[];
+    tags: Tag[];
     // fileNameIOS: string;
     // fileNameAndroid: string;
     // fileNameWeb: string;
@@ -35,8 +35,11 @@ interface projectData {
     defaultLanguageId: number;
     availableLanguageIds: number[];
 }
-interface Datas extends Omit<GetData, "tagIds"> {
-    tagIds: number[];
+interface Datas extends Omit<GetData, "tags"> {
+    tags: [{
+        id: number;
+        name: string;
+    }];
 }
 
 const AddKey: React.FC = () => {
@@ -61,7 +64,10 @@ const AddKey: React.FC = () => {
     const [datas, setDatas] = useState<Datas>({
         key: "",
         description: "",
-        tagIds: [],
+        tags: [{
+            id: 0,
+            name: "",
+        }],
         translations: [],
         projectInfoId: 0,
     });
@@ -201,10 +207,13 @@ const AddKey: React.FC = () => {
                         placeholder="Выберите теги"
                         variant="bordered"
                         selectionMode="multiple"
-                        onSelectionChange={(keys) =>
+                        onSelectionChange={(keys: any) =>
                             setDatas({
                                 ...datas,
-                                tagIds: Array.from(keys, Number),
+                                tags: keys.map((key: any) => ({
+                                    id: key,
+                                    name: tags.find((tag) => tag.id === key)?.name,
+                                })),
                             })
                         }
                         isRequired
