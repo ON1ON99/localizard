@@ -22,12 +22,7 @@ interface GetData {
     key: string;
     projectInfoId: number;
     description: string;
-    tags: [
-        {
-            id: number;
-            name: string;
-        },
-    ];
+    tagIds: Tag[];
     translations: Translation[];
 }
 
@@ -37,11 +32,8 @@ interface projectData {
     availableLanguageIds: number[];
 }
 
-interface Datas extends Omit<GetData, "tags"> {
-    tags: [{
-        id: number;
-        name: string;
-    }];
+interface Datas extends Omit<GetData, "tagIds"> {
+    tagIds: number[];
 }
 
 const EditKey: React.FC = () => {
@@ -66,12 +58,7 @@ const EditKey: React.FC = () => {
     const [datas, setDatas] = useState<Datas>({
         key: "",
         description: "",
-        tags: [
-            {
-                id: 0,
-                name: "",
-            },
-        ],
+        tagIds: [],
         translations: [],
         projectInfoId: 0,
     });
@@ -87,7 +74,7 @@ const EditKey: React.FC = () => {
             backend.translation(keyId).then((data: GetData) => {
                 setDatas({
                     ...data,
-                    tags: data.tags,
+                    tagIds: data.tagIds.map((tag) => tag.id),
                 });
             });
         }
@@ -173,15 +160,12 @@ const EditKey: React.FC = () => {
                         variant="bordered"
                         selectionMode="multiple"
                         selectedKeys={
-                            new Set(datas.tags.toString().split(","))
+                            new Set(datas.tagIds.toString().split(","))
                         }
-                        onSelectionChange={(keys: any) =>
+                        onSelectionChange={(keys) =>
                             setDatas({
                                 ...datas,
-                                tags: keys.map((key: any) => ({
-                                    id: key,
-                                    name: tags.find((tag) => tag.id === key)?.name,
-                                })),
+                                tagIds: Array.from(keys, Number),
                             })
                         }
                         isRequired
