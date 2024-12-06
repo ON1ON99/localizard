@@ -29,7 +29,7 @@ const Keys = () => {
                 setProjectData(data);
             });
         }
-    }, [id, search]);
+    }, [id]);
     
     return (
         <div className=" flex flex-col m-8">
@@ -63,7 +63,7 @@ const Keys = () => {
                     }
                     className="w-full"
                 />
-                <KeysTable search={search} id={id}/>
+                <KeysTable search={search}/>
             </div>
         </div>
     );

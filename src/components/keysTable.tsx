@@ -20,7 +20,11 @@ import Image from "next/image";
 import edit from "../assests/menu.svg";
 import backend from "@/shared/backend";
 
-export default function KeysTable({ search }: any) {
+interface KeysTableProps {
+    search: string;
+}
+
+export default function KeysTable({ search }: KeysTableProps) {
     
     
     const router = useRouter();
@@ -162,7 +166,7 @@ export default function KeysTable({ search }: any) {
                 <TableColumn key="availableTranslations">Переводы</TableColumn>
                 <TableColumn key="actions"> </TableColumn>
             </TableHeader>
-            <TableBody
+            <TableBody  
                 loadingState={loadingState}
                 loadingContent={<Spinner />}
                 items={Array.isArray(data) ? data : []}

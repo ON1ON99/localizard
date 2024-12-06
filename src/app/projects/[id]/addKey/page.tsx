@@ -52,7 +52,6 @@ const AddKey: React.FC = () => {
 
     const [tags, setTags] = useState<Tag[]>([]);
     const [languages, setLanguages] = useState<any>([]);
-    // const [textTranslation, setTextTranslation] = useState<string>("");
     const [projectData, setProjectData] = useState<projectData>({
         name: "",
         defaultLanguageId: 0,
@@ -74,7 +73,7 @@ const AddKey: React.FC = () => {
         }
         backend.languages().then((data) => setLanguages(data));
     }, [children, path]);
-    //! Copy text
+
     const copyText = (text: string) => {
         console.log(text, "text");
         
@@ -86,7 +85,6 @@ const AddKey: React.FC = () => {
         return null;
     };
 
-    // text example = "Hello @[world]@";
     useEffect(() => {
         const copy = copyText(datas.translations[0]?.text);
         console.log(copy, "copy");
@@ -118,7 +116,6 @@ const AddKey: React.FC = () => {
                     )
                     .map((lang: any) => ({
                         languageId: lang?.id,
-                        // language: lang.value,
                         symbolKey: "",
                         text: "",
                     })),
@@ -127,7 +124,7 @@ const AddKey: React.FC = () => {
     }, [path, projectData]);
 
     const handleTranslationChange = (
-        e: React.ChangeEvent<HTMLInputElement>,
+        e: any,
         langKey: number,
     ) => {
         setDatas((prev) => ({
